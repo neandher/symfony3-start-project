@@ -37,12 +37,12 @@ security:
                 path: admin_security_logout
                 target: admin_security_login
 
-        access_control:
+    access_control:
 
-            - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-            - { path: ^/admin/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
-            - { path: ^/admin/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-            - { path: ^/admin/, role: ROLE_ADMIN_USER }
+        - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/, role: ROLE_ADMIN_USER }
 
 
             # activate different ways to authenticate

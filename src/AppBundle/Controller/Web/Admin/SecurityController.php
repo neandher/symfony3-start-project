@@ -3,6 +3,7 @@
 namespace AppBundle\Controller\Web\Admin;
 
 use AppBundle\Controller\Web\SecurityControllerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
