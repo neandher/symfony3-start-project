@@ -1,0 +1,8 @@
+parameters:
+
+services:
+
+    app.admin_authenticator:
+        class: AppBundle\Security\AdminFormAuthenticator
+        autowire: true
+        #arguments: []

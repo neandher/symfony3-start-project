@@ -1,0 +1,4 @@
+imports:
+
+    # Security #
+    - { resource: security/services.yml }

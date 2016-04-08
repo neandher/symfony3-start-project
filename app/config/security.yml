@@ -2,10 +2,24 @@
 # http://symfony.com/doc/current/book/security.html
 security:
 
+    encoders:
+        Symfony\Component\Security\Core\User\User: bcrypt
+        AppBundle\Entity\User: bcrypt
+
+    role_hierarchy:
+        ROLE_ADMIN_CONTENT: [ROLE_GESTOR_USER, ROLE_ADMIN_SUPER_ADMIN]
+
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
+        chain_provider:
+            chain:
+                providers: [in_memory, database_users]
         in_memory:
-            memory: ~
+            memory:
+                users:
+                    admin: { password:  $2y$13$xbu9fVXYDD36mx42YT6k2ujz79DcJ7g6cOBeiBkkoB0ViIbd46Qqe, roles: [ROLE_GESTOR_USER, ROLE_GESTOR_SUPER_ADMIN] }
+        database_users:
+            entity: { class: AppBundle:User, property: email }
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -13,8 +27,24 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        main:
+        admin:
             anonymous: ~
+            pattern: ^/admin
+            guard:
+                authenticators:
+                    - app.admin_authenticator
+            logout:
+                path: admin_security_logout
+                target: admin_security_login
+
+        access_control:
+
+            - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+            - { path: ^/admin/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+            - { path: ^/admin/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+            - { path: ^/admin/, role: ROLE_ADMIN_USER }
+
+
             # activate different ways to authenticate
 
             # http_basic: ~
