@@ -1,6 +1,6 @@
-default:
-    resource: "@AppBundle/Controller/Web/Default/"
-    type:     annotation
+#default:
+#    resource: "@AppBundle/Controller/Web/Default/"
+#    type:     annotation
 
 admin:
     resource: "@AppBundle/Controller/Web/Admin/"

@@ -2,6 +2,7 @@
 
 namespace AppBundle\DomainManager\Admin;
 
+use AppBundle\Repository\Admin\AdminUser;
 use Doctrine\ORM\EntityManager;
 
 class AdminUserManager
@@ -12,22 +13,24 @@ class AdminUserManager
     private $em;
     
     /**
-     * AdminUserManager constructor.
-     * 
-     * @param EntityManager $em
+     * @var AdminUser
      */
-    public function __construct(EntityManager $em)
+    private $repository;
+
+    /**
+     * AdminUserManager constructor.
+     *
+     * @param EntityManager $em
+     * @param AdminUser $repository
+     */
+    public function __construct(EntityManager $em, AdminUser $repository)
     {
         $this->em = $em;
+        $this->repository = $repository;
     }
 
     public function findUserByEmail($emailCanoninal)
     {
-        return $this->getRepository()->findUserByEmail($emailCanoninal);
-    }
-
-    private function getRepository()
-    {
-        return $this->em->getRepository('AppBundle:Admin\AdminUser');
+        return $this->repository->findUserByEmail($emailCanoninal);
     }
 }

@@ -2,3 +2,9 @@ imports:
 
     # Security #
     - { resource: security/services.yml }
+
+    # Repository #
+    - { resource: repository/services.yml }
+
+    # Repository #
+    - { resource: manager/services.yml }

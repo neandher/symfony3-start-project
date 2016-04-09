@@ -4,37 +4,56 @@ namespace AppBundle\Security;
 
 use AppBundle\DomainManager\Admin\AdminUserManager;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 
-class AdminFormAuthenticator extends AbstractGuardAuthenticator
+class AdminFormAuthenticator extends AbstractFormAuthenticator
 {
+
     /**
      * @var AdminUserManager
      */
     private $adminUserManager;
 
     /**
-     * AdminFormAuthenticator constructor.
-     * @param AdminUserManager $adminUserManager
+     * @var UserPasswordEncoder
      */
-    public function __construct(AdminUserManager $adminUserManager)
-    {
-        $this->adminUserManager = $adminUserManager;
-    }
+    private $encoder;
 
     /**
-     * @param Request $request
-     * @param AuthenticationException|null $authException
-     * @return mixed
+     * @var RouterInterface
      */
-    public function start(Request $request, AuthenticationException $authException = null)
-    {
-        // TODO: Implement start() method.
+    private $router;
+
+    /**
+     * AdminFormAuthenticator constructor.
+     *
+     * @param AdminUserManager $adminUserManager
+     * @param UserPasswordEncoder $encoder
+     * @param RouterInterface $router
+     */
+    public function __construct(
+        AdminUserManager $adminUserManager,
+        UserPasswordEncoder $encoder,
+        RouterInterface $router
+    ) {
+        $this->adminUserManager = $adminUserManager;
+        $this->encoder = $encoder;
+        $this->router = $router;
     }
+
+    public function getLoginUrl()
+    {
+        return $this->router->generate('admin_security_login');
+    }
+
+    public function getDefaultSuccessRedirectUrl()
+    {
+        return $this->router->generate('admin_index');
+    }
+
 
     /**
      * @param Request $request
@@ -42,7 +61,7 @@ class AdminFormAuthenticator extends AbstractGuardAuthenticator
      */
     public function getCredentials(Request $request)
     {
-        if($request->getPathInfo() != '/admin/login' || !$request->isMethod('POST')){
+        if ($request->getPathInfo() != '/admin/login' || !$request->isMethod('POST')) {
             return;
         }
 
@@ -71,36 +90,13 @@ class AdminFormAuthenticator extends AbstractGuardAuthenticator
      */
     public function checkCredentials($credentials, UserInterface $user)
     {
-        // TODO: Implement checkCredentials() method.
-    }
+        $plainPassword = $credentials['password'];
 
-    /**
-     * @param Request $request
-     * @param AuthenticationException $exception
-     * @return mixed
-     */
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
-    {
-        // TODO: Implement onAuthenticationFailure() method.
-    }
+        if (!$this->encoder->isPasswordValid($user, $plainPassword)) {
+            return;
+        }
 
-    /**
-     * @param Request $request
-     * @param TokenInterface $token
-     * @param string $providerKey
-     * @return mixed
-     */
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
-    {
-        // TODO: Implement onAuthenticationSuccess() method.
-    }
-
-    /**
-     * @return mixed
-     */
-    public function supportsRememberMe()
-    {
-        // TODO: Implement supportsRememberMe() method.
+        return true;
     }
 
 }

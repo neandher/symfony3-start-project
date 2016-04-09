@@ -1,0 +1,5 @@
+services:
+
+    app.admin_user_manager:
+        class: AppBundle\DomainManager\Admin\AdminUserManager
+        arguments: ['@doctrine.orm.entity_manager', '@app.admin_user_repository']

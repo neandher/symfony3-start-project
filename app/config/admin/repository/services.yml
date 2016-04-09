@@ -1,0 +1,7 @@
+services:
+
+    app.admin_user_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments:
+            - AppBundle\Entity\Admin\AdminUser

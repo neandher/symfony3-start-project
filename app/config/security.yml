@@ -36,6 +36,11 @@ security:
             logout:
                 path: admin_security_logout
                 target: admin_security_login
+            remember_me:
+                secret:      "%secret%"
+                lifetime: 604800 # 1 week in seconds
+                path:     admin/
+                domain:   ~
 
     access_control:
 
