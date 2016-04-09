@@ -3,6 +3,7 @@
 namespace AppBundle\Controller\Web\Admin;
 
 use AppBundle\Controller\Web\SecurityControllerInterface;
+use AppBundle\Form\Admin\Type\LoginType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -11,15 +12,24 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SecurityController extends Controller implements SecurityControllerInterface
 {
+
     /**
      * @Route("/login", name="admin_security_login")
      */
     public function loginAction()
     {
-        $error = $this->get('security.authentication_utils')
-            ->getLastAuthenticationError();
+        $utils = $this->get('security.authentication_utils');
 
-        return new Response('Login action. Erros:' . $error);
+        $form = $this->createForm(LoginType::class);
+
+        return $this->render(
+            'admin/security/login.html.twig',
+            [
+                'form' => $form->createView(),
+                'last_username' => $utils->getLastUsername(),
+                'error' => $utils->getLastAuthenticationError(),
+            ]
+        );
     }
 
     /**

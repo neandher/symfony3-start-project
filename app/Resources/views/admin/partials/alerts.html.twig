@@ -1,0 +1,20 @@
+{% if error is defined %}
+    {% if error %}
+        <div class="alert alert-danger">
+            {{ error.messageKey|trans }}
+        </div>
+    {% endif %}
+{% endif %}
+
+{% if app.request.hasPreviousSession %}
+    {% for type, messages in app.session.flashbag.all() %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }}" role="alert">
+                <button type="button" class="close" data-dismiss="alert"><span
+                            aria-hidden="true">&times;</span><span
+                            class="sr-only">Close</span></button>
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+{% endif %}
