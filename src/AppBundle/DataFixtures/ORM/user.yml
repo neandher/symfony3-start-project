@@ -4,5 +4,5 @@ AppBundle\Entity\User:
         isEnabled: 1
         plainPassword: admin@123
         password: -
-        roles: [ROLE_GESTOR_USER]
+        roles: [ROLE_ADMIN_USER]
         createdAt: <dateTime('now')>

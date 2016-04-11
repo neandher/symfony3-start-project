@@ -7,3 +7,12 @@ services:
         arguments: [ "@security.password_encoder" ]
         tags:
             - { name: doctrine.event_subscriber }
+
+    app.canonicalizer_email_subscriber:
+        class: AppBundle\EventListener\User\CanonicalizerEmailSubscriber
+        arguments: [ "@app.helper.canonicalizer" ]
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    app.helper.canonicalizer:
+        class: AppBundle\Helper\CanonicalizerHelper
