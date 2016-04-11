@@ -13,6 +13,3 @@ services:
         arguments: [ "@app.helper.canonicalizer" ]
         tags:
             - { name: doctrine.event_subscriber }
-
-    app.helper.canonicalizer:
-        class: AppBundle\Helper\CanonicalizerHelper

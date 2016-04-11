@@ -89,7 +89,7 @@ class AdminFormAuthenticator extends AbstractGuardAuthenticator
         $email = $credentials['email'];
 
         /** @var AdminUser $adminUser */
-        $adminUser = $this->adminUserManager->findUserByEmail($email);
+        $adminUser = $this->adminUserManager->findByEmail($email);
         
         if (!$adminUser) {
             throw new CustomUserMessageAuthenticationException(

@@ -7,7 +7,7 @@ security:
         AppBundle\Entity\User: bcrypt
 
     role_hierarchy:
-        ROLE_ADMIN_CONTENT: [ROLE_GESTOR_USER, ROLE_ADMIN_SUPER_ADMIN]
+        ROLE_ADMIN_CONTENT: [ROLE_ADMIN_USER, ROLE_ADMIN_SUPER_ADMIN]
 
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
@@ -17,7 +17,7 @@ security:
         in_memory:
             memory:
                 users:
-                    admin: { password:  $2y$13$xbu9fVXYDD36mx42YT6k2ujz79DcJ7g6cOBeiBkkoB0ViIbd46Qqe, roles: [ROLE_GESTOR_USER, ROLE_GESTOR_SUPER_ADMIN] }
+                    admin: { password:  $2y$13$xbu9fVXYDD36mx42YT6k2ujz79DcJ7g6cOBeiBkkoB0ViIbd46Qqe, roles: [ROLE_ADMIN_USER, ROLE_ADMIN_SUPER_ADMIN] }
         database_users:
             entity: { class: AppBundle:User }
             #entity: { class: AppBundle:User, property: email }

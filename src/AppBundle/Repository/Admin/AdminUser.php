@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityRepository;
 class AdminUser extends EntityRepository
 {
 
-    public function findUserByEmail($emailCanonical)
+    public function findByEmail($emailCanonical)
     {
         return $this->createQueryBuilder('adminUser')
             ->innerJoin('adminUser.user', 'user')

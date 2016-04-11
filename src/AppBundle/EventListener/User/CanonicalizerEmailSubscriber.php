@@ -2,8 +2,7 @@
 
 namespace AppBundle\EventListener\User;
 
-use AppBundle\Entity\Admin\AdminUser;
-use AppBundle\Entity\User;
+use AppBundle\Entity\AbstractUser;
 use AppBundle\Helper\CanonicalizerHelper;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -38,7 +37,7 @@ class CanonicalizerEmailSubscriber implements EventSubscriber
     {
         $entity = $eventArgs->getEntity();
 
-        if (!($entity instanceof AdminUser)) {
+        if (!$this->checkEntity($entity)) {
             return;
         }
 
@@ -49,17 +48,22 @@ class CanonicalizerEmailSubscriber implements EventSubscriber
     {
         $entity = $eventArgs->getEntity();
 
-        if (!($entity instanceof AdminUser)) {
+        if (!$this->checkEntity($entity)) {
             return;
         }
 
         $this->canonicalizerEmail($entity);
     }
 
-    private function canonicalizerEmail(AdminUser $user)
+    private function canonicalizerEmail(AbstractUser $user)
     {
         $email = $user->getEmail();
 
         $user->setEmailCanonical($this->canonicalizer->canonicalize($email));
+    }
+
+    private function checkEntity($entity)
+    {
+        return $entity instanceof AbstractUser;
     }
 }
