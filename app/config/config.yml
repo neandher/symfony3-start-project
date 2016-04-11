@@ -3,8 +3,8 @@ imports:
     - { resource: security.yml }
     - { resource: services.yml }
 
-    # User Services #
-    - { resource: user/services.yml }
+    # Listener Services #
+    - { resource: listener/services.yml }
 
     # Admin Services #
     - { resource: admin/services.yml }

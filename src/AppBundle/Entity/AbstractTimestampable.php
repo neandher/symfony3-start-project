@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Annotation\Timestampable;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,15 +16,17 @@ abstract class AbstractTimestampable
      * @var \DateTime
      * 
      * @ORM\Column(name="created_at", type="datetime")
+     * @Timestampable(on="create")
      */
-    private $createdAt;
+    protected $createdAt;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+     * @Timestampable()
      */
-    private $updatedAt;
+    protected $updatedAt;
 
     /**
      * Set createdAt

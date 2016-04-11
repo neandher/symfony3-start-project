@@ -39,7 +39,7 @@ class EncodePasswordSubscriber implements EventSubscriber
     {
         $entity = $eventArgs->getEntity();
 
-        if (!($entity instanceof User)) {
+        if (!$this->isUser($entity)) {
             return;
         }
 
@@ -50,7 +50,7 @@ class EncodePasswordSubscriber implements EventSubscriber
     {
         $entity = $eventArgs->getEntity();
 
-        if (!($entity instanceof User)) {
+        if (!$this->isUser($entity)) {
             return;
         }
 
@@ -64,5 +64,10 @@ class EncodePasswordSubscriber implements EventSubscriber
         if (!is_null($plainPassword)) {
             $user->setPassword($this->passwordEncoder->encodePassword($user, $plainPassword));
         }
+    }
+
+    private function isUser($entity)
+    {
+        return $entity instanceof User;
     }
 }

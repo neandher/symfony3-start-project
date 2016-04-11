@@ -126,7 +126,7 @@ class AdminFormAuthenticator extends AbstractGuardAuthenticator
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
         $request->getSession()->set(Security::AUTHENTICATION_ERROR, $exception);
-
+        
         $url = $this->router->generate('admin_security_login');
 
         return new RedirectResponse($url);

@@ -15,6 +15,6 @@ class DefaultController extends Controller
     */
     public function indexAction()
     {
-        return new Response('Welcome!');
+        return new Response('<html><body>Welcome!</body></html>');
     }
 }

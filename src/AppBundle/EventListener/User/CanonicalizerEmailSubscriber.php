@@ -37,7 +37,7 @@ class CanonicalizerEmailSubscriber implements EventSubscriber
     {
         $entity = $eventArgs->getEntity();
 
-        if (!$this->checkEntity($entity)) {
+        if (!$this->isAbstractUser($entity)) {
             return;
         }
 
@@ -48,7 +48,7 @@ class CanonicalizerEmailSubscriber implements EventSubscriber
     {
         $entity = $eventArgs->getEntity();
 
-        if (!$this->checkEntity($entity)) {
+        if (!$this->isAbstractUser($entity)) {
             return;
         }
 
@@ -62,7 +62,7 @@ class CanonicalizerEmailSubscriber implements EventSubscriber
         $user->setEmailCanonical($this->canonicalizer->canonicalize($email));
     }
 
-    private function checkEntity($entity)
+    private function isAbstractUser($entity)
     {
         return $entity instanceof AbstractUser;
     }
