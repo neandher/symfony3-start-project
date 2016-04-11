@@ -5,4 +5,3 @@ AppBundle\Entity\User:
         plainPassword: admin@123
         password: -
         roles: [ROLE_ADMIN_USER]
-        #createdAt: <dateTime('now')>

@@ -5,4 +5,9 @@ services:
     app.admin_authenticator:
         class: AppBundle\Security\AdminFormAuthenticator
         autowire: true
-        #arguments: []
+
+    app.admin_last_login_subscriber:
+        class: AppBundle\EventListener\User\LastLoginSubscriber
+        arguments: [ "@app.admin_user_manager" ]
+        tags:
+            - { name: kernel.event_subscriber }

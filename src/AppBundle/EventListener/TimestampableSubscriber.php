@@ -37,6 +37,16 @@ class TimestampableSubscriber implements EventSubscriber
 
     public function prePersist(LifecycleEventArgs $eventArgs)
     {
+        $this->setDateMethod($eventArgs);
+    }
+
+    public function preUpdate(LifecycleEventArgs $eventArgs)
+    {
+        $this->setDateMethod($eventArgs);
+    }
+
+    private function setDateMethod(LifecycleEventArgs $eventArgs)
+    {
         $entity = $eventArgs->getEntity();
 
         $reflectionClass = new \ReflectionClass($entity);
@@ -44,34 +54,33 @@ class TimestampableSubscriber implements EventSubscriber
 
         foreach ($properties as $prop) {
 
-            $property = '';
-
             /** @var Timestampable $annotation */
-            $annotation = $this->reader->getPropertyAnnotation(
-                $prop,
-                Timestampable::class
-            );
+            $annotation = $this->reader->getPropertyAnnotation($prop, Timestampable::class);
 
             if (!empty($annotation)) {
+
                 $property = $prop->getName();
-            }
 
-            if (!empty($property)) {
+                if (!empty($property)) {
 
-                $setMethod = 'set' . ucFirst($property);
-                $getMethod = 'get' . ucFirst($property);
+                    $setMethod = 'set' . ucFirst($property);
+                    $getMethod = 'get' . ucFirst($property);
 
-                if (method_exists($entity, $setMethod) && method_exists($entity, $getMethod)) {
+                    if (method_exists($entity, $setMethod) && method_exists($entity, $getMethod)) {
 
-                    $date = $entity->{$getMethod}();
+                        $date = $entity->{$getMethod}();
 
-                    if ($annotation->on == 'create' && empty($date)) {
-                        $entity->{$setMethod}(new \DateTime());
+                        if (
+                            ($annotation->on == 'create' && empty($date))
+                            ||
+                            ($annotation->on == 'update')
+                        ) {
+                            $entity->{$setMethod}(new \DateTime());
+                        }
                     }
                 }
             }
         }
-
     }
 
 }

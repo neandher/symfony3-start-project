@@ -2,27 +2,28 @@
 
 namespace AppBundle\DomainManager\Admin;
 
+use AppBundle\DomainManager\AbstractUserManager;
 use AppBundle\Helper\CanonicalizerHelper;
 use AppBundle\Repository\Admin\AdminUser;
 use Doctrine\ORM\EntityManager;
 
-class AdminUserManager
+class AdminUserManager extends AbstractUserManager
 {
 
     /**
      * @var EntityManager
      */
-    private $em;
+    protected $em;
 
     /**
      * @var AdminUser
      */
-    private $repository;
+    protected $repository;
 
     /**
      * @var CanonicalizerHelper
      */
-    private $canonicalizerHelper;
+    protected $canonicalizerHelper;
 
     /**
      * AdminUserManager constructor.
@@ -36,10 +37,5 @@ class AdminUserManager
         $this->em = $em;
         $this->repository = $repository;
         $this->canonicalizerHelper = $canonicalizerHelper;
-    }
-
-    public function findByEmail($email)
-    {
-        return $this->repository->findByEmail($this->canonicalizerHelper->canonicalize($email));
     }
 }

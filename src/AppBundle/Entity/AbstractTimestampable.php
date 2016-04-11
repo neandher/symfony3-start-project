@@ -15,7 +15,7 @@ abstract class AbstractTimestampable
     /**
      * @var \DateTime
      * 
-     * @ORM\Column(name="created_at", type="datetime")
+     * @ORM\Column(type="datetime")
      * @Timestampable(on="create")
      */
     protected $createdAt;
@@ -23,8 +23,8 @@ abstract class AbstractTimestampable
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
-     * @Timestampable()
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Timestampable(on="update")
      */
     protected $updatedAt;
 
