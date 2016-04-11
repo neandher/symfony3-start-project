@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\Role\Role;
  * @ORM\Entity
  * @ORM\Table(name="user")
  */
-class User implements AdvancedUserInterface
+class User extends AbstractTimestampable implements AdvancedUserInterface
 {
 
     /**
@@ -29,23 +29,6 @@ class User implements AdvancedUserInterface
      * @ORM\Column(type="string", nullable=true)
      */
     protected $username;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank()
-     * @Assert\Length(min="2", max="255")
-     * @Assert\Email()
-     */
-    protected $email;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string")
-     */
-    protected $emailCanonical;
 
     /**
      * @var bool
@@ -140,7 +123,7 @@ class User implements AdvancedUserInterface
     /**
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Admin\AdminUser", mappedBy="user")
      */
-    private $adminUser;
+    protected $adminUser;
 
     /**
      * User constructor.
@@ -177,44 +160,6 @@ class User implements AdvancedUserInterface
     public function getUsername()
     {
         return $this->username;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * @param string $email
-     * @return User
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEmailCanonical()
-    {
-        return $this->emailCanonical;
-    }
-
-    /**
-     * @param string $emailCanonical
-     * @return User
-     */
-    public function setEmailCanonical($emailCanonical)
-    {
-        $this->emailCanonical = $emailCanonical;
-
-        return $this;
     }
 
     /**
@@ -613,22 +558,5 @@ class User implements AdvancedUserInterface
     {
         return $this->getPasswordRequestedAt() instanceof \DateTime &&
         $this->getPasswordRequestedAt()->getTimestamp() + $ttl > time();
-    }
-
-    /**
-     * Get the truncated email
-     *
-     * The default implementation only keeps the part following @ in the address.
-     *
-     * @return string
-     */
-    public function getObfuscatedEmail()
-    {
-        $email = $this->getEmail();
-        if (false !== $pos = strpos($email, '@')) {
-            $email = '...' . substr($email, $pos);
-        }
-
-        return $email;
     }
 }

@@ -3,12 +3,14 @@
 namespace AppBundle\Security;
 
 use AppBundle\DomainManager\Admin\AdminUserManager;
+use AppBundle\Entity\Admin\AdminUser;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -16,6 +18,7 @@ use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 
 class AdminFormAuthenticator extends AbstractGuardAuthenticator
 {
+
     /**
      * @var AdminUserManager
      */
@@ -37,8 +40,11 @@ class AdminFormAuthenticator extends AbstractGuardAuthenticator
      * @param UserPasswordEncoder $encoder
      * @param RouterInterface $router
      */
-    public function __construct(AdminUserManager $adminUserManager, UserPasswordEncoder $encoder, RouterInterface $router)
-    {
+    public function __construct(
+        AdminUserManager $adminUserManager,
+        UserPasswordEncoder $encoder,
+        RouterInterface $router
+    ) {
         $this->adminUserManager = $adminUserManager;
         $this->encoder = $encoder;
         $this->router = $router;
@@ -62,13 +68,13 @@ class AdminFormAuthenticator extends AbstractGuardAuthenticator
      */
     public function getCredentials(Request $request)
     {
-        if($request->getPathInfo() != '/admin/login' || !$request->isMethod('POST')){
+        if ($request->getPathInfo() != '/admin/login_check' || !$request->isMethod('POST')) {
             return;
         }
 
         return [
-            'username' => $request->request->get('email'),
-            'password' => $request->request->get('password'),
+            'email'    => $request->request->get('login')['email'],
+            'password' => $request->request->get('login')['password'],
         ];
     }
 
@@ -76,12 +82,22 @@ class AdminFormAuthenticator extends AbstractGuardAuthenticator
      * @param mixed $credentials
      * @param UserProviderInterface $userProvider
      * @return mixed
+     * @throws CustomUserMessageAuthenticationException
      */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         $email = $credentials['email'];
 
-        return $this->adminUserManager->findUserByEmail($email);;
+        /** @var AdminUser $adminUser */
+        $adminUser = $this->adminUserManager->findUserByEmail($email);
+        
+        if (!$adminUser) {
+            throw new CustomUserMessageAuthenticationException(
+                'E-mail nao encontrado!'
+            );
+        }
+
+        return $adminUser->getUser();
     }
 
     /**
@@ -94,7 +110,9 @@ class AdminFormAuthenticator extends AbstractGuardAuthenticator
         $plainPassword = $credentials['password'];
 
         if (!$this->encoder->isPasswordValid($user, $plainPassword)) {
-            return;
+            throw new CustomUserMessageAuthenticationException(
+                'Senha invalida!'
+            );
         }
 
         return true;
@@ -122,7 +140,7 @@ class AdminFormAuthenticator extends AbstractGuardAuthenticator
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        $targetPath = $request->getSession()->get('_security.'.$providerKey.'.target_path');
+        $targetPath = $request->getSession()->get('_security.' . $providerKey . '.target_path');
 
         if (!$targetPath) {
             $targetPath = $this->router->generate('admin_index');

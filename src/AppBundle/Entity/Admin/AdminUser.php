@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity\Admin;
 
+use AppBundle\Entity\AbstractUser;
 use AppBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -10,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Admin\AdminUser")
  * @ORM\Table(name="admin_user")
  */
-class AdminUser
+class AdminUser extends AbstractUser
 {
     /**
      * @var integer
@@ -26,7 +27,7 @@ class AdminUser
      *
      * @ORM\Column(type="string")
      */
-    private $name;
+    private $firstName;
 
     /**
      * @var string
@@ -53,17 +54,17 @@ class AdminUser
     /**
      * @return string
      */
-    public function getName()
+    public function getFirstName()
     {
-        return $this->name;
+        return $this->firstName;
     }
 
     /**
-     * @param string $name
+     * @param string $firstName
      */
-    public function setName($name)
+    public function setFirstName($firstName)
     {
-        $this->name = $name;
+        $this->firstName = $firstName;
     }
 
     /**
@@ -97,6 +98,4 @@ class AdminUser
     {
         $this->user = $user;
     }
-
-
 }

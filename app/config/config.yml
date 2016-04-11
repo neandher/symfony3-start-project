@@ -3,6 +3,9 @@ imports:
     - { resource: security.yml }
     - { resource: services.yml }
 
+    # User Services #
+    - { resource: user/services.yml }
+
     # Admin Services #
     - { resource: admin/services.yml }
 

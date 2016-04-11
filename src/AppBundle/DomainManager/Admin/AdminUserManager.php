@@ -29,8 +29,8 @@ class AdminUserManager
         $this->repository = $repository;
     }
 
-    public function findUserByEmail($emailCanoninal)
+    public function findUserByEmail($emailCanonical)
     {
-        return $this->repository->findUserByEmail($emailCanoninal);
+        return $this->repository->findUserByEmail($emailCanonical);
     }
 }
