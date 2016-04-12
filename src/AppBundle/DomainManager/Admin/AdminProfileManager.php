@@ -55,7 +55,8 @@ class AdminProfileManager extends AbstractProfileManager
     public function getResettingRequestParameters()
     {
         return [
-            ProfileEvent::PARAM_RESETTING_EMAIL_FROM => 'security.resetting_email.from',
+            //ProfileEvent::PARAM_RESETTING_EMAIL_FROM => 'security.resetting_email.from',
+            ProfileEvent::PARAM_RESETTING_EMAIL_FROM => 'noreply@dev.com',
             ProfileEvent::PARAM_RESETTING_EMAIL_ROUTE => 'admin_security_resetting_reset',
             ProfileEvent::PARAM_RESETTING_EMAIL_TEMPLATE => 'admin/security/resetting/email.html.twig'
         ];

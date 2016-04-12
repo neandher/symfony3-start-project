@@ -90,12 +90,13 @@ class ResettingRequestSendEmailSubscriber implements EventSubscriberInterface
         $urlToReset = $this->router->generate(
             $params[$event::PARAM_RESETTING_EMAIL_ROUTE],
             ['token' => $user->getConfirmationToken()],
-            true
+            0
         );
 
         $message = \Swift_Message::newInstance()
             ->setSubject($this->translator->trans('security.resetting.request.email.subject'))
-            ->setFrom($this->parameter->get($params[$event::PARAM_RESETTING_EMAIL_FROM]))
+            //->setFrom($this->parameter->get($params[$event::PARAM_RESETTING_EMAIL_FROM]))
+            ->setFrom($params[$event::PARAM_RESETTING_EMAIL_FROM])
             ->setTo($profile->getEmail())
             ->setBody(
                 $this->twigEngine->render(
