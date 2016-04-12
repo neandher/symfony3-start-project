@@ -22,11 +22,11 @@ security:
                 send: Enviar
             links:
                 login: Efetuar Login
-            check_email: Foi enviado um e-mail para user_email. Para recuperar a sua senha, clique no link da mensagem.
+            check_email: Foi enviado um e-mail para profile_email. Para recuperar a sua senha, clique no link da mensagem.
             email:
                 subject: Esqueci Minha Senha
                 message: |
-                    Olá, %complete_name%!
+                    Olá, %full_name%!
 
                     Para redefinir sua senha, clique no link: %url%
 

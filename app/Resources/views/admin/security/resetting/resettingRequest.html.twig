@@ -1,0 +1,31 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+
+    <h3>Resetar Senha</h3>
+
+    <div class="row">
+        <div class="col-lg-6">
+
+            {{ include('admin/partials/alerts.html.twig') }}
+
+            {{ form_errors(form) }}
+
+            {{ form_start(form, { 'action': path('admin_security_resetting_request') }) }}
+
+            {{ form_row(form.email) }}
+
+            <button class="btn btn-primary">{{ 'security.resetting.request.btns.send'|trans }}</button>
+
+            <a class="pull-right" href="{{ path('admin_security_login') }}">
+                {{ 'security.resetting.request.links.login'|trans }}
+            </a>
+
+            {{ form_widget(form._token) }}
+
+            {{ form_end(form, {'render_rest': false}) }}
+
+        </div>
+    </div>
+
+{% endblock %}

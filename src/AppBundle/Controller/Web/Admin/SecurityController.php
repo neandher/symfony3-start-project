@@ -58,8 +58,17 @@ class SecurityController extends Controller implements SecurityControllerInterfa
     public function resettingRequestAction(Request $request)
     {
         $form = $this->createForm(ResettingRequestType::class);
-        
-        $formHandler = '';
+
+        $formHandler = $this->get('app.admin_resetting_request_form_handler');
+
+        if ($formHandler->handle($form, $request)) {
+            return $this->redirectToRoute('admin_security_login');
+        }
+
+        return $this->render(
+            'admin/security/resetting/resettingRequest.html.twig',
+            ['form' => $form->createView()]
+        );
     }
 
     /**

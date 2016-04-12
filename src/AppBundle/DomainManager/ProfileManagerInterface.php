@@ -21,10 +21,10 @@ interface ProfileManagerInterface
     public function findByEmail($email);
 
     /**
-     * @param User $user
+     * @param AbstractProfile $profile
      * @return void
      */
-    public function resettingRequest(User $user);
+    public function resettingRequest(AbstractProfile $profile);
 
     /**
      * @param string $token

@@ -19,3 +19,15 @@ services:
         arguments: ["@annotations.reader"]
         tags:
             - { name: doctrine.event_subscriber }
+
+    app.resetting_request_send_email_subscriber:
+        class: AppBundle\EventListener\Security\ResettingRequestSendEmailSubscriber
+        arguments:
+            - "@swiftmailer.mailer"
+            - "@translator.default"
+            - "@templating.engine.twig"
+            - "@router"
+            - "@session.flash_bag"
+            - "@parameter_bag"
+        tags:
+            - { name: kernel.event_subscriber }

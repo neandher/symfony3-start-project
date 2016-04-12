@@ -82,8 +82,8 @@ class ResettingRequestFormHandler
             }
 
             $user->setPasswordRequestedAt(new \DateTime());
-
-            $this->profileManager->resettingRequest($user);
+            
+            $this->profileManager->resettingRequest($profile);
         }
 
         return true;

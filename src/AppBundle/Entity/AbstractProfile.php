@@ -169,4 +169,12 @@ abstract class AbstractProfile
 
         return $email;
     }
+
+    /**
+     * @return string
+     */
+    public function getFullName()
+    {
+        return $this->getFirstName() . ' ' . $this->getLastName();
+    }
 }

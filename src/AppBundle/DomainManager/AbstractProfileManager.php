@@ -4,9 +4,12 @@ namespace AppBundle\DomainManager;
 
 use AppBundle\Entity\AbstractProfile;
 use AppBundle\Entity\User;
+use AppBundle\Event\Security\ProfileEvent;
+use AppBundle\Event\Security\ProfileEvents;
 use AppBundle\Helper\CanonicalizerHelper;
 use AppBundle\Repository\Admin\AdminProfile;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 abstract class AbstractProfileManager extends AbstractManager implements ProfileManagerInterface
 {
@@ -26,6 +29,13 @@ abstract class AbstractProfileManager extends AbstractManager implements Profile
     protected $canonicalizerHelper;
 
     /**
+     * @var EventDispatcherInterface
+     */
+    protected $eventDispatcher;
+    
+    abstract public function getResettingRequestParameters(); 
+    
+    /**
      * @param User $user
      * @return void
      */
@@ -44,12 +54,17 @@ abstract class AbstractProfileManager extends AbstractManager implements Profile
     }
 
     /**
-     * @param User $user
+     * @param AbstractProfile $profile
      * @return void
      */
-    public function resettingRequest(User $user)
+    public function resettingRequest(AbstractProfile $profile)
     {
-        // TODO: Implement resettingRequest() method.
+        $this->persistAndFlush($profile->getUser());
+
+        $this->eventDispatcher->dispatch(
+            ProfileEvents::RESETTING_REQUEST_SUCCESS, 
+            new ProfileEvent($profile, $this->getResettingRequestParameters())
+        );
     }
 
     /**
