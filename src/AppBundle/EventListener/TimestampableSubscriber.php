@@ -37,15 +37,15 @@ class TimestampableSubscriber implements EventSubscriber
 
     public function prePersist(LifecycleEventArgs $eventArgs)
     {
-        $this->setDateMethod($eventArgs);
+        $this->setDateMethod($eventArgs, 'create');
     }
 
     public function preUpdate(LifecycleEventArgs $eventArgs)
     {
-        $this->setDateMethod($eventArgs);
+        $this->setDateMethod($eventArgs, 'update');
     }
 
-    private function setDateMethod(LifecycleEventArgs $eventArgs)
+    private function setDateMethod(LifecycleEventArgs $eventArgs, $on)
     {
         $entity = $eventArgs->getEntity();
 
@@ -71,9 +71,9 @@ class TimestampableSubscriber implements EventSubscriber
                         $date = $entity->{$getMethod}();
 
                         if (
-                            ($annotation->on == 'create' && empty($date))
+                            ($annotation->on == 'create' && $on == 'create')
                             ||
-                            ($annotation->on == 'update')
+                            ($annotation->on == 'update' && $on == 'update')
                         ) {
                             $entity->{$setMethod}(new \DateTime());
                         }

@@ -2,4 +2,4 @@ services:
 
     app.admin_resetting_request_form_handler:
         class: AppBundle\Form\Security\Handler\ResettingRequestFormHandler
-        arguments: [ "@app.admin_user_manager", "@app.helper.token_generator", "@translator.default", "%security.resetting.token_ttl%" ]
+        arguments: [ "@app.admin_profile_manager", "@app.helper.token_generator", "@translator.default", "%security.resetting.token_ttl%" ]

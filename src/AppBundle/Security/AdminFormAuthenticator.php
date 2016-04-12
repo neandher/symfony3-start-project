@@ -2,8 +2,8 @@
 
 namespace AppBundle\Security;
 
-use AppBundle\DomainManager\Admin\AdminUserManager;
-use AppBundle\Entity\Admin\AdminUser;
+use AppBundle\DomainManager\Admin\AdminProfileManager;
+use AppBundle\Entity\Admin\AdminProfile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
@@ -20,9 +20,9 @@ class AdminFormAuthenticator extends AbstractGuardAuthenticator
 {
 
     /**
-     * @var AdminUserManager
+     * @var AdminProfileManager
      */
-    private $adminUserManager;
+    private $adminProfileManager;
 
     /**
      * @var UserPasswordEncoder
@@ -36,16 +36,16 @@ class AdminFormAuthenticator extends AbstractGuardAuthenticator
 
     /**
      * AdminFormAuthenticator constructor.
-     * @param AdminUserManager $adminUserManager
+     * @param AdminProfileManager $adminProfileManager
      * @param UserPasswordEncoder $encoder
      * @param RouterInterface $router
      */
     public function __construct(
-        AdminUserManager $adminUserManager,
+        AdminProfileManager $adminProfileManager,
         UserPasswordEncoder $encoder,
         RouterInterface $router
     ) {
-        $this->adminUserManager = $adminUserManager;
+        $this->adminProfileManager = $adminProfileManager;
         $this->encoder = $encoder;
         $this->router = $router;
     }
@@ -88,16 +88,16 @@ class AdminFormAuthenticator extends AbstractGuardAuthenticator
     {
         $email = $credentials['email'];
 
-        /** @var AdminUser $adminUser */
-        $adminUser = $this->adminUserManager->findByEmail($email);
+        /** @var AdminProfile $adminProfile */
+        $adminProfile = $this->adminProfileManager->findByEmail($email);
         
-        if (!$adminUser) {
+        if (!$adminProfile) {
             throw new CustomUserMessageAuthenticationException(
                 'security.login.errors.email_not_found'
             );
         }
 
-        return $adminUser->getUser();
+        return $adminProfile->getUser();
     }
 
     /**

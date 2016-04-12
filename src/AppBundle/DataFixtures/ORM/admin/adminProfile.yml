@@ -1,0 +1,8 @@
+AppBundle\Entity\Admin\AdminProfile:
+
+    profile1:
+        firstName: Neandher
+        lastName: Carlos
+        email: neandher89@gmail.com
+        emailCanonical: -
+        user: '@user1'

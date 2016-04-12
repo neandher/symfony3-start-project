@@ -2,12 +2,13 @@
 
 namespace AppBundle\DomainManager;
 
+use AppBundle\Entity\AbstractProfile;
 use AppBundle\Entity\User;
 use AppBundle\Helper\CanonicalizerHelper;
-use AppBundle\Repository\Admin\AdminUser;
+use AppBundle\Repository\Admin\AdminProfile;
 use Doctrine\ORM\EntityManager;
 
-abstract class AbstractUserManager extends AbstractManager implements UserManagerInterface
+abstract class AbstractProfileManager extends AbstractManager implements ProfileManagerInterface
 {
     /**
      * @var EntityManager
@@ -15,7 +16,7 @@ abstract class AbstractUserManager extends AbstractManager implements UserManage
     protected $em;
 
     /**
-     * @var AdminUser
+     * @var AdminProfile
      */
     protected $repository;
 
@@ -26,7 +27,7 @@ abstract class AbstractUserManager extends AbstractManager implements UserManage
 
     /**
      * @param User $user
-     * @return mixed
+     * @return void
      */
     public function editLastLogin(User $user)
     {
@@ -35,7 +36,7 @@ abstract class AbstractUserManager extends AbstractManager implements UserManage
 
     /**
      * @param string $email
-     * @return mixed
+     * @return AbstractProfile
      */
     public function findByEmail($email)
     {
@@ -44,7 +45,7 @@ abstract class AbstractUserManager extends AbstractManager implements UserManage
 
     /**
      * @param User $user
-     * @return mixed
+     * @return void
      */
     public function resettingRequest(User $user)
     {
@@ -53,7 +54,7 @@ abstract class AbstractUserManager extends AbstractManager implements UserManage
 
     /**
      * @param string $token
-     * @return mixed
+     * @return AbstractProfile
      */
     public function findByConfirmationToken($token)
     {
@@ -62,7 +63,7 @@ abstract class AbstractUserManager extends AbstractManager implements UserManage
 
     /**
      * @param User $user
-     * @return mixed
+     * @return void
      */
     public function resettingReset(User $user)
     {
@@ -71,7 +72,7 @@ abstract class AbstractUserManager extends AbstractManager implements UserManage
 
     /**
      * @param User $user
-     * @return mixed
+     * @return void
      */
     public function changePassword(User $user)
     {

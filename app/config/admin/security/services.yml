@@ -8,6 +8,6 @@ services:
 
     app.admin_last_login_subscriber:
         class: AppBundle\EventListener\User\LastLoginSubscriber
-        arguments: [ "@app.admin_user_manager" ]
+        arguments: [ "@app.admin_profile_manager" ]
         tags:
             - { name: kernel.event_subscriber }

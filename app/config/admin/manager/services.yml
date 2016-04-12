@@ -1,5 +1,5 @@
 services:
 
-    app.admin_user_manager:
-        class: AppBundle\DomainManager\Admin\AdminUserManager
-        arguments: ['@doctrine.orm.entity_manager', '@app.admin_user_repository', '@app.helper.canonicalizer']
+    app.admin_profile_manager:
+        class: AppBundle\DomainManager\Admin\AdminProfileManager
+        arguments: ['@doctrine.orm.entity_manager', '@app.admin_profile_repository', '@app.helper.canonicalizer']

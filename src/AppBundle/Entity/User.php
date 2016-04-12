@@ -121,9 +121,9 @@ class User extends AbstractTimestampable implements AdvancedUserInterface
     protected $credentialsExpireAt;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Admin\AdminUser", mappedBy="user")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Admin\AdminProfile", mappedBy="user")
      */
-    protected $adminUser;
+    protected $adminProfile;
 
     /**
      * User constructor.

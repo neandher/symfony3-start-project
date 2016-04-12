@@ -2,8 +2,7 @@
 
 namespace AppBundle\Form\Security\Handler;
 
-use AppBundle\DomainManager\UserManagerInterface;
-use AppBundle\Entity\User;
+use AppBundle\DomainManager\ProfileManagerInterface;
 use AppBundle\Helper\TokenGeneratorHelper;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
@@ -14,9 +13,9 @@ class ResettingRequestFormHandler
 {
 
     /**
-     * @var UserManagerInterface
+     * @var ProfileManagerInterface
      */
-    private $userManager;
+    private $profileManager;
 
     /**
      * @var TokenGeneratorHelper
@@ -31,12 +30,12 @@ class ResettingRequestFormHandler
     private $tokenTll;
 
     public function __construct(
-        UserManagerInterface $userManager,
+        ProfileManagerInterface $profileManager,
         TokenGeneratorHelper $tokenGeneratorHelper,
         Translator $translator,
         $tokenTll
     ) {
-        $this->userManager = $userManager;
+        $this->profileManager = $profileManager;
         $this->tokenGeneratorHelper = $tokenGeneratorHelper;
         $this->tokenTll = $tokenTll;
         $this->translator = $translator;
@@ -54,9 +53,9 @@ class ResettingRequestFormHandler
 
         if ($form->isSubmitted()) {
 
-            $abstractUser = $this->userManager->findByEmail($data['email']);
+            $profile = $this->profileManager->findByEmail($data['email']);
 
-            if (!$abstractUser) {
+            if (!$profile) {
                 
                 $form->addError(
                     new FormError($this->translator->trans('security.resetting.request.errors.email_not_found'))
@@ -65,8 +64,7 @@ class ResettingRequestFormHandler
                 return false;
             }
             
-            /** @var User $user */
-            $user = $abstractUser->getUser();
+            $user = $profile->getUser();
             
             if ($user->isPasswordRequestNonExpired($this->tokenTll)) {
                 
@@ -85,7 +83,7 @@ class ResettingRequestFormHandler
 
             $user->setPasswordRequestedAt(new \DateTime());
 
-            $this->userManager->resettingRequest($user);
+            $this->profileManager->resettingRequest($user);
         }
 
         return true;

@@ -2,9 +2,10 @@
 
 namespace AppBundle\DomainManager;
 
+use AppBundle\Entity\AbstractProfile;
 use AppBundle\Entity\User;
 
-interface UserManagerInterface
+interface ProfileManagerInterface
 {
 
     /**
@@ -15,7 +16,7 @@ interface UserManagerInterface
 
     /**
      * @param string $email
-     * @return mixed
+     * @return AbstractProfile
      */
     public function findByEmail($email);
 
@@ -27,7 +28,7 @@ interface UserManagerInterface
 
     /**
      * @param string $token
-     * @return mixed
+     * @return AbstractProfile
      */
     public function findByConfirmationToken($token);
 

@@ -2,7 +2,7 @@
 
 namespace AppBundle\EventListener\User;
 
-use AppBundle\Entity\AbstractUser;
+use AppBundle\Entity\AbstractProfile;
 use AppBundle\Helper\CanonicalizerHelper;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -37,7 +37,7 @@ class CanonicalizerEmailSubscriber implements EventSubscriber
     {
         $entity = $eventArgs->getEntity();
 
-        if (!$this->isAbstractUser($entity)) {
+        if (!$this->isAbstractProfile($entity)) {
             return;
         }
 
@@ -48,22 +48,22 @@ class CanonicalizerEmailSubscriber implements EventSubscriber
     {
         $entity = $eventArgs->getEntity();
 
-        if (!$this->isAbstractUser($entity)) {
+        if (!$this->isAbstractProfile($entity)) {
             return;
         }
 
         $this->canonicalizerEmail($entity);
     }
 
-    private function canonicalizerEmail(AbstractUser $user)
+    private function canonicalizerEmail(AbstractProfile $profile)
     {
-        $email = $user->getEmail();
+        $email = $profile->getEmail();
 
-        $user->setEmailCanonical($this->canonicalizer->canonicalize($email));
+        $profile->setEmailCanonical($this->canonicalizer->canonicalize($email));
     }
 
-    private function isAbstractUser($entity)
+    private function isAbstractProfile($entity)
     {
-        return $entity instanceof AbstractUser;
+        return $entity instanceof AbstractProfile;
     }
 }

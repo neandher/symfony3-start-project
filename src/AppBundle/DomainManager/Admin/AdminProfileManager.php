@@ -2,12 +2,12 @@
 
 namespace AppBundle\DomainManager\Admin;
 
-use AppBundle\DomainManager\AbstractUserManager;
+use AppBundle\DomainManager\AbstractProfileManager;
 use AppBundle\Helper\CanonicalizerHelper;
-use AppBundle\Repository\Admin\AdminUser;
+use AppBundle\Repository\Admin\AdminProfile;
 use Doctrine\ORM\EntityManager;
 
-class AdminUserManager extends AbstractUserManager
+class AdminProfileManager extends AbstractProfileManager
 {
 
     /**
@@ -16,7 +16,7 @@ class AdminUserManager extends AbstractUserManager
     protected $em;
 
     /**
-     * @var AdminUser
+     * @var AdminProfile
      */
     protected $repository;
 
@@ -26,13 +26,13 @@ class AdminUserManager extends AbstractUserManager
     protected $canonicalizerHelper;
 
     /**
-     * AdminUserManager constructor.
+     * AdminProfileManager constructor.
      *
      * @param EntityManager $em
-     * @param AdminUser $repository
+     * @param AdminProfile $repository
      * @param CanonicalizerHelper $canonicalizerHelper
      */
-    public function __construct(EntityManager $em, AdminUser $repository, CanonicalizerHelper $canonicalizerHelper)
+    public function __construct(EntityManager $em, AdminProfile $repository, CanonicalizerHelper $canonicalizerHelper)
     {
         $this->em = $em;
         $this->repository = $repository;

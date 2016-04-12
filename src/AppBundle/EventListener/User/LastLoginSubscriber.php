@@ -2,7 +2,7 @@
 
 namespace AppBundle\EventListener\User;
 
-use AppBundle\DomainManager\UserManagerInterface;
+use AppBundle\DomainManager\ProfileManagerInterface;
 use AppBundle\Entity\User;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
@@ -12,13 +12,13 @@ class LastLoginSubscriber implements EventSubscriberInterface
 {
 
     /**
-     * @var UserManagerInterface
+     * @var ProfileManagerInterface
      */
-    private $userManager;
+    private $profileManager;
 
-    public function __construct(UserManagerInterface $userManager)
+    public function __construct(ProfileManagerInterface $profileManager)
     {
-        $this->userManager = $userManager;
+        $this->profileManager = $profileManager;
     }
 
     public static function getSubscribedEvents()
@@ -34,7 +34,7 @@ class LastLoginSubscriber implements EventSubscriberInterface
 
         if( $user instanceof User ){
             $user->setLastLoginAt(new \DateTime());
-            $this->userManager->editLastLogin($user);
+            $this->profileManager->editLastLogin($user);
         }
     }
 
