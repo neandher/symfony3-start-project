@@ -4,3 +4,7 @@ services:
 
     app.helper.canonicalizer:
         class: AppBundle\Helper\CanonicalizerHelper
+
+    app.helper.token_generator:
+        class: AppBundle\Helper\TokenGeneratorHelper
+        autowire: true

@@ -1,0 +1,4 @@
+### SECURITY ###
+security:
+    password:
+        mismatch: As senhas não correspondem

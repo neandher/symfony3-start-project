@@ -1,0 +1,63 @@
+### SECURITY ###
+security:
+    login:
+        errors:
+            email_not_found: E-mail não encontrado.
+            password_invalid: Senha Inválida.
+        fields:
+            email: E-mail
+            password: Senha
+        btns:
+            login: Login
+        links:
+            forgot_password: Esqueceu a senha?
+    resetting:
+        request:
+            fields:
+                email: E-mail
+            errors:
+                email_not_found: E-mail não existe.
+                password_already_requested: Este usuário já solicitou uma senha nas últimas 24 horas.
+            btns:
+                send: Enviar
+            links:
+                login: Efetuar Login
+            check_email: Foi enviado um e-mail para user_email. Para recuperar a sua senha, clique no link da mensagem.
+            email:
+                subject: Esqueci Minha Senha
+                message: |
+                    Olá, %complete_name%!
+
+                    Para redefinir sua senha, clique no link: %url%
+
+                    Atenciosamente,
+                    a Equipe.
+        reset:
+            fields:
+                new_password: Nova Senha
+                confirm_password: Confirme a Senha
+            btns:
+                send: Alterar Senha
+            errors:
+                invalid_token: Token Inválido.
+                expired_token: Token Expirado.
+                mismatch: As senhas não correspondem
+            success: A senha foi redefinida com sucesso.
+    change_password:
+        fields:
+            current_password: Senha atual
+            new_password: Nova senha
+            new_password_confirmation: Repita a senha
+        success: A senha foi alterada com sucesso.
+        btns:
+            submit: Alterar Senha
+
+flashbag:
+    success:
+        inserted: Registro inserido com sucesso
+        updated: Registro alterado com sucesso
+        deleted: Registro deletado com sucesso
+    error:
+        inserted: Houve um erro ao inserir o registro
+        updated: Houve um erro ao alterar o registro
+        deleted: Houve um erro ao deletar o registro

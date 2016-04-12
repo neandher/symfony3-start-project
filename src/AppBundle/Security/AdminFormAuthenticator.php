@@ -93,7 +93,7 @@ class AdminFormAuthenticator extends AbstractGuardAuthenticator
         
         if (!$adminUser) {
             throw new CustomUserMessageAuthenticationException(
-                'E-mail nao encontrado!'
+                'security.login.errors.email_not_found'
             );
         }
 
@@ -111,7 +111,7 @@ class AdminFormAuthenticator extends AbstractGuardAuthenticator
 
         if (!$this->encoder->isPasswordValid($user, $plainPassword)) {
             throw new CustomUserMessageAuthenticationException(
-                'Senha invalida!'
+                'security.login.errors.password_invalid'
             );
         }
 

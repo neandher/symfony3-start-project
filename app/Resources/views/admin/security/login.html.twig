@@ -14,10 +14,10 @@
             {{ form_row(form.email, {'attr':{'value': last_username }}) }}
             {{ form_row(form.password) }}
 
-            <button class="btn btn-primary">Login</button>
+            <button class="btn btn-primary">{{ 'security.login.btns.login'|trans }}</button>
 
             <a class="pull-right" href="{{ path('admin_security_resetting_request') }}">
-                Esqueci minha senha
+                {{ 'security.login.links.forgot_password'|trans }}
             </a>
 
             {{ form_widget(form._token) }}

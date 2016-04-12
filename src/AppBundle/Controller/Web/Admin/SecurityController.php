@@ -3,12 +3,12 @@
 namespace AppBundle\Controller\Web\Admin;
 
 use AppBundle\Controller\Web\SecurityControllerInterface;
-use AppBundle\Form\Admin\Type\LoginType;
+use AppBundle\Form\Security\Type\LoginType;
+use AppBundle\Form\Security\Type\ResettingRequestType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class SecurityController extends Controller implements SecurityControllerInterface
 {
@@ -57,7 +57,9 @@ class SecurityController extends Controller implements SecurityControllerInterfa
      */
     public function resettingRequestAction(Request $request)
     {
-        // TODO: Implement resettingRequestAction() method.
+        $form = $this->createForm(ResettingRequestType::class);
+        
+        $formHandler = '';
     }
 
     /**

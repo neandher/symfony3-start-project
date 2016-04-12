@@ -6,5 +6,8 @@ imports:
     # Repository #
     - { resource: repository/services.yml }
 
-    # Repository #
+    # Manager #
     - { resource: manager/services.yml }
+
+    # Manager #
+    - { resource: form/services.yml }
