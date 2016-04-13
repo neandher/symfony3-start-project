@@ -16,4 +16,14 @@ class AdminProfile extends EntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    public function findByConfirmationToken($token)
+    {
+        return $this->createQueryBuilder('adminProfile')
+            ->innerJoin('adminProfile.user','user')
+            ->andWhere('user.confirmationToken = :token')->setParameter('token', $token)
+            ->andWhere('user.roles like :role')->setParameter(':role', '%ROLE_ADMIN_USER%')
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

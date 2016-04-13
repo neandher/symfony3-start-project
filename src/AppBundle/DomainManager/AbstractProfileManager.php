@@ -58,15 +58,12 @@ abstract class AbstractProfileManager extends AbstractManager implements Profile
      */
     public function resettingRequest(AbstractProfile $profile)
     {
-
-        $dispatcher = $this->eventDispatcher->dispatch(
+        $this->eventDispatcher->dispatch(
             ProfileEvents::RESETTING_REQUEST_SUCCESS,
             new ProfileEvent($profile)
         );
 
-        $profile = $dispatcher->getProfile();
-
-        //$this->persistAndFlush($profile->getUser());
+        $this->persistAndFlush($profile->getUser());
     }
 
     /**
@@ -75,23 +72,25 @@ abstract class AbstractProfileManager extends AbstractManager implements Profile
      */
     public function findByConfirmationToken($token)
     {
-        // TODO: Implement findByConfirmationToken() method.
+        return $this->repository->findByConfirmationToken($token);
     }
 
     /**
-     * @param User $user
+     * @param AbstractProfile $profile
      * @return void
      */
-    public function resettingReset(User $user)
+    public function resettingReset(AbstractProfile $profile)
     {
-        // TODO: Implement resettingReset() method.
+        $this->eventDispatcher->dispatch(ProfileEvents::RESETTING_RESET_SUCCESS, new ProfileEvent($profile));
+
+        $this->persistAndFlush($profile->getUser());
     }
 
     /**
-     * @param User $user
+     * @param AbstractProfile $profile
      * @return void
      */
-    public function changePassword(User $user)
+    public function changePassword(AbstractProfile $profile)
     {
         // TODO: Implement changePassword() method.
     }

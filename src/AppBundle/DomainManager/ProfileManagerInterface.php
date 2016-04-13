@@ -33,15 +33,15 @@ interface ProfileManagerInterface
     public function findByConfirmationToken($token);
 
     /**
-     * @param User $user
-     * @return void
+     * @param AbstractProfile $profile
+     * @return mixed
      */
-    public function resettingReset(User $user);
+    public function resettingReset(AbstractProfile $profile);
 
     /**
-     * @param User $user
+     * @param AbstractProfile $profile
      * @return void
      */
-    public function changePassword(User $user);
+    public function changePassword(AbstractProfile $profile);
 
 }

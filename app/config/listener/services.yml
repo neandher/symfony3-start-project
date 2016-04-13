@@ -28,3 +28,13 @@ services:
             - "@session.flash_bag"
         tags:
             - { name: kernel.event_subscriber }
+
+    app.resetting_reset_subscriber:
+        class: AppBundle\EventListener\Security\ResettingResetSubscriber
+        arguments:
+            - "@session.flash_bag"
+            - "@translator.default"
+            - "@router"
+            - "%admin_security.resetting.token_ttl%"
+        tags:
+            - { name: kernel.event_subscriber }

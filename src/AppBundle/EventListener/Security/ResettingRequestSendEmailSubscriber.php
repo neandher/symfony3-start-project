@@ -32,7 +32,8 @@ class ResettingRequestSendEmailSubscriber implements EventSubscriberInterface
         Mailer $mailer,
         Translator $translator,
         FlashBag $flashBag
-    ) {
+    )
+    {
         $this->mailer = $mailer;
         $this->translator = $translator;
         $this->flashBag = $flashBag;
@@ -51,31 +52,19 @@ class ResettingRequestSendEmailSubscriber implements EventSubscriberInterface
         );
     }
 
-
     public function onResettingRequestSuccess(ProfileEvent $event)
     {
-
         $profile = $event->getProfile();
 
-        //$sentRecipients = $this->mailer->sendResettingEmailMessage($profile);
         $this->mailer->sendResettingEmailMessage($profile);
-        
-        $sentRecipients = 1;
 
-        if ($sentRecipients > 0) {
-
-            $this->flashBag->add(
-                FlashBagEvents::MESSAGE_TYPE_SUCCESS,
-                $this->translator->trans(
-                    'security.resetting.request.check_email',
-                    array('profile_email' => $profile->getObfuscatedEmail())
-                )
-            );
-        } else {
-            $user = $profile->getUser();
-            $user->setConfirmationToken(null)
-                ->setPasswordRequestedAt(null);
-        }
+        $this->flashBag->add(
+            FlashBagEvents::MESSAGE_TYPE_SUCCESS,
+            $this->translator->trans(
+                'security.resetting.request.check_email',
+                array('profile_email' => $profile->getObfuscatedEmail())
+            )
+        );
     }
 
 }

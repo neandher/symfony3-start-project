@@ -91,7 +91,7 @@ class Mailer
         } else {
             $message->setBody($textBody);
         }
-
+        
         return $this->mailer->send($message);
     }
 }

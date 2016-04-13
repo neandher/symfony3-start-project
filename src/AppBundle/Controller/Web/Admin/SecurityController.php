@@ -3,8 +3,11 @@
 namespace AppBundle\Controller\Web\Admin;
 
 use AppBundle\Controller\Web\SecurityControllerInterface;
+use AppBundle\Event\Security\ProfileEvent;
+use AppBundle\Event\Security\ProfileEvents;
 use AppBundle\Form\Security\Type\LoginType;
 use AppBundle\Form\Security\Type\ResettingRequestType;
+use AppBundle\Form\Security\Type\ResettingResetType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -81,7 +84,32 @@ class SecurityController extends Controller implements SecurityControllerInterfa
      */
     public function resettingResetAction(Request $request, $token)
     {
-        // TODO: Implement resettingResetAction() method.
+        $manager = $this->get('app.admin_profile_manager');
+        
+        $dispatcher = $this->get('event_dispatcher')->dispatch(
+            ProfileEvents::RESETTING_RESET_INITIALIZE,
+            new ProfileEvent(null, $manager, $request)
+        );
+
+        if ($request->attributes->has('error')) {
+            return $this->redirectToRoute('admin_security_login');
+        }
+        
+        $form = $this->createForm(ResettingResetType::class, $dispatcher->getProfile());
+
+        $formHandler = $this->get('app.admin_resetting_reset_form_handler');
+
+        if($formHandler->handle($form, $request)){
+            return $this->redirectToRoute('admin_security_login');
+        }
+
+        return $this->render(
+            'admin/security/resetting/resettingReset.html.twig',
+            [
+                'form' => $form->createView(),
+                'token' => $token
+            ]
+        );
     }
 
     /**

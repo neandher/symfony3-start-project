@@ -2,35 +2,41 @@
 
 namespace AppBundle\Event\Security;
 
+use AppBundle\DomainManager\AbstractProfileManager;
 use AppBundle\Entity\AbstractProfile;
 use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\HttpFoundation\Request;
 
 class ProfileEvent extends Event
 {
 
-    const PARAM_RESETTING_EMAIL_ROUTE = 'security.resetting_email.route';
-    const PARAM_RESETTING_EMAIL_FROM = 'security.resetting_email.from';
-    const PARAM_RESETTING_EMAIL_TEMPLATE = 'security.resetting_email.template';
-    
     /**
      * @var AbstractProfile
      */
     private $profile;
 
     /**
-     * @var array
+     * @var AbstractProfileManager
      */
-    private $params;
+    private $manager;
+
+    /**
+     * @var Request
+     */
+    private $request;
 
     /**
      * ProfileEvent constructor.
      *
      * @param AbstractProfile $profile
+     * @param AbstractProfileManager $manager
+     * @param Request $request
      */
-    public function __construct(AbstractProfile $profile, $params = array())
+    public function __construct(AbstractProfile $profile = null, AbstractProfileManager $manager = null, Request $request = null)
     {
         $this->profile = $profile;
-        $this->params = $params;
+        $this->manager = $manager;
+        $this->request = $request;
     }
 
     /**
@@ -42,10 +48,26 @@ class ProfileEvent extends Event
     }
 
     /**
-     * @return array
+     * @param AbstractProfile $profile
      */
-    public function getParams()
+    public function setProfile($profile)
     {
-        return $this->params;
+        $this->profile = $profile;
+    }
+
+    /**
+     * @return Request
+     */
+    public function getRequest()
+    {
+        return $this->request;
+    }
+
+    /**
+     * @return AbstractProfileManager
+     */
+    public function getManager()
+    {
+        return $this->manager;
     }
 }
