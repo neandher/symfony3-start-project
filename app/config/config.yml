@@ -17,8 +17,11 @@ imports:
 parameters:
     locale: pt_BR
 
-    security.resetting.token_ttl: 86400
-    security.resetting_email.from: noreply@dev.com
+    ## Admin ##
+    admin_security.resetting.token_ttl: 86400
+    admin_security.resetting_email.from: "noreply@dev.com"
+    admin_security.resetting_email.template: "admin/security/resetting/email.txt.twig"
+    admin_security.resetting_email.route: "admin_security_resetting_reset"
 
 framework:
     #esi:             ~
@@ -32,8 +35,8 @@ framework:
     csrf_protection: ~
     validation:      { enable_annotations: true }
     #serializer:      { enable_annotations: true }
-    templating:
-        engines: ['twig']
+    #templating:
+    #    engines: ['twig']
     default_locale:  "%locale%"
     trusted_hosts:   ~
     trusted_proxies: ~

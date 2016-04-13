@@ -4,6 +4,3 @@ parameters:
 #    parameter_name: value
 
 services:
-
-    parameter_bag:
-        class: Symfony\Component\DependencyInjection\ParameterBag\ParameterBag

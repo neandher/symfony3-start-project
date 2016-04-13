@@ -13,6 +13,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 abstract class AbstractProfileManager extends AbstractManager implements ProfileManagerInterface
 {
+
     /**
      * @var EntityManager
      */
@@ -32,9 +33,7 @@ abstract class AbstractProfileManager extends AbstractManager implements Profile
      * @var EventDispatcherInterface
      */
     protected $eventDispatcher;
-    
-    abstract public function getResettingRequestParameters(); 
-    
+
     /**
      * @param User $user
      * @return void
@@ -59,12 +58,15 @@ abstract class AbstractProfileManager extends AbstractManager implements Profile
      */
     public function resettingRequest(AbstractProfile $profile)
     {
-        $this->persistAndFlush($profile->getUser());
 
-        $this->eventDispatcher->dispatch(
-            ProfileEvents::RESETTING_REQUEST_SUCCESS, 
-            new ProfileEvent($profile, $this->getResettingRequestParameters())
+        $dispatcher = $this->eventDispatcher->dispatch(
+            ProfileEvents::RESETTING_REQUEST_SUCCESS,
+            new ProfileEvent($profile)
         );
+
+        $profile = $dispatcher->getProfile();
+
+        //$this->persistAndFlush($profile->getUser());
     }
 
     /**

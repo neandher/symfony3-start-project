@@ -5,18 +5,16 @@ namespace AppBundle\EventListener\Security;
 use AppBundle\Event\FlashBag\FlashBagEvents;
 use AppBundle\Event\Security\ProfileEvent;
 use AppBundle\Event\Security\ProfileEvents;
-use Symfony\Bundle\TwigBundle\TwigEngine;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
+use AppBundle\Mailer\Security\Mailer;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Translation\Translator;
 
 class ResettingRequestSendEmailSubscriber implements EventSubscriberInterface
 {
 
     /**
-     * @var \Swift_Mailer
+     * @var Mailer
      */
     private $mailer;
 
@@ -26,40 +24,18 @@ class ResettingRequestSendEmailSubscriber implements EventSubscriberInterface
     private $translator;
 
     /**
-     * @var TwigEngine
-     */
-    private $twigEngine;
-
-    /**
-     * @var UrlGeneratorInterface
-     */
-    private $router;
-
-    /**
      * @var FlashBag
      */
     private $flashBag;
 
-    /**
-     * @var ParameterBag
-     */
-    private $parameter;
-
     public function __construct(
-        \Swift_Mailer $mailer,
+        Mailer $mailer,
         Translator $translator,
-        TwigEngine $twigEngine,
-        UrlGeneratorInterface $router,
-        FlashBag $flashBag,
-        ParameterBag $parameter
-    )
-    {
+        FlashBag $flashBag
+    ) {
         $this->mailer = $mailer;
         $this->translator = $translator;
-        $this->twigEngine = $twigEngine;
-        $this->router = $router;
         $this->flashBag = $flashBag;
-        $this->parameter = $parameter;
     }
 
     /**
@@ -75,45 +51,31 @@ class ResettingRequestSendEmailSubscriber implements EventSubscriberInterface
         );
     }
 
-    /**
-     * @param ProfileEvent $event
-     * @throws \Exception
-     * @throws \Twig_Error
-     */
+
     public function onResettingRequestSuccess(ProfileEvent $event)
     {
 
         $profile = $event->getProfile();
-        $user = $profile->getUser();
-        $params = $event->getParams();
 
-        $urlToReset = $this->router->generate(
-            $params[$event::PARAM_RESETTING_EMAIL_ROUTE],
-            ['token' => $user->getConfirmationToken()],
-            0
-        );
+        //$sentRecipients = $this->mailer->sendResettingEmailMessage($profile);
+        $this->mailer->sendResettingEmailMessage($profile);
+        
+        $sentRecipients = 1;
 
-        $message = \Swift_Message::newInstance()
-            ->setSubject($this->translator->trans('security.resetting.request.email.subject'))
-            //->setFrom($this->parameter->get($params[$event::PARAM_RESETTING_EMAIL_FROM]))
-            ->setFrom($params[$event::PARAM_RESETTING_EMAIL_FROM])
-            ->setTo($profile->getEmail())
-            ->setBody(
-                $this->twigEngine->render(
-                    $params[$event::PARAM_RESETTING_EMAIL_TEMPLATE],
-                    array('full_name' => $profile->getFullName(), 'url' => $urlToReset)
+        if ($sentRecipients > 0) {
+
+            $this->flashBag->add(
+                FlashBagEvents::MESSAGE_TYPE_SUCCESS,
+                $this->translator->trans(
+                    'security.resetting.request.check_email',
+                    array('profile_email' => $profile->getObfuscatedEmail())
                 )
             );
-
-        $this->mailer->send($message);
-
-        $this->flashBag->add(
-            FlashBagEvents::MESSAGE_TYPE_SUCCESS,
-            $this->translator->trans(
-                'security.resetting.request.check_email',
-                array('profile_email' => $profile->getObfuscatedEmail())
-            )
-        );
+        } else {
+            $user = $profile->getUser();
+            $user->setConfirmationToken(null)
+                ->setPasswordRequestedAt(null);
+        }
     }
 
 }

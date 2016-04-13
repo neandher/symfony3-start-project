@@ -11,3 +11,11 @@ services:
         arguments: [ "@app.admin_profile_manager" ]
         tags:
             - { name: kernel.event_subscriber }
+
+    app.admin_security.mailer:
+        class: AppBundle\Mailer\Security\Mailer
+        arguments:
+            - "@swiftmailer.mailer"
+            - "@router"
+            - "@twig"
+            - {resetting_email.template: '%admin_security.resetting_email.template%', resetting_email.from: '%admin_security.resetting_email.from%', resetting_email.route: '%admin_security.resetting_email.route%'}

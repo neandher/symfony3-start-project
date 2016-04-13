@@ -2,4 +2,8 @@ services:
 
     app.admin_profile_manager:
         class: AppBundle\DomainManager\Admin\AdminProfileManager
-        arguments: ['@doctrine.orm.entity_manager', '@app.admin_profile_repository', '@app.helper.canonicalizer', '@event_dispatcher']
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@app.admin_profile_repository'
+            - '@app.helper.canonicalizer'
+            - '@event_dispatcher'
