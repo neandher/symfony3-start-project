@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\EventListener\User;
+namespace AppBundle\EventListener\Security;
 
 use AppBundle\Entity\AbstractProfile;
 use AppBundle\Helper\CanonicalizerHelper;

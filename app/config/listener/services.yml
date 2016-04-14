@@ -3,13 +3,13 @@ parameters:
 services:
 
     app.user_encode_password_subscriber:
-        class: AppBundle\EventListener\User\EncodePasswordSubscriber
+        class: AppBundle\EventListener\Security\EncodePasswordSubscriber
         arguments: [ "@security.password_encoder" ]
         tags:
             - { name: doctrine.event_subscriber }
 
     app.canonicalizer_email_subscriber:
-        class: AppBundle\EventListener\User\CanonicalizerEmailSubscriber
+        class: AppBundle\EventListener\Security\CanonicalizerEmailSubscriber
         arguments: [ "@app.helper.canonicalizer" ]
         tags:
             - { name: doctrine.event_subscriber }

@@ -7,7 +7,7 @@ services:
         autowire: true
 
     app.admin_last_login_subscriber:
-        class: AppBundle\EventListener\User\LastLoginSubscriber
+        class: AppBundle\EventListener\Security\LastLoginSubscriber
         arguments: [ "@app.admin_profile_manager" ]
         tags:
             - { name: kernel.event_subscriber }

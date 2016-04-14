@@ -9,6 +9,7 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 
 class TimestampableSubscriber implements EventSubscriber
 {
+
     /**
      * @var Reader
      */
@@ -67,8 +68,6 @@ class TimestampableSubscriber implements EventSubscriber
                     $getMethod = 'get' . ucFirst($property);
 
                     if (method_exists($entity, $setMethod) && method_exists($entity, $getMethod)) {
-
-                        $date = $entity->{$getMethod}();
 
                         if (
                             ($annotation->on == 'create' && $on == 'create')

@@ -1,0 +1,42 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+
+    <div class="panel panel-default">
+
+        <div class="panel-heading">
+            <h2>Perfil</h2>
+        </div>
+
+        <div class="panel-body">
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>E-mail</th>
+                    <th>Ultimo Login</th>
+                    <th>Criado</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for profile in profiles %}
+                    <tr>
+                        <td>{{ profile.firstName }}</td>
+                        <td>{{ profile.email }}</td>
+                        <td>{{ profile.user.lastLoginAt|date('d/m/Y H:i') }}</td>
+                        <td>{{ profile.user.createdAt|date('d/m/Y H:i') }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4" align="center">Nenhum registro encontrado</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+
+{% endblock %}

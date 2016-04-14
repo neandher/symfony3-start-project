@@ -3,9 +3,9 @@
 namespace AppBundle\DomainManager\Admin;
 
 use AppBundle\DomainManager\AbstractProfileManager;
-use AppBundle\Event\Security\ProfileEvent;
+use AppBundle\Entity\Admin\AdminProfile;
 use AppBundle\Helper\CanonicalizerHelper;
-use AppBundle\Repository\Admin\AdminProfile;
+use AppBundle\Repository\Admin\AdminProfileRepository;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -18,7 +18,7 @@ class AdminProfileManager extends AbstractProfileManager
     protected $em;
 
     /**
-     * @var AdminProfile
+     * @var AdminProfileRepository
      */
     protected $repository;
 
@@ -36,13 +36,13 @@ class AdminProfileManager extends AbstractProfileManager
      * AdminProfileManager constructor.
      *
      * @param EntityManager $em
-     * @param AdminProfile $repository
+     * @param AdminProfileRepository $repository
      * @param CanonicalizerHelper $canonicalizerHelper
      * @param EventDispatcherInterface $eventDispatcher
      */
     public function __construct(
         EntityManager $em,
-        AdminProfile $repository,
+        AdminProfileRepository $repository,
         CanonicalizerHelper $canonicalizerHelper,
         EventDispatcherInterface $eventDispatcher)
     {
@@ -50,5 +50,13 @@ class AdminProfileManager extends AbstractProfileManager
         $this->repository = $repository;
         $this->canonicalizerHelper = $canonicalizerHelper;
         $this->eventDispatcher = $eventDispatcher;
+    }
+
+    /**
+     * @return AdminProfile[]
+     */
+    public function findLatest()
+    {
+        return $this->repository->findLatest();
     }
 }
