@@ -19,12 +19,22 @@
 
                 <ul class="nav navbar-nav">
                     <li><a href="{{ path('admin_index') }}">Home</a></li>
-                    <li><a href="#">Usu&aacute;rio</a></li>
+                    <li><a href="{{ path('admin_profile_index') }}">Usu&aacute;rio</a></li>
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
-                    {#<li><a href="{{ path('admin_security_change_password') }}">Alterar Senha</a></li>#}
-                    {#<li><a href="{{ path('admin_security_logout') }}">Sair</a></li>#}
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">
+                            {{ app.user.adminProfile.fullName }} <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('admin_security_change_password') }}">Alterar Senha</a></li>
+                            <li><a href="{{ path('admin_security_logout') }}">Sair</a></li>
+                        </ul>
+                    </li>
+
                 </ul>
 
             {% endif %}

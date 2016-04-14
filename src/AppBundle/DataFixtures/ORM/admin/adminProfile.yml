@@ -6,3 +6,10 @@ AppBundle\Entity\Admin\AdminProfile:
         email: neandher89@gmail.com
         emailCanonical: -
         user: '@user1'
+
+    profile{2..10}:
+        firstName: <firstName()>
+        lastName: <lastName()>
+        email: <email()>
+        emailCanonical: -
+        user: '@user<current()>'

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Admin\AdminProfile;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -558,5 +559,13 @@ class User extends AbstractTimestampable implements AdvancedUserInterface
     {
         return $this->getPasswordRequestedAt() instanceof \DateTime &&
         $this->getPasswordRequestedAt()->getTimestamp() + $ttl > time();
+    }
+
+    /**
+     * @return AdminProfile
+     */
+    public function getAdminProfile()
+    {
+        return $this->adminProfile;
     }
 }
