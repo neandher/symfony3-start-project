@@ -3,6 +3,7 @@
 namespace AppBundle\DomainManager\Admin;
 
 use AppBundle\DomainManager\AbstractProfileManager;
+use AppBundle\Entity\Admin\AdminProfile;
 use AppBundle\Helper\CanonicalizerHelper;
 use AppBundle\Repository\Admin\AdminProfileRepository;
 use Doctrine\ORM\EntityManager;
@@ -53,7 +54,7 @@ class AdminProfileManager extends AbstractProfileManager
 
     /**
      * @param array $routeParams
-     * @return array
+     * @return AdminProfile[]
      */
     public function findLatest(array $routeParams)
     {

@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     message="Esse e-mail ja esta em uso!"
  * )
  */
-abstract class AbstractProfile
+abstract class AbstractProfile extends AbstractEntity
 {
 
     /**

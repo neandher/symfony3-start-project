@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 use Symfony\Component\Translation\Translator;
 
-class ResettingResetFormHandler
+class ChangePasswordFormHandler
 {
 
     /**
@@ -27,13 +27,6 @@ class ResettingResetFormHandler
      */
     private $translator;
 
-    /**
-     * ResettingResetFormHandler constructor.
-     * 
-     * @param ProfileManagerInterface $profileManager
-     * @param FlashBag $flashBag
-     * @param Translator $translator
-     */
     public function __construct(ProfileManagerInterface $profileManager, FlashBag $flashBag, Translator $translator)
     {
         $this->profileManager = $profileManager;
@@ -51,11 +44,13 @@ class ResettingResetFormHandler
 
         $entity = $form->getData();
 
-        $this->profileManager->resettingReset($entity);
+        $entity->getUser()->setPassword(null);
+
+        $this->profileManager->changePassword($entity);
 
         $this->flashBag->add(
             FlashBagEvents::MESSAGE_TYPE_SUCCESS,
-            $this->translator->trans('security.resetting.reset.success')
+            $this->translator->trans('security.change_password.success')
         );
 
         return true;

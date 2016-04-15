@@ -7,3 +7,7 @@ services:
     app.admin_resetting_reset_form_handler:
         class: AppBundle\Form\Security\Handler\ResettingResetFormHandler
         autowire: true
+
+    app.admin_change_password_form_handler:
+        class: AppBundle\Form\Security\Handler\ChangePasswordFormHandler
+        arguments: [ "@app.admin_profile_manager", "@session.flash_bag", "@translator.default" ]

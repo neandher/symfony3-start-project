@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller\Web\Admin;
 
+use AppBundle\Entity\Admin\AdminProfile;
+use AppBundle\Helper\PaginationHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -21,9 +23,7 @@ class AdminProfileController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $routeParams = $request->query->all();
-
-        $routeParams['page'] = $request->query->get('page', 1);
+        $routeParams = PaginationHelper::getRouteParams($request, new AdminProfile());
 
         $profiles = $this->get('app.admin_profile_manager')->findLatest($routeParams);
 

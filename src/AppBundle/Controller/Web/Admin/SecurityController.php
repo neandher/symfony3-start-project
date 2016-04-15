@@ -5,6 +5,7 @@ namespace AppBundle\Controller\Web\Admin;
 use AppBundle\Controller\Web\SecurityControllerInterface;
 use AppBundle\Event\Security\ProfileEvent;
 use AppBundle\Event\Security\ProfileEvents;
+use AppBundle\Form\Security\Type\ChangePasswordType;
 use AppBundle\Form\Security\Type\LoginType;
 use AppBundle\Form\Security\Type\ResettingRequestType;
 use AppBundle\Form\Security\Type\ResettingResetType;
@@ -85,7 +86,7 @@ class SecurityController extends Controller implements SecurityControllerInterfa
     public function resettingResetAction(Request $request, $token)
     {
         $manager = $this->get('app.admin_profile_manager');
-        
+
         $dispatcher = $this->get('event_dispatcher')->dispatch(
             ProfileEvents::RESETTING_RESET_INITIALIZE,
             new ProfileEvent(null, $manager, $request)
@@ -94,12 +95,12 @@ class SecurityController extends Controller implements SecurityControllerInterfa
         if ($request->attributes->has('error')) {
             return $this->redirectToRoute('admin_security_login');
         }
-        
+
         $form = $this->createForm(ResettingResetType::class, $dispatcher->getProfile());
 
         $formHandler = $this->get('app.admin_resetting_reset_form_handler');
 
-        if($formHandler->handle($form, $request)){
+        if ($formHandler->handle($form, $request)) {
             return $this->redirectToRoute('admin_security_login');
         }
 
@@ -121,7 +122,20 @@ class SecurityController extends Controller implements SecurityControllerInterfa
      */
     public function changePassword(Request $request)
     {
-        // TODO: Implement changePassword() method.
+        $adminProfile = $this->getUser()->getAdminProfile();
+
+        $form = $this->createForm(ChangePasswordType::class, $adminProfile);
+
+        $formHandle = $this->get('app.admin_change_password_form_handler');
+
+        if ($formHandle->handle($form, $request)) {
+            return $this->redirectToRoute('admin_security_change_password');
+        }
+
+        return $this->render(
+            'admin/security/changePassword/changePassword.html.twig',
+            ['form' => $form->createView()]
+        );
     }
 
 }

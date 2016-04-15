@@ -19,3 +19,4 @@ services:
             - "@router"
             - "@twig"
             - {resetting_email.template: '%admin_security.resetting_email.template%', resetting_email.from: '%admin_security.resetting_email.from%', resetting_email.route: '%admin_security.resetting_email.route%'}
+

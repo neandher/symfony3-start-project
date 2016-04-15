@@ -7,7 +7,7 @@ use AppBundle\Entity\User;
 use AppBundle\Event\Security\ProfileEvent;
 use AppBundle\Event\Security\ProfileEvents;
 use AppBundle\Helper\CanonicalizerHelper;
-use AppBundle\Repository\Admin\AdminProfile;
+use AppBundle\Repository\ProfileRepositoryInterface;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -20,7 +20,7 @@ abstract class AbstractProfileManager extends AbstractManager implements Profile
     protected $em;
 
     /**
-     * @var AdminProfile
+     * @var ProfileRepositoryInterface
      */
     protected $repository;
 
@@ -92,6 +92,6 @@ abstract class AbstractProfileManager extends AbstractManager implements Profile
      */
     public function changePassword(AbstractProfile $profile)
     {
-        // TODO: Implement changePassword() method.
+        $this->persistAndFlush($profile);
     }
 }
