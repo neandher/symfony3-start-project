@@ -1,0 +1,51 @@
+{% extends 'admin/base.html.twig' %}
+{% trans_default_domain 'admin' %}
+
+{% block body %}
+
+    <div class="panel panel-default">
+
+        <div class="panel-heading">
+
+            <h2 class="pull-left"><i class="glyphicon glyphicon-list-alt"></i> Perfil: [novo]</h2>
+
+            <div class="pull-right" style="padding-top: 20px;">
+
+                <a href="{{ path('admin_profile_index') }}" class="btn btn-danger">
+                    <span class="glyphicon glyphicon-plus"></span> Cancelar
+                </a>
+
+            </div>
+
+            <div class="clearfix"></div>
+
+        </div>
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-6">
+
+                    {{ form_start(form, {'attr' : {'class' : ''}}) }}
+
+                    {{ form_errors(form) }}
+
+                    {{ form_row(form.firstName) }}
+                    {{ form_row(form.lastName) }}
+                    {{ form_row(form.email) }}
+
+                    {#{% set teste = constant('SAVE_AND_NEW',submit_actions) %}#}
+
+                    {{ form_widget(form.buttons.save_and_close) }}
+                    {{ form_widget(form.buttons.save_and_new) }}
+
+                    {{ form_widget(form._token) }}
+
+                    {{ form_end(form, {'render_rest': false}) }}
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

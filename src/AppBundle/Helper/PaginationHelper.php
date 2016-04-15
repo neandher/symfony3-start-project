@@ -7,6 +7,11 @@ use Symfony\Component\HttpFoundation\Request;
 
 class PaginationHelper
 {
+    /**
+     * @param Request $request
+     * @param AbstractEntity $entity
+     * @return array
+     */
     public static function getRouteParams(Request $request, AbstractEntity $entity)
     {
         $routeParams = $request->query->all();

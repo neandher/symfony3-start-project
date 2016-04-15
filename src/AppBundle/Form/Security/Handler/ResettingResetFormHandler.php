@@ -41,6 +41,11 @@ class ResettingResetFormHandler
         $this->translator = $translator;
     }
 
+    /**
+     * @param FormInterface $form
+     * @param Request $request
+     * @return bool
+     */
     public function handle(FormInterface $form, Request $request)
     {
         $form->handleRequest($request);

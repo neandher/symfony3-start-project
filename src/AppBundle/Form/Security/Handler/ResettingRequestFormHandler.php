@@ -26,9 +26,19 @@ class ResettingRequestFormHandler
      * @var Translator
      */
     private $translator;
-
+    /**
+     * @var string
+     */
     private $tokenTll;
 
+    /**
+     * ResettingRequestFormHandler constructor.
+     * 
+     * @param ProfileManagerInterface $profileManager
+     * @param TokenGeneratorHelper $tokenGeneratorHelper
+     * @param Translator $translator
+     * @param $tokenTll
+     */
     public function __construct(
         ProfileManagerInterface $profileManager,
         TokenGeneratorHelper $tokenGeneratorHelper,
@@ -41,6 +51,11 @@ class ResettingRequestFormHandler
         $this->translator = $translator;
     }
 
+    /**
+     * @param FormInterface $form
+     * @param Request $request
+     * @return bool
+     */
     public function handle(FormInterface $form, Request $request)
     {
         $form->handleRequest($request);

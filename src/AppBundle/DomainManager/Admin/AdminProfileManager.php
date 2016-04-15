@@ -60,4 +60,9 @@ class AdminProfileManager extends AbstractProfileManager
     {
         return $this->repository->findLatest($routeParams);
     }
+
+    public function create(AdminProfile $adminProfile)
+    {
+        $this->persistAndFlush($adminProfile);
+    }
 }

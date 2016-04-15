@@ -61,3 +61,17 @@ flashbag:
         inserted: Houve um erro ao inserir o registro
         updated: Houve um erro ao alterar o registro
         deleted: Houve um erro ao deletar o registro
+
+form:
+    submit_actions:
+        save_and_new: Salvar e criar novo
+        save_and_keep: Salvar
+        save_and_close: Salvar e fechar
+
+######################## ADMIN ##############################
+admin:
+    profile_admin:
+        fields:
+            first_name: Primeiro Nome
+            last_name: Sobrenome
+            email: E-mail

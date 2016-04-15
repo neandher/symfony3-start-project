@@ -27,6 +27,13 @@ class ChangePasswordFormHandler
      */
     private $translator;
 
+    /**
+     * ChangePasswordFormHandler constructor.
+     * 
+     * @param ProfileManagerInterface $profileManager
+     * @param FlashBag $flashBag
+     * @param Translator $translator
+     */
     public function __construct(ProfileManagerInterface $profileManager, FlashBag $flashBag, Translator $translator)
     {
         $this->profileManager = $profileManager;
@@ -34,6 +41,11 @@ class ChangePasswordFormHandler
         $this->translator = $translator;
     }
 
+    /**
+     * @param FormInterface $form
+     * @param Request $request
+     * @return bool
+     */
     public function handle(FormInterface $form, Request $request)
     {
         $form->handleRequest($request);
