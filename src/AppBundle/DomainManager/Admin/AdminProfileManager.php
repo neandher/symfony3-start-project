@@ -53,7 +53,7 @@ class AdminProfileManager extends AbstractProfileManager
 
     /**
      * @param array $routeParams
-     * @return \AppBundle\Entity\Admin\AdminProfile[]
+     * @return array
      */
     public function findLatest(array $routeParams)
     {

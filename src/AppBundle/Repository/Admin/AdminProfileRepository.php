@@ -6,6 +6,7 @@ use AppBundle\Repository\ProfileRepositoryInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Pagerfanta\Adapter\ArrayAdapter;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
 
@@ -44,16 +45,18 @@ class AdminProfileRepository extends EntityRepository implements ProfileReposito
 
     /**
      * @param array $routeParams
-     * @return Query
+     * @return array
      */
-    public function queryLatest(array $routeParams)
+    public function arrayLatest(array $routeParams)
     {
         $qb = $this->createQueryBuilder('adminProfile')
-            //->select('adminProfile.firstName')
-            //->addSelect('adminProfile.lastName')
-            //->addSelect('adminProfile.email')
+            ->select('adminProfile.id')
+            ->addSelect('adminProfile.firstName')
+            ->addSelect('adminProfile.lastName')
+            ->addSelect('adminProfile.email')
             ->innerJoin('adminProfile.user', 'user')
-            ->addSelect('user');
+            ->addSelect('user.lastLoginAt')
+            ->addSelect('user.createdAt');
 
         if (isset($routeParams['search'])) {
 
@@ -66,13 +69,7 @@ class AdminProfileRepository extends EntityRepository implements ProfileReposito
             )->setParameter('search', '%' . $routeParams['search'] . '%');
         }
 
-        //$qb->addSelect('user.lastLoginAt')->addSelect('user.createdAt');
-
-        return $qb->getQuery();
-
-        /*return $this->getEntityManager()
-            ->createQuery('SELECT p, u FROM AppBundle:Admin\AdminProfile p JOIN p.user u ');
-        //->createQuery('SELECT p.firstName, p.lastName, p.email, u.lastLoginAt, u.createdAt FROM AppBundle:Admin\AdminProfile p JOIN p.user u ');*/
+        return $qb->getQuery()->getArrayResult();
     }
 
     /**
@@ -82,7 +79,7 @@ class AdminProfileRepository extends EntityRepository implements ProfileReposito
      */
     public function findLatest(array $routeParams)
     {
-        $paginator = new Pagerfanta(new DoctrineORMAdapter($this->queryLatest($routeParams), false));
+        $paginator = new Pagerfanta(new ArrayAdapter($this->arrayLatest($routeParams), false));
         $paginator->setMaxPerPage(5);
         $paginator->setCurrentPage($routeParams['page']);
 
