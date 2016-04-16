@@ -6,7 +6,8 @@
 
         <div class="panel-heading">
 
-            <h2 class="pull-left"><i class="glyphicon glyphicon-list-alt"></i> {{ 'admin.profile_admin.title.list'|trans }}</h2>
+            <h2 class="pull-left"><i
+                        class="glyphicon glyphicon-list-alt"></i> {{ 'admin.profile_admin.title.list'|trans }}</h2>
 
             <div class="pull-right" style="padding-top: 20px;">
 
@@ -22,11 +23,13 @@
 
         <div class="panel-body">
 
-            <form class="navbar-form navbar-left" role="search" style="padding-left: 0" method="get" action="{{ path('admin_profile_index') }}">
+            <form class="navbar-form navbar-left" role="search" style="padding-left: 0" method="get"
+                  action="{{ path('admin_profile_index') }}">
 
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="{{ 'form.placeholder.search'|trans }}" name="search"
-                        value="{% if app.request.query.has('search') %}{{ app.request.query.get('search') }}{% endif %}">
+                    <input type="text" class="form-control" placeholder="{{ 'form.placeholder.search'|trans }}"
+                           name="search"
+                           value="{% if app.request.query.has('search') %}{{ app.request.query.get('search') }}{% endif %}">
                 </div>
 
                 <button type="submit" class="btn btn-default">{{ 'form.submit_actions.search'|trans }}</button>
@@ -66,7 +69,6 @@
                                     <a href="#" class="btn btn-sm btn-primary">
                                         <i class="glyphicon glyphicon-edit"></i> {{ 'action.edit'|trans }}
                                     </a>
-
                                 </div>
                             </td>
                         </tr>

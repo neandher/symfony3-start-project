@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class AdminProfile extends AbstractProfile
 {
-    public static $NUM_ITEMS = 5;
+    //public static $NUM_ITEMS = 5;
 
     /**
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\User", mappedBy="adminProfile", cascade={"persist"})
