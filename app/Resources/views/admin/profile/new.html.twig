@@ -6,12 +6,12 @@
 
         <div class="panel-heading">
 
-            <h2 class="pull-left"><i class="glyphicon glyphicon-list-alt"></i> Perfil: [novo]</h2>
+            <h2 class="pull-left"><i class="glyphicon glyphicon-list-alt"></i> {{ 'admin.profile_admin.title.new'|trans }}</h2>
 
             <div class="pull-right" style="padding-top: 20px;">
 
                 <a href="{{ path('admin_profile_index') }}" class="btn btn-danger">
-                    <span class="glyphicon glyphicon-plus"></span> Cancelar
+                    <span class="glyphicon glyphicon glyphicon-remove-sign"></span> {{ 'form.link.cancel'|trans }}
                 </a>
 
             </div>
@@ -26,15 +26,17 @@
 
             {{ form_errors(form) }}
 
+            {{ include('admin/partials/alerts.html.twig') }}
+
             <div class="row">
-                <div class="col-md-6 pull-left">
+                <div class="col-md-6 left">
 
                     {{ form_row(form.firstName, {'attr': {'autofocus': true}}) }}
                     {{ form_row(form.lastName) }}
                     {{ form_row(form.email) }}
 
                 </div>
-                <div class="col-md-6 pull-right">
+                <div class="col-md-6 right">
 
                     {{ form_row(form.user.plainPassword.first) }}
                     {{ form_row(form.user.plainPassword.second) }}

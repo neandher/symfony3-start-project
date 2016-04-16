@@ -4,10 +4,9 @@ namespace AppBundle\Form\Security\Handler;
 
 use AppBundle\DomainManager\ProfileManagerInterface;
 use AppBundle\Event\FlashBag\FlashBagEvents;
+use AppBundle\Helper\FlashBagHelper;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
-use Symfony\Component\Translation\Translator;
 
 class ChangePasswordFormHandler
 {
@@ -18,27 +17,20 @@ class ChangePasswordFormHandler
     private $profileManager;
 
     /**
-     * @var FlashBag
+     * @var FlashBagHelper
      */
-    private $flashBag;
-
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private $flashBagHelper;
 
     /**
      * ChangePasswordFormHandler constructor.
-     * 
+     *
      * @param ProfileManagerInterface $profileManager
-     * @param FlashBag $flashBag
-     * @param Translator $translator
+     * @param FlashBagHelper $flashBagHelper
      */
-    public function __construct(ProfileManagerInterface $profileManager, FlashBag $flashBag, Translator $translator)
+    public function __construct(ProfileManagerInterface $profileManager, FlashBagHelper $flashBagHelper)
     {
         $this->profileManager = $profileManager;
-        $this->flashBag = $flashBag;
-        $this->translator = $translator;
+        $this->flashBagHelper = $flashBagHelper;
     }
 
     /**
@@ -60,9 +52,9 @@ class ChangePasswordFormHandler
 
         $this->profileManager->changePassword($entity);
 
-        $this->flashBag->add(
+        $this->flashBagHelper->newMessage(
             FlashBagEvents::MESSAGE_TYPE_SUCCESS,
-            $this->translator->trans('security.change_password.success')
+            'security.change_password.success'
         );
 
         return true;

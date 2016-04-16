@@ -52,6 +52,8 @@ security:
         btns:
             submit: Alterar Senha
 
+######################## DEFAULT ############################
+
 flashbag:
     success:
         inserted: Registro inserido com sucesso
@@ -67,12 +69,34 @@ form:
         save_and_new: Salvar e criar novo
         save_and_keep: Salvar
         save_and_close: Salvar e fechar
+        search: Buscar
+    link:
+        cancel: Cancelar
+    placeholder:
+        search: Digite sua busca
+
+table:
+    actions: Ações
+
+action:
+    show: Exibir
+    edit: Editar
+
 
 ######################## ADMIN ##############################
 admin:
     profile_admin:
+        title:
+            list: Lista de Perfis
+            new: Novo Perfil
         fields:
+            full_name: Nome Completo
             first_name: Primeiro Nome
             last_name: Sobrenome
             email: E-mail
             password: Senha
+            last_login: Último Login
+            created_at: Data Criação
+        action:
+            new_profile: Novo Perfil
+        not_found: Nenhum perfil encontrado

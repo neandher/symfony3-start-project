@@ -5,23 +5,17 @@ namespace AppBundle\EventListener\Security;
 use AppBundle\Event\FlashBag\FlashBagEvents;
 use AppBundle\Event\Security\ProfileEvent;
 use AppBundle\Event\Security\ProfileEvents;
+use AppBundle\Helper\FlashBagHelper;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Translation\Translator;
 
 class ResettingResetSubscriber implements EventSubscriberInterface
 {
 
     /**
-     * @var FlashBag
+     * @var FlashBagHelper
      */
-    private $flashBag;
-
-    /**
-     * @var Translator
-     */
-    private $translator;
+    private $flashBagHelper;
 
     /**
      * @var UrlGeneratorInterface
@@ -35,20 +29,17 @@ class ResettingResetSubscriber implements EventSubscriberInterface
 
     /**
      * ResettingResetSubscriber constructor.
-     * 
-     * @param FlashBag $flashBag
-     * @param Translator $translator
+     *
+     * @param FlashBagHelper $flashBagHelper
      * @param UrlGeneratorInterface $router
      * @param $tokenTll
      */
     public function __construct(
-        FlashBag $flashBag,
-        Translator $translator,
+        FlashBagHelper $flashBagHelper,
         UrlGeneratorInterface $router,
         $tokenTll
     ) {
-        $this->flashBag = $flashBag;
-        $this->translator = $translator;
+        $this->flashBagHelper = $flashBagHelper;
         $this->router = $router;
         $this->tokenTll = $tokenTll;
     }
@@ -77,18 +68,18 @@ class ResettingResetSubscriber implements EventSubscriberInterface
 
         if (!$profile) {
 
-            $this->flashBag->add(
+            $this->flashBagHelper->newMessage(
                 FlashBagEvents::MESSAGE_TYPE_ERROR,
-                $this->translator->trans('security.resetting.reset.errors.invalid_token')
+                'security.resetting.reset.errors.invalid_token'
             );
 
             $request->attributes->add(['error' => 'true']);
 
         } elseif (!$profile->getUser()->isPasswordRequestNonExpired($this->tokenTll)) {
 
-            $this->flashBag->add(
+            $this->flashBagHelper->newMessage(
                 FlashBagEvents::MESSAGE_TYPE_ERROR,
-                $this->translator->trans('security.resetting.reset.errors.expired_token')
+                'security.resetting.reset.errors.expired_token'
             );
 
             $request->attributes->add(['error' => 'true']);

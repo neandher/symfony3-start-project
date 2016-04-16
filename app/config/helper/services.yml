@@ -8,3 +8,7 @@ services:
     app.helper.token_generator:
         class: AppBundle\Helper\TokenGeneratorHelper
         autowire: true
+
+    app.helper.flash_bag:
+        class: AppBundle\Helper\FlashBagHelper
+        autowire: true

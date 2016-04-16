@@ -4,9 +4,9 @@ namespace AppBundle\DomainManager\Admin;
 
 use AppBundle\DomainManager\AbstractProfileManager;
 use AppBundle\Entity\Admin\AdminProfile;
-use AppBundle\Event\Security\ProfileEvent;
-use AppBundle\Event\Security\ProfileEvents;
+use AppBundle\Event\FlashBag\FlashBagEvents;
 use AppBundle\Helper\CanonicalizerHelper;
+use AppBundle\Helper\FlashBagHelper;
 use AppBundle\Repository\Admin\AdminProfileRepository;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -30,6 +30,11 @@ class AdminProfileManager extends AbstractProfileManager
     protected $canonicalizerHelper;
 
     /**
+     * @var FlashBagHelper
+     */
+    protected $flashBagHelper;
+    
+    /**
      * @var EventDispatcherInterface
      */
     protected $eventDispatcher;
@@ -40,17 +45,21 @@ class AdminProfileManager extends AbstractProfileManager
      * @param EntityManager $em
      * @param AdminProfileRepository $repository
      * @param CanonicalizerHelper $canonicalizerHelper
+     * @param FlashBagHelper $flashBagHelper
      * @param EventDispatcherInterface $eventDispatcher
      */
     public function __construct(
         EntityManager $em,
         AdminProfileRepository $repository,
         CanonicalizerHelper $canonicalizerHelper,
-        EventDispatcherInterface $eventDispatcher)
+        FlashBagHelper $flashBagHelper,
+        EventDispatcherInterface $eventDispatcher
+        )
     {
         $this->em = $em;
         $this->repository = $repository;
         $this->canonicalizerHelper = $canonicalizerHelper;
+        $this->flashBagHelper = $flashBagHelper;
         $this->eventDispatcher = $eventDispatcher;
     }
 
@@ -66,5 +75,7 @@ class AdminProfileManager extends AbstractProfileManager
     public function create(AdminProfile $adminProfile)
     {
         $this->persistAndFlush($adminProfile);
+        
+        $this->flashBagHelper->newMessage(FlashBagEvents::MESSAGE_TYPE_SUCCESS, FlashBagEvents::MESSAGE_SUCCESS_INSERTED);
     }
 }

@@ -6,4 +6,5 @@ services:
             - '@doctrine.orm.entity_manager'
             - '@app.admin_profile_repository'
             - '@app.helper.canonicalizer'
+            - '@app.helper.flash_bag'
             - '@event_dispatcher'

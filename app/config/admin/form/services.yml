@@ -10,7 +10,7 @@ services:
 
     app.admin_change_password_form_handler:
         class: AppBundle\Form\Security\Handler\ChangePasswordFormHandler
-        arguments: [ "@app.admin_profile_manager", "@session.flash_bag", "@translator.default" ]
+        arguments: [ "@app.admin_profile_manager", "@app.helper.flash_bag" ]
 
     app.admin_profile_form_handler:
         class: AppBundle\Form\Admin\Handler\AdminProfileFormHandler

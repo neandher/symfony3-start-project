@@ -22,18 +22,14 @@ services:
 
     app.resetting_request_send_email_subscriber:
         class: AppBundle\EventListener\Security\ResettingRequestSendEmailSubscriber
-        arguments:
-            - "@app.admin_security.mailer"
-            - "@translator.default"
-            - "@session.flash_bag"
+        autowire: true
         tags:
             - { name: kernel.event_subscriber }
 
     app.resetting_reset_subscriber:
         class: AppBundle\EventListener\Security\ResettingResetSubscriber
         arguments:
-            - "@session.flash_bag"
-            - "@translator.default"
+            - "@app.helper.flash_bag"
             - "@router"
             - "%admin_security.resetting.token_ttl%"
         tags:
