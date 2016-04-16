@@ -1,5 +1,4 @@
 {% extends 'admin/base.html.twig' %}
-{% trans_default_domain 'admin' %}
 
 {% block body %}
 
@@ -22,28 +21,38 @@
         </div>
 
         <div class="panel-body">
+
+            {{ form_start(form, {'attr' : {'class' : '', 'novalidate': 'novalidate'}}) }}
+
+            {{ form_errors(form) }}
+
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-md-6 pull-left">
 
-                    {{ form_start(form, {'attr' : {'class' : ''}}) }}
-
-                    {{ form_errors(form) }}
-
-                    {{ form_row(form.firstName) }}
+                    {{ form_row(form.firstName, {'attr': {'autofocus': true}}) }}
                     {{ form_row(form.lastName) }}
                     {{ form_row(form.email) }}
 
-                    {#{% set teste = constant('SAVE_AND_NEW',submit_actions) %}#}
+                </div>
+                <div class="col-md-6 pull-right">
 
-                    {{ form_widget(form.buttons.save_and_close) }}
-                    {{ form_widget(form.buttons.save_and_new) }}
-
-                    {{ form_widget(form._token) }}
-
-                    {{ form_end(form, {'render_rest': false}) }}
+                    {{ form_row(form.user.plainPassword.first) }}
+                    {{ form_row(form.user.plainPassword.second) }}
 
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-md-12">
+
+                    {{ form_widget(form.buttons.save_and_close, {'attr' : {'class' : 'btn-primary'}}) }}
+                    {{ form_widget(form.buttons.save_and_new, {'attr' : {'class' : 'btn-primary'}}) }}
+
+                </div>
+            </div>
+
+            {{ form_end(form) }}
+
         </div>
 
     </div>

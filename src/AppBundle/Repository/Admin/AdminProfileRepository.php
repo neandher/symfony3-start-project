@@ -91,6 +91,8 @@ class AdminProfileRepository extends EntityRepository implements ProfileReposito
 
             )->setParameter('search', '%' . $routeParams['search'] . '%');
         }
+        
+        $qb->orderBy('adminProfile.id', 'desc');
 
         return $qb->getQuery();
     }

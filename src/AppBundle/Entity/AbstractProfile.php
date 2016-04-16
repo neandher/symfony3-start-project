@@ -31,6 +31,8 @@ abstract class AbstractProfile extends AbstractEntity
      * @var string
      *
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Length(min="2", max="255")
      */
     protected $firstName;
 
@@ -38,6 +40,8 @@ abstract class AbstractProfile extends AbstractEntity
      * @var string
      *
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Length(min="2", max="255")
      */
     protected $lastName;
 
@@ -57,11 +61,9 @@ abstract class AbstractProfile extends AbstractEntity
      * @ORM\Column(type="string")
      */
     protected $emailCanonical;
-
+    
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User", inversedBy="adminProfile")
-     * @ORM\JoinColumn(nullable=false)
-     * @Assert\Valid()
+     * @var
      */
     protected $user;
 

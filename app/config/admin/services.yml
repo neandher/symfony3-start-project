@@ -9,5 +9,8 @@ imports:
     # Manager #
     - { resource: manager/services.yml }
 
-    # Manager #
+    # Form #
     - { resource: form/services.yml }
+
+    # Listener #
+    - { resource: listener/services.yml }

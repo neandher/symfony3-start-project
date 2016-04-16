@@ -75,3 +75,4 @@ admin:
             first_name: Primeiro Nome
             last_name: Sobrenome
             email: E-mail
+            password: Senha

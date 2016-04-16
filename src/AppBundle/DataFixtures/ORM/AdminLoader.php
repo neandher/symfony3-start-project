@@ -14,8 +14,8 @@ class AdminLoader implements FixtureInterface
 
         $objects = Fixtures::load(
             [
-                __DIR__ . '/user/user.yml',
                 __DIR__ . '/admin/adminProfile.yml',
+                __DIR__ . '/user/user.yml',
             ],
             $manager,
             [

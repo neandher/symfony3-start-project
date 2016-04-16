@@ -1,15 +1,13 @@
 AppBundle\Entity\Admin\AdminProfile:
 
-    profile1:
+    adminProfile1:
         firstName: Neandher
         lastName: Carlos
         email: neandher89@gmail.com
         emailCanonical: -
-        user: '@user1'
 
-    profile{2..10}:
+    adminProfile{2..10}:
         firstName: <firstName()>
         lastName: <lastName()>
         email: <email()>
         emailCanonical: -
-        user: '@user<current()>'

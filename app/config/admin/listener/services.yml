@@ -1,0 +1,7 @@
+services:
+
+    app.resetting_reset_subscriber:
+        class: AppBundle\EventListener\Security\CreateProfileSubscriber
+        autowire: true
+        tags:
+            - { name: kernel.event_subscriber }

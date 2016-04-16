@@ -3,7 +3,7 @@
 namespace AppBundle\Controller\Web\Admin;
 
 use AppBundle\Entity\Admin\AdminProfile;
-use AppBundle\Form\Admin\Form\AdminProfileType;
+use AppBundle\Form\Admin\Type\AdminProfileType;
 use AppBundle\Form\SubmitActions;
 use AppBundle\Form\SubmitActionsType;
 use AppBundle\Helper\PaginationHelper;
@@ -49,13 +49,24 @@ class AdminProfileController extends Controller
     {
         $adminProfile = new AdminProfile();
 
-        $form = $this->createForm(AdminProfileType::class, $adminProfile);
+        $form = $this->createForm(AdminProfileType::class, $adminProfile)
+            ->add(
+                'buttons',
+                SubmitActionsType::class,
+                [
+                    'mapped'  => false,
+                    'actions' => [
+                        SubmitActions::SAVE_AND_CLOSE,
+                        SubmitActions::SAVE_AND_NEW,
+                    ]
+                ]
+            );
 
         $formHandler = $this->get('app.admin_profile_form_handler');
 
         if ($formHandler->create($form, $request)) {
 
-            if ($form->get(SubmitActions::SAVE_AND_NEW)) {
+            if ($form->get('buttons')->get(SubmitActions::SAVE_AND_NEW)->isClicked()) {
                 return $this->redirectToRoute('admin_profile_new');
             }
 
@@ -66,8 +77,7 @@ class AdminProfileController extends Controller
             'admin/profile/new.html.twig',
             [
                 'admin_profile' => $adminProfile,
-                'form' => $form->createView(),
-                //'submit_actions' => new SubmitActions()
+                'form'          => $form->createView(),
             ]
         );
     }

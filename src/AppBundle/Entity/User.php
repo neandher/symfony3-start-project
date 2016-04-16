@@ -122,7 +122,8 @@ class User extends AbstractTimestampable implements AdvancedUserInterface
     protected $credentialsExpireAt;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Admin\AdminProfile", mappedBy="user")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Admin\AdminProfile", inversedBy="user")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     protected $adminProfile;
 
@@ -463,7 +464,7 @@ class User extends AbstractTimestampable implements AdvancedUserInterface
 
         return $this;
     }
-
+    
     /**
      * Checks whether the user's account has expired.
      *
@@ -568,4 +569,14 @@ class User extends AbstractTimestampable implements AdvancedUserInterface
     {
         return $this->adminProfile;
     }
+
+    /**
+     * @param AdminProfile $adminProfile
+     */
+    public function setAdminProfile(AdminProfile $adminProfile)
+    {
+        $this->adminProfile = $adminProfile;
+    }
+    
+    
 }

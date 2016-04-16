@@ -5,9 +5,11 @@ AppBundle\Entity\User:
         plainPassword: admin@123
         password: -
         roles: [ROLE_ADMIN_USER]
+        adminProfile: '@adminProfile1'
 
     user{2..10}:
         isEnabled: 1
         plainPassword: <password(5,10)>
         password: -
         roles: [ROLE_ADMIN_USER]
+        adminProfile: '@adminProfile<current()>'

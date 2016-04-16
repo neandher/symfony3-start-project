@@ -4,6 +4,8 @@ namespace AppBundle\DomainManager\Admin;
 
 use AppBundle\DomainManager\AbstractProfileManager;
 use AppBundle\Entity\Admin\AdminProfile;
+use AppBundle\Event\Security\ProfileEvent;
+use AppBundle\Event\Security\ProfileEvents;
 use AppBundle\Helper\CanonicalizerHelper;
 use AppBundle\Repository\Admin\AdminProfileRepository;
 use Doctrine\ORM\EntityManager;
@@ -64,5 +66,7 @@ class AdminProfileManager extends AbstractProfileManager
     public function create(AdminProfile $adminProfile)
     {
         $this->persistAndFlush($adminProfile);
+        
+        $this->eventDispatcher->dispatch(ProfileEvents::CREATE_SUCCESS, new ProfileEvent($adminProfile));
     }
 }
