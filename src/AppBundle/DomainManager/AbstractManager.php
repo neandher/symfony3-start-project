@@ -12,11 +12,6 @@ abstract class AbstractManager
      * @var EntityManager
      */
     protected $em;
-
-    /**
-     * @var EventDispatcherInterface
-     */
-    protected $eventDispatcher;
     
     /**
      * @param $entity
@@ -29,10 +24,5 @@ abstract class AbstractManager
         if ($flush) {
             $this->em->flush();
         }
-    }
-    
-    public function setUserAbstractProfile(User $user)
-    {
-        $this->persistAndFlush($user);
     }
 }

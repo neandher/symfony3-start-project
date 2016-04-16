@@ -33,7 +33,8 @@ class AdminProfileFormHandler
 
         $entity->getUser()
             ->addRole('ROLE_ADMIN_USER')
-            ->setIsEnabled(true);
+            ->setIsEnabled(true)
+            ->setAdminProfile($entity);
 
         $this->manager->create($entity);
 

@@ -66,7 +66,5 @@ class AdminProfileManager extends AbstractProfileManager
     public function create(AdminProfile $adminProfile)
     {
         $this->persistAndFlush($adminProfile);
-        
-        $this->eventDispatcher->dispatch(ProfileEvents::CREATE_SUCCESS, new ProfileEvent($adminProfile));
     }
 }
