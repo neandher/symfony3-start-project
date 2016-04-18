@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\MappedSuperclass()
  * @UniqueEntity(
  *     "email",
- *     message="Esse e-mail ja esta em uso!"
+ *     message="security.email.already_exists"
  * )
  */
 abstract class AbstractProfile extends AbstractEntity

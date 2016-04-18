@@ -2,3 +2,5 @@
 security:
     password:
         mismatch: As senhas não correspondem
+    email:
+        already_exists: O email digitado já está em uso.
