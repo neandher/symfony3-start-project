@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     message="security.email.already_exists"
  * )
  */
-abstract class AbstractProfile extends AbstractEntity
+abstract class AbstractProfile
 {
 
     /**

@@ -1,6 +1,8 @@
 ### SECURITY ###
 security:
     login:
+        title:
+            Login
         errors:
             email_not_found: E-mail não encontrado.
             password_invalid: Senha Inválida.
@@ -13,6 +15,7 @@ security:
             forgot_password: Esqueceu a senha?
     resetting:
         request:
+            title: Resetar Senha
             fields:
                 email: E-mail
             errors:
@@ -33,6 +36,7 @@ security:
                     Atenciosamente,
                     a Equipe.
         reset:
+            title: Resetar Senha
             fields:
                 new_password: Nova Senha
                 confirm_password: Confirme a Senha
@@ -44,6 +48,7 @@ security:
                 mismatch: As senhas não correspondem
             success: A senha foi redefinida com sucesso.
     change_password:
+        title: Alterar Senha
         fields:
             current_password: Senha atual
             new_password: Nova senha

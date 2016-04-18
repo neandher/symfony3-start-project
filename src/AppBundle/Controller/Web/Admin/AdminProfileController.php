@@ -26,14 +26,15 @@ class AdminProfileController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $routeParams = PaginationHelper::getRouteParams($request, new AdminProfile());
-
-        $profiles = $this->get('app.admin_profile_manager')->findLatest($routeParams);
+        $paginationHelper = new PaginationHelper(AdminProfile::class, $request, $this->get('doctrine.orm.entity_manager'));
+        
+        $profiles = $this->get('app.admin_profile_manager')->findLatest($paginationHelper->getRouteParams());
 
         return $this->render(
             'admin/profile/index.html.twig',
             [
-                'profiles' => $profiles
+                'profiles' => $profiles,
+                'pagination_helper' => $paginationHelper,
             ]
         );
     }

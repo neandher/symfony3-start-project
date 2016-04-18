@@ -46,9 +46,19 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th>{{ 'admin.profile_admin.fields.full_name'|trans }}</th>
-                        <th>{{ 'admin.profile_admin.fields.email'|trans }}</th>
-                        <th>{{ 'admin.profile_admin.fields.last_login'|trans }}</th>
+                        <th>
+                            {{ 'admin.profile_admin.fields.full_name'|trans }}
+                        </th>
+                        <th>
+                            <a href="{{ path('admin_profile_index') ~ pagination_helper.buildQuery ~ pagination_helper.sortingFieldQuery('email') }}">
+                                {{ 'admin.profile_admin.fields.email'|trans }}
+                            </a>
+                        </th>
+                        <th>
+                            <a href="{{ path('admin_profile_index') ~ pagination_helper.buildQuery ~ pagination_helper.sortingFieldQuery('user.lastLoginAt') }}">
+                                {{ 'admin.profile_admin.fields.last_login'|trans }}
+                            </a>
+                        </th>
                         <th>{{ 'admin.profile_admin.fields.created_at'|trans }}</th>
                         <th>{{ 'table.actions'|trans }}</th>
                     </tr>

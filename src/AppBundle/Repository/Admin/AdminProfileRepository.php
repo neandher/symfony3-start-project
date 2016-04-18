@@ -91,8 +91,46 @@ class AdminProfileRepository extends EntityRepository implements ProfileReposito
 
             )->setParameter('search', '%' . $routeParams['search'] . '%');
         }
-        
-        $qb->orderBy('adminProfile.id', 'desc');
+
+        if (!isset($routeParams['sorting'])) {
+            $qb->orderBy('adminProfile.id', 'desc');
+        } else {
+
+            $metaData = $this->getClassMetadata();
+            $fields = $metaData->getFieldNames();
+            $associations = $metaData->getAssociationMappings();
+
+            foreach ($associations as $assoc_ind => $assoc_val) {
+
+                $associationFields = $this->getEntityManager()->getClassMetadata($assoc_val['targetEntity'])->getFieldNames();
+
+                foreach ($associationFields as $val) {
+                    $fields[] = $assoc_ind . '.' . $val;
+                }
+            }
+
+            $orderCount = 0;
+
+            foreach ($fields as $field) {
+
+                if (isset($routeParams['sorting'][$field])) {
+
+                    $alias = '';
+
+                    if (!strstr($field, '.')) {
+                        $alias = 'adminProfile.';
+                    }
+
+                    if ($orderCount == 0) {
+                        $qb->orderBy($alias . $field, $routeParams['sorting'][$field]);
+                    } else {
+                        $qb->addOrderBy($alias . $field, $routeParams['sorting'][$field]);
+                    }
+
+                    $orderCount++;
+                }
+            }
+        }
 
         return $qb->getQuery();
     }
