@@ -47,7 +47,9 @@
                     <thead>
                     <tr>
                         <th>
-                            {{ 'admin.profile_admin.fields.full_name'|trans }}
+                            <a href="{{ path('admin_profile_index') ~ pagination_helper.buildQuery ~ pagination_helper.sortingFieldQuery('firstName') ~ pagination_helper.sortingFieldQuery('lastName') }}">
+                                {{ 'admin.profile_admin.fields.full_name'|trans }}
+                            </a>
                         </th>
                         <th>
                             <a href="{{ path('admin_profile_index') ~ pagination_helper.buildQuery ~ pagination_helper.sortingFieldQuery('email') }}">
