@@ -6,7 +6,6 @@ use AppBundle\Entity\Admin\AdminProfile;
 use AppBundle\Form\Admin\Type\AdminProfileType;
 use AppBundle\Form\SubmitActions;
 use AppBundle\Form\SubmitActionsType;
-use AppBundle\Helper\PaginationHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -26,9 +25,9 @@ class AdminProfileController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $paginationHelper = new PaginationHelper(AdminProfile::class, $request, $this->get('doctrine.orm.entity_manager'));
-        
-        $profiles = $this->get('app.admin_profile_manager')->findLatest($paginationHelper->getRouteParams());
+        $paginationHelper = $this->get('app.helper.pagination')->handle($request, AdminProfile::class);
+
+        $profiles = $this->get('app.admin_profile_manager')->findLatest($paginationHelper);
 
         return $this->render(
             'admin/profile/index.html.twig',
@@ -55,7 +54,7 @@ class AdminProfileController extends Controller
                 'buttons',
                 SubmitActionsType::class,
                 [
-                    'mapped'  => false,
+                    'mapped' => false,
                     'actions' => [
                         SubmitActions::SAVE_AND_CLOSE,
                         SubmitActions::SAVE_AND_NEW,
@@ -78,7 +77,7 @@ class AdminProfileController extends Controller
             'admin/profile/new.html.twig',
             [
                 'admin_profile' => $adminProfile,
-                'form'          => $form->createView(),
+                'form' => $form->createView(),
             ]
         );
     }

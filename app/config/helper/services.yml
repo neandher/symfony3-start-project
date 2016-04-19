@@ -12,3 +12,8 @@ services:
     app.helper.flash_bag:
         class: AppBundle\Helper\FlashBagHelper
         autowire: true
+
+    app.helper.pagination:
+        class: AppBundle\Helper\PaginationHelper
+        autowire: true
+        #arguments: ['@request', '@doctrine.orm.entity_manager']

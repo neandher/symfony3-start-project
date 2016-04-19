@@ -2,14 +2,14 @@
 
 namespace AppBundle\Repository\Admin;
 
-use AppBundle\Entity\Admin\AdminProfile;
+use AppBundle\Helper\PaginationHelper;
+use AppBundle\Repository\AbstractEntityRepository;
 use AppBundle\Repository\ProfileRepositoryInterface;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
 
-class AdminProfileRepository extends EntityRepository implements ProfileRepositoryInterface
+class AdminProfileRepository extends AbstractEntityRepository implements ProfileRepositoryInterface
 {
 
     /**
@@ -72,11 +72,13 @@ class AdminProfileRepository extends EntityRepository implements ProfileReposito
     }*/
 
     /**
-     * @param array $routeParams
+     * @param PaginationHelper $paginationHelper
      * @return Query
      */
-    public function queryLatest(array $routeParams)
+    public function queryLatest(PaginationHelper $paginationHelper)
     {
+        $routeParams = $paginationHelper->getRouteParams();
+
         $qb = $this->createQueryBuilder('adminProfile')
             ->innerJoin('adminProfile.user', 'user')
             ->addSelect('user');
@@ -88,60 +90,30 @@ class AdminProfileRepository extends EntityRepository implements ProfileReposito
                     $qb->expr()->concat('adminProfile.firstName', $qb->expr()->concat($qb->expr()->literal(' '), 'adminProfile.lastName')),
                     ':search'
                 )
-
             )->setParameter('search', '%' . $routeParams['search'] . '%');
         }
 
         if (!isset($routeParams['sorting'])) {
+
             $qb->orderBy('adminProfile.id', 'desc');
         } else {
-
-            /*$metaData = $this->getClassMetadata();
-            $fields = $metaData->getFieldNames();
-            $associations = $metaData->getAssociationMappings();
-
-            foreach ($associations as $assoc_ind => $assoc_val) {
-
-                $associationFields = $this->getEntityManager()->getClassMetadata($assoc_val['targetEntity'])->getFieldNames();
-
-                foreach ($associationFields as $val) {
-                    $fields[] = $assoc_ind . '.' . $val;
-                }
-            }
-
-            $orderCount = 0;
-
-            foreach ($fields as $field) {
-
-                if (isset($routeParams['sorting'][$field])) {
-
-                    $alias = '';
-
-                    if (!strstr($field, '.')) {
-                        $alias = 'adminProfile.';
-                    }
-
-                    if ($orderCount == 0) {
-                        $qb->orderBy($alias . $field, $routeParams['sorting'][$field]);
-                    } else {
-                        $qb->addOrderBy($alias . $field, $routeParams['sorting'][$field]);
-                    }
-
-                    $orderCount++;
-                }
-            }*/
+            
+            $qb = $this->addOrderingQueryBuilder($qb, $paginationHelper);
         }
 
         return $qb->getQuery();
     }
 
     /**
-     * @param array $routeParams
+     * @param PaginationHelper $paginationHelper
      * @return Pagerfanta
      */
-    public function findLatest(array $routeParams)
+    public function findLatest(PaginationHelper $paginationHelper)
     {
-        $paginator = new Pagerfanta(new DoctrineORMAdapter($this->queryLatest($routeParams), false));
+        $routeParams = $paginationHelper->getRouteParams();
+
+        $paginator = new Pagerfanta(new DoctrineORMAdapter($this->queryLatest($paginationHelper), false));
+
         $paginator->setMaxPerPage($routeParams['num_items']);
         $paginator->setCurrentPage($routeParams['page']);
 

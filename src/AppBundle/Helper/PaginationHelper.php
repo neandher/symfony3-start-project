@@ -3,6 +3,8 @@
 namespace AppBundle\Helper;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\Request;
 
 class PaginationHelper
@@ -28,7 +30,7 @@ class PaginationHelper
     /**
      * @var EntityManager
      */
-    private $em;
+    private $entityManager;
 
     /**
      * @var
@@ -36,23 +38,41 @@ class PaginationHelper
     private $entityClassName;
 
     /**
+     * @var array
+     */
+    private $fields = array();
+
+    /**
      * PaginationHelper constructor.
      *
-     * @param $entityClassName
-     * @param Request $request
-     * @param EntityManager $em
+     * @param EntityManager $entityManager
      */
-    public function __construct($entityClassName, Request $request, EntityManager $em)
+    public function __construct(EntityManager $entityManager)
     {
-        $this->entityClassName = $entityClassName;
+        $this->entityManager = $entityManager;
+    }
+
+    /**
+     * @param Request $request
+     * @param $entityClassName
+     * @return PaginationHelper
+     */
+    public function handle(Request $request, $entityClassName)
+    {
         $this->request = $request;
-        $this->em = $em;
+        $this->entityClassName = $entityClassName;
 
         $this->setRouteParams()
             ->addDefaultRouteParams()
+            ->setFields()
             ->setSorting();
+
+        return $this;
     }
 
+    /**
+     * @return $this
+     */
     private function setRouteParams()
     {
         $this->routeParams = $this->request->query->all();
@@ -60,6 +80,9 @@ class PaginationHelper
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     private function addDefaultRouteParams()
     {
         $this->routeParams['page'] = $this->request->query->get('page', 1);
@@ -68,11 +91,22 @@ class PaginationHelper
         return $this;
     }
 
+    /**
+     * @return $this
+     */
+    private function setFields()
+    {
+        $this->fields = $this->getFieldsName();
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
     private function setSorting()
     {
-        $fields = ClassFieldsNameHelper::getFieldsName($this->em, $this->entityClassName);
-
-        foreach ($fields as $field) {
+        foreach ($this->fields as $field) {
             if (isset($this->routeParams['sorting']) && isset($this->routeParams['sorting'][$field])) {
                 $this->sorting[$field] = $this->routeParams['sorting'][$field] === 'asc' ? 'desc' : 'asc';
             } else {
@@ -80,7 +114,7 @@ class PaginationHelper
             }
         }
 
-        return $this->sorting;
+        return $this;
     }
 
     /**
@@ -114,5 +148,35 @@ class PaginationHelper
     public function getSortingFieldQuery($field)
     {
         return isset($this->sorting[$field]) ? '&sorting[' . $field . ']=' . $this->sorting[$field] : '&not_found';
+    }
+
+    /**
+     * @return array
+     */
+    public function getFields()
+    {
+        return $this->fields;
+    }
+
+    /**
+     * @return array
+     */
+    private function getFieldsName()
+    {
+        $metaData = $this->entityManager->getClassMetadata($this->entityClassName);
+
+        $fields = $metaData->getFieldNames();
+        $associations = $metaData->getAssociationMappings();
+
+        foreach ($associations as $assoc_ind => $assoc_val) {
+
+            $associationFields = $this->entityManager->getClassMetadata($assoc_val['targetEntity'])->getFieldNames();
+
+            foreach ($associationFields as $val) {
+                $fields[] = $assoc_ind . '.' . $val;
+            }
+        }
+
+        return $fields;
     }
 }

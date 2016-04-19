@@ -7,6 +7,7 @@ use AppBundle\Entity\Admin\AdminProfile;
 use AppBundle\Event\FlashBag\FlashBagEvents;
 use AppBundle\Helper\CanonicalizerHelper;
 use AppBundle\Helper\FlashBagHelper;
+use AppBundle\Helper\PaginationHelper;
 use AppBundle\Repository\Admin\AdminProfileRepository;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -64,12 +65,12 @@ class AdminProfileManager extends AbstractProfileManager
     }
 
     /**
-     * @param array $routeParams
+     * @param PaginationHelper $paginationHelper
      * @return AdminProfile[]
      */
-    public function findLatest(array $routeParams)
+    public function findLatest(PaginationHelper $paginationHelper)
     {
-        return $this->repository->findLatest($routeParams);
+        return $this->repository->findLatest($paginationHelper);
     }
 
     public function create(AdminProfile $adminProfile)

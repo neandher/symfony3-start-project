@@ -59,7 +59,11 @@
                                 {{ 'admin.profile_admin.fields.last_login'|trans }}
                             </a>
                         </th>
-                        <th>{{ 'admin.profile_admin.fields.created_at'|trans }}</th>
+                        <th>
+                            <a href="{{ path('admin_profile_index') ~ pagination_helper.buildQuery ~ pagination_helper.sortingFieldQuery('user.createdAt') }}">
+                                {{ 'admin.profile_admin.fields.created_at'|trans }}
+                            </a>
+                        </th>
                         <th>{{ 'table.actions'|trans }}</th>
                     </tr>
                     </thead>
