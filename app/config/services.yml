@@ -4,3 +4,8 @@ parameters:
 #    parameter_name: value
 
 services:
+
+    ordering_pagination_subscriber:
+        class: AppBundle\EventListener\OrderingPaginationSubscriber
+        tags:
+            - { name: doctrine.event_subscriber }

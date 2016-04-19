@@ -70,18 +70,7 @@ class PaginationHelper
 
     private function setSorting()
     {
-        $metaData = $this->em->getClassMetadata($this->entityClassName);
-        $fields = $metaData->getFieldNames();
-        $associations = $metaData->getAssociationMappings();
-
-        foreach ($associations as $assoc_ind => $assoc_val) {
-            
-            $associationFields = $this->em->getClassMetadata($assoc_val['targetEntity'])->getFieldNames();
-            
-            foreach ($associationFields as $val) {
-                $fields[] = $assoc_ind . '.' . $val;
-            }
-        }
+        $fields = ClassFieldsNameHelper::getFieldsName($this->em, $this->entityClassName);
 
         foreach ($fields as $field) {
             if (isset($this->routeParams['sorting']) && isset($this->routeParams['sorting'][$field])) {

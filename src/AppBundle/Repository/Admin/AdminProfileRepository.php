@@ -96,7 +96,7 @@ class AdminProfileRepository extends EntityRepository implements ProfileReposito
             $qb->orderBy('adminProfile.id', 'desc');
         } else {
 
-            $metaData = $this->getClassMetadata();
+            /*$metaData = $this->getClassMetadata();
             $fields = $metaData->getFieldNames();
             $associations = $metaData->getAssociationMappings();
 
@@ -129,7 +129,7 @@ class AdminProfileRepository extends EntityRepository implements ProfileReposito
 
                     $orderCount++;
                 }
-            }
+            }*/
         }
 
         return $qb->getQuery();
