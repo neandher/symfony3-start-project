@@ -3,13 +3,14 @@
 namespace AppBundle\Form\Security\Handler;
 
 use AppBundle\DomainManager\ProfileManagerInterface;
+use AppBundle\Form\AbstractFormHandler;
 use AppBundle\Helper\TokenGeneratorHelper;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Translation\Translator;
 
-class ResettingRequestFormHandler
+class ResettingRequestFormHandler extends AbstractFormHandler
 {
 
     /**
@@ -58,11 +59,7 @@ class ResettingRequestFormHandler
      */
     public function handle(FormInterface $form, Request $request)
     {
-        $form->handleRequest($request);
-
-        if (!$form->isValid()) {
-            return false;
-        }
+        $this->processForm($form, $request);
 
         $data = $form->getData();
 

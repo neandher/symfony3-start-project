@@ -4,11 +4,12 @@ namespace AppBundle\Form\Security\Handler;
 
 use AppBundle\DomainManager\ProfileManagerInterface;
 use AppBundle\Event\FlashBag\FlashBagEvents;
+use AppBundle\Form\AbstractFormHandler;
 use AppBundle\Helper\FlashBagHelper;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class ChangePasswordFormHandler
+class ChangePasswordFormHandler extends AbstractFormHandler
 {
 
     /**
@@ -40,11 +41,7 @@ class ChangePasswordFormHandler
      */
     public function handle(FormInterface $form, Request $request)
     {
-        $form->handleRequest($request);
-
-        if (!$form->isValid()) {
-            return false;
-        }
+        $this->processForm($form, $request);
 
         $entity = $form->getData();
 

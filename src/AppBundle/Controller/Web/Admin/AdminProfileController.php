@@ -81,4 +81,17 @@ class AdminProfileController extends Controller
             ]
         );
     }
+
+    /**
+     * @Route("/{id}/edit", requirements={"id" : "\d+"}, name="admin_profile_edit")
+     * @Method({"GET", "POST"})
+     * @param Request $request
+     * @param AdminProfile $adminProfile
+     */
+    public function editAction(Request $request, AdminProfile $adminProfile)
+    {
+        $editForm = $this->createForm(AdminProfileType::class, $adminProfile);
+        
+        $formHandler = $this->get('app.admin_profile_form_handler');
+    }
 }

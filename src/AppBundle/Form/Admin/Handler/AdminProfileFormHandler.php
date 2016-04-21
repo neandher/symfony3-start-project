@@ -4,10 +4,11 @@ namespace AppBundle\Form\Admin\Handler;
 
 use AppBundle\DomainManager\Admin\AdminProfileManager;
 use AppBundle\Entity\Admin\AdminProfile;
+use AppBundle\Form\AbstractFormHandler;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class AdminProfileFormHandler
+class AdminProfileFormHandler extends AbstractFormHandler
 {
 
     /**
@@ -22,11 +23,7 @@ class AdminProfileFormHandler
 
     public function create(FormInterface $form, Request $request)
     {
-        $form->handleRequest($request);
-        
-        if (!$form->isValid()) {
-            return false;
-        }
+        $this->processForm($form, $request);
 
         /** @var AdminProfile $entity */
         $entity = $form->getData();
@@ -35,6 +32,22 @@ class AdminProfileFormHandler
             ->addRole('ROLE_ADMIN_USER')
             ->setIsEnabled(true)
             ->setAdminProfile($entity);
+
+        $this->manager->create($entity);
+
+        return true;
+    }
+
+    public function edit(FormInterface $form, Request $request)
+    {
+        $form->handleRequest($request);
+
+        if (!$form->isValid()) {
+            return false;
+        }
+
+        /** @var AdminProfile $entity */
+        $entity = $form->getData();
 
         $this->manager->create($entity);
 
