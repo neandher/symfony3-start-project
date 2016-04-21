@@ -76,11 +76,8 @@
                             <td>{{ profile.user.createdAt|date('d/m/Y H:i') }}</td>
                             <td>
                                 <div class="item-actions">
-                                    <a href="#" class="btn btn-sm btn-default">
-                                        {{ 'action.show'|trans }}
-                                    </a>
 
-                                    <a href="#" class="btn btn-sm btn-primary">
+                                    <a href="{{ path('admin_profile_edit', { id: profile.id }) }}" class="btn btn-sm btn-primary">
                                         <i class="glyphicon glyphicon-edit"></i> {{ 'action.edit'|trans }}
                                     </a>
                                 </div>

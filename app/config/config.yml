@@ -35,8 +35,8 @@ framework:
     csrf_protection: ~
     validation:      { enable_annotations: true }
     #serializer:      { enable_annotations: true }
-    #templating:
-    #    engines: ['twig']
+    templating:
+        engines: ['twig']
     default_locale:  "%locale%"
     trusted_hosts:   ~
     trusted_proxies: ~
@@ -54,6 +54,7 @@ twig:
     strict_variables: "%kernel.debug%"
     form_themes:
         - 'bootstrap_3_layout.html.twig'
+        - 'admin/form/fields.html.twig'
 
 # Doctrine Configuration
 doctrine:

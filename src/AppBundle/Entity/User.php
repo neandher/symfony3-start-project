@@ -53,7 +53,7 @@ class User extends AbstractTimestampable implements AdvancedUserInterface
     protected $password;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"creating", "resetting", "changing"})
      * @Assert\Length(min="2", max="255")
      */
     protected $plainPassword;
@@ -464,7 +464,7 @@ class User extends AbstractTimestampable implements AdvancedUserInterface
 
         return $this;
     }
-    
+
     /**
      * Checks whether the user's account has expired.
      *
@@ -577,6 +577,6 @@ class User extends AbstractTimestampable implements AdvancedUserInterface
     {
         $this->adminProfile = $adminProfile;
     }
-    
-    
+
+
 }

@@ -24,6 +24,7 @@ class ResettingResetType extends AbstractType
         $resolver->setDefaults(
             array(
                 'data_class' => AdminProfile::class,
+                'validation_groups' => ['Default', 'resetting']
             )
         );
     }

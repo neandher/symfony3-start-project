@@ -59,7 +59,9 @@ class ResettingRequestFormHandler extends AbstractFormHandler
      */
     public function handle(FormInterface $form, Request $request)
     {
-        $this->processForm($form, $request);
+        if(!$this->processForm($form, $request)){
+            return false;
+        }
 
         $data = $form->getData();
 
@@ -73,7 +75,7 @@ class ResettingRequestFormHandler extends AbstractFormHandler
                     new FormError($this->translator->trans('security.resetting.request.errors.email_not_found'))
                 );
 
-                return false;
+                return $this->formHasError($request, $form);
             }
             
             $user = $profile->getUser();
@@ -86,7 +88,7 @@ class ResettingRequestFormHandler extends AbstractFormHandler
                     )
                 );
 
-                return false;
+                return $this->formHasError($request, $form);
             }
 
             if ($user->getConfirmationToken() === null) {

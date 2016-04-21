@@ -4,28 +4,35 @@
 
     <h3>{{ 'security.login.title'|trans }}</h3>
 
+    {{ form_start(form, { 'action': path('admin_security_login_check') }) }}
+
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-12">
 
             {{ include('admin/partials/alerts.html.twig') }}
 
-            {{ form_start(form, { 'action': path('admin_security_login_check') }) }}
+            <div class="row">
+                {{ form_row(form.email, {'attr':{'value': last_username }}) }}
+            </div>
+            <div class="row">
+                {{ form_row(form.password) }}
+            </div>
 
-            {{ form_row(form.email, {'attr':{'value': last_username }}) }}
-            {{ form_row(form.password) }}
-
-            <button class="btn btn-primary">{{ 'security.login.btns.login'|trans }}</button>
-
-            <a class="pull-right" href="{{ path('admin_security_resetting_request') }}">
-                {{ 'security.login.links.forgot_password'|trans }}
-            </a>
-
-            {{ form_widget(form._token) }}
-
-            {{ form_end(form, {'render_rest': false}) }}
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <button class="btn btn-primary">{{ 'security.login.btns.login'|trans }}</button>
+                    <a class="pull-right" href="{{ path('admin_security_resetting_request') }}">
+                        {{ 'security.login.links.forgot_password'|trans }}
+                    </a>
+                </div>
+            </div>
 
         </div>
     </div>
+
+    {{ form_widget(form._token) }}
+
+    {{ form_end(form, {'render_rest': false}) }}
 
 {% endblock %}
 

@@ -23,7 +23,9 @@ class AdminProfileFormHandler extends AbstractFormHandler
 
     public function create(FormInterface $form, Request $request)
     {
-        $this->processForm($form, $request);
+        if(!$this->processForm($form, $request)){
+            return false;
+        }
 
         /** @var AdminProfile $entity */
         $entity = $form->getData();
@@ -40,16 +42,14 @@ class AdminProfileFormHandler extends AbstractFormHandler
 
     public function edit(FormInterface $form, Request $request)
     {
-        $form->handleRequest($request);
-
-        if (!$form->isValid()) {
+        if(!$this->processForm($form, $request)){
             return false;
         }
-
+        
         /** @var AdminProfile $entity */
         $entity = $form->getData();
 
-        $this->manager->create($entity);
+        $this->manager->edit($entity);
 
         return true;
     }

@@ -8,28 +8,51 @@ use Symfony\Component\HttpFoundation\Request;
 abstract class AbstractFormHandler
 {
 
+    /**
+     * @param FormInterface $form
+     * @param Request $request
+     * @return bool
+     */
     protected function processForm(FormInterface $form, Request $request)
     {
-        if (strpos($request->getPathInfo(), '/api') !== 0) {
+
+        if (!$this->isApi($request)) {
 
             $form->handleRequest($request);
 
             if (!$form->isValid()) {
                 return false;
             }
-            
+
+            return true;
         } else {
-            
-            // processFormApi
 
-            /*$this->processFormApi($request, $form);
+            // return $this->processFormApi($request, $form);
+        }
+    }
 
-            if (!$form->isValid()) {
-                return $this->throwApiProblemValidationException($form);
-            }*/
+    /**
+     * @param Request $request
+     * @param FormInterface $form
+     * @return bool
+     */
+    protected function formHasError(Request $request, FormInterface $form = null)
+    {
+        if ($this->isApi($request)) {
+            // return api error
+            /*return $this->throwApiProblemValidationException($form);*/
         }
 
+        return false;
+    }
 
+    /**
+     * @param Request $request
+     * @return bool
+     */
+    private function isApi(Request $request)
+    {
+        return strpos($request->getPathInfo(), '/api') === 0;
     }
 
     /*private function processFormApi(FormInterface $form, Request $request)
@@ -45,5 +68,11 @@ abstract class AbstractFormHandler
         $clearMissing = $request->getMethod() != 'PATCH';
 
         $form->submit($data, $clearMissing);
+    
+        if (!$form->isValid()) {
+            return $this->throwApiProblemValidationException($form);
+        }
+    
+        return true;
     }*/
 }

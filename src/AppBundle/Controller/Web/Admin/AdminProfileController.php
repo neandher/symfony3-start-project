@@ -4,6 +4,7 @@ namespace AppBundle\Controller\Web\Admin;
 
 use AppBundle\Entity\Admin\AdminProfile;
 use AppBundle\Form\Admin\Type\AdminProfileType;
+use AppBundle\Form\Admin\Type\AdminProfileUpdateType;
 use AppBundle\Form\SubmitActions;
 use AppBundle\Form\SubmitActionsType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -32,7 +33,7 @@ class AdminProfileController extends Controller
         return $this->render(
             'admin/profile/index.html.twig',
             [
-                'profiles' => $profiles,
+                'profiles'          => $profiles,
                 'pagination_helper' => $paginationHelper,
             ]
         );
@@ -41,9 +42,6 @@ class AdminProfileController extends Controller
     /**
      * @Route("/new", name="admin_profile_new")
      * @Method({"GET", "POST"})
-     *
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function newAction(Request $request)
     {
@@ -54,10 +52,11 @@ class AdminProfileController extends Controller
                 'buttons',
                 SubmitActionsType::class,
                 [
-                    'mapped' => false,
+                    'mapped'  => false,
                     'actions' => [
-                        SubmitActions::SAVE_AND_CLOSE,
+                        SubmitActions::SAVE_AND_KEEP,
                         SubmitActions::SAVE_AND_NEW,
+                        SubmitActions::SAVE_AND_CLOSE,
                     ]
                 ]
             );
@@ -69,6 +68,9 @@ class AdminProfileController extends Controller
             if ($form->get('buttons')->get(SubmitActions::SAVE_AND_NEW)->isClicked()) {
                 return $this->redirectToRoute('admin_profile_new');
             }
+            if ($form->get('buttons')->get(SubmitActions::SAVE_AND_KEEP)->isClicked()) {
+                return $this->redirectToRoute('admin_profile_edit', ['id' => $adminProfile->getId()]);
+            }
 
             return $this->redirectToRoute('admin_profile_index');
         }
@@ -77,7 +79,7 @@ class AdminProfileController extends Controller
             'admin/profile/new.html.twig',
             [
                 'admin_profile' => $adminProfile,
-                'form' => $form->createView(),
+                'form'          => $form->createView(),
             ]
         );
     }
@@ -85,13 +87,43 @@ class AdminProfileController extends Controller
     /**
      * @Route("/{id}/edit", requirements={"id" : "\d+"}, name="admin_profile_edit")
      * @Method({"GET", "POST"})
-     * @param Request $request
-     * @param AdminProfile $adminProfile
      */
     public function editAction(Request $request, AdminProfile $adminProfile)
     {
-        $editForm = $this->createForm(AdminProfileType::class, $adminProfile);
-        
+        $editForm = $this->createForm(AdminProfileUpdateType::class, $adminProfile)
+            ->add(
+                'buttons',
+                SubmitActionsType::class,
+                [
+                    'mapped'  => false,
+                    'actions' => [
+                        SubmitActions::SAVE_AND_KEEP,
+                        SubmitActions::SAVE_AND_NEW,
+                        SubmitActions::SAVE_AND_CLOSE,
+                    ]
+                ]
+            );
+
         $formHandler = $this->get('app.admin_profile_form_handler');
+
+        if ($formHandler->edit($editForm, $request)) {
+
+            if ($editForm->get('buttons')->get(SubmitActions::SAVE_AND_NEW)->isClicked()) {
+                return $this->redirectToRoute('admin_profile_new');
+            }
+            if ($editForm->get('buttons')->get(SubmitActions::SAVE_AND_KEEP)->isClicked()) {
+                return $this->redirectToRoute('admin_profile_edit', ['id' => $adminProfile->getId()]);
+            }
+
+            return $this->redirectToRoute('admin_profile_index');
+        }
+
+        return $this->render(
+            'admin/profile/edit.html.twig',
+            [
+                'admin_profile' => $adminProfile,
+                'form'          => $editForm->createView()
+            ]
+        );
     }
 }

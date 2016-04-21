@@ -24,7 +24,8 @@ class AdminProfileType extends AbstractType
             ->add('lastName', TextType::class, ['label' => 'admin.profile_admin.fields.last_name'])
             ->add('email', EmailType::class, ['label' => 'admin.profile_admin.fields.email']);
 
-        if(!$options['is_edit']){
+        if (!$options['is_edit']) {
+
             $builder
                 ->add('user', PlainPasswordType::class);
         }
@@ -37,8 +38,9 @@ class AdminProfileType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => AdminProfile::class,
-                'is_edit' => false
+                'data_class'        => AdminProfile::class,
+                'is_edit'           => false,
+                'validation_groups' => ['Default', 'creating'],
             ]
         );
     }

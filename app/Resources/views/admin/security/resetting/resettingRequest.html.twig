@@ -4,28 +4,34 @@
 
     <h3>{{ 'security.resetting.request.title'|trans }}</h3>
 
+    {{ form_start(form, { 'action': path('admin_security_resetting_request') }) }}
+
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-12">
 
             {{ include('admin/partials/alerts.html.twig') }}
 
             {{ form_errors(form) }}
 
-            {{ form_start(form, { 'action': path('admin_security_resetting_request') }) }}
+            <div class="row">
+                {{ form_row(form.email) }}
+            </div>
 
-            {{ form_row(form.email) }}
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <button class="btn btn-primary">{{ 'security.resetting.request.btns.send'|trans }}</button>
 
-            <button class="btn btn-primary">{{ 'security.resetting.request.btns.send'|trans }}</button>
-
-            <a class="pull-right" href="{{ path('admin_security_login') }}">
-                {{ 'security.resetting.request.links.login'|trans }}
-            </a>
-
-            {{ form_widget(form._token) }}
-
-            {{ form_end(form, {'render_rest': false}) }}
+                    <a class="pull-right" href="{{ path('admin_security_login') }}">
+                        {{ 'security.resetting.request.links.login'|trans }}
+                    </a>
+                </div>
+            </div>
 
         </div>
     </div>
+
+    {{ form_widget(form._token) }}
+
+    {{ form_end(form, {'render_rest': false}) }}
 
 {% endblock %}

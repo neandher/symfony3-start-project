@@ -22,7 +22,7 @@ class ResettingRequestType extends AbstractType
             [
                 'csrf_protection' => true,
                 'csrf_field_name' => '_token',
-                'csrf_token_id' => 'resetting_request'
+                'csrf_token_id' => 'resetting_request',
             ]
         );
     }

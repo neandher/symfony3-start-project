@@ -41,8 +41,10 @@ class ChangePasswordFormHandler extends AbstractFormHandler
      */
     public function handle(FormInterface $form, Request $request)
     {
-        $this->processForm($form, $request);
-
+        if(!$this->processForm($form, $request)){
+            return false;
+        }
+        
         $entity = $form->getData();
 
         $entity->getUser()->setPassword(null);

@@ -35,6 +35,7 @@ class ChangePasswordType extends AbstractType
         $resolver->setDefaults(
             array(
                 'data_class' => AdminProfile::class,
+                'validation_groups' => ['Default', 'changing']
             )
         );
     }

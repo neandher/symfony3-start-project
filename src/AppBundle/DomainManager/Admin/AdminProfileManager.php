@@ -79,4 +79,11 @@ class AdminProfileManager extends AbstractProfileManager
         
         $this->flashBagHelper->newMessage(FlashBagEvents::MESSAGE_TYPE_SUCCESS, FlashBagEvents::MESSAGE_SUCCESS_INSERTED);
     }
+
+    public function edit(AdminProfile $adminProfile)
+    {
+        $this->persistAndFlush($adminProfile);
+
+        $this->flashBagHelper->newMessage(FlashBagEvents::MESSAGE_TYPE_SUCCESS, FlashBagEvents::MESSAGE_SUCCESS_UPDATED);
+    }
 }
