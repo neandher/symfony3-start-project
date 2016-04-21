@@ -23,8 +23,6 @@ class AdminProfileController extends Controller
     /**
      * @Route("/", name="admin_profile_index")
      * @Method("GET")
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction(Request $request)
     {
