@@ -11,7 +11,7 @@
 
             <div class="pull-right" style="padding-top: 20px;">
 
-                <a href="{{ path('admin_profile_new') }}" class="btn btn-primary">
+                <a href="{{ path('admin_profile_new') ~ pagination_helper.buildQuery }}" class="btn btn-primary">
                     <span class="glyphicon glyphicon-plus"></span> {{ 'admin.profile_admin.action.new_profile'|trans }}
                 </a>
 
@@ -47,22 +47,22 @@
                     <thead>
                     <tr>
                         <th>
-                            <a href="{{ path('admin_profile_index') ~ pagination_helper.buildQuery ~ pagination_helper.sortingFieldQuery('firstName') ~ pagination_helper.sortingFieldQuery('lastName') }}">
+                            <a href="{{ path('admin_profile_index') ~ pagination_helper.buildQuery('sorting') ~ pagination_helper.sortingFieldQuery('firstName') ~ pagination_helper.sortingFieldQuery('lastName') }}">
                                 {{ 'admin.profile_admin.fields.full_name'|trans }}
                             </a>
                         </th>
                         <th>
-                            <a href="{{ path('admin_profile_index') ~ pagination_helper.buildQuery ~ pagination_helper.sortingFieldQuery('email') }}">
+                            <a href="{{ path('admin_profile_index') ~ pagination_helper.buildQuery('sorting') ~ pagination_helper.sortingFieldQuery('email') }}">
                                 {{ 'admin.profile_admin.fields.email'|trans }}
                             </a>
                         </th>
                         <th>
-                            <a href="{{ path('admin_profile_index') ~ pagination_helper.buildQuery ~ pagination_helper.sortingFieldQuery('user.lastLoginAt') }}">
+                            <a href="{{ path('admin_profile_index') ~ pagination_helper.buildQuery('sorting') ~ pagination_helper.sortingFieldQuery('user.lastLoginAt') }}">
                                 {{ 'admin.profile_admin.fields.last_login'|trans }}
                             </a>
                         </th>
                         <th>
-                            <a href="{{ path('admin_profile_index') ~ pagination_helper.buildQuery ~ pagination_helper.sortingFieldQuery('user.createdAt') }}">
+                            <a href="{{ path('admin_profile_index') ~ pagination_helper.buildQuery('sorting') ~ pagination_helper.sortingFieldQuery('user.createdAt') }}">
                                 {{ 'admin.profile_admin.fields.created_at'|trans }}
                             </a>
                         </th>
@@ -79,7 +79,7 @@
                             <td>
                                 <div class="item-actions">
 
-                                    <a href="{{ path('admin_profile_edit', { id: profile.id }) }}" class="btn btn-sm btn-primary">
+                                    <a href="{{ path('admin_profile_edit', { id: profile.id }) ~ pagination_helper.buildQuery }}" class="btn btn-sm btn-primary">
                                         <i class="glyphicon glyphicon-edit"></i> {{ 'action.edit'|trans }}
                                     </a>
                                 </div>

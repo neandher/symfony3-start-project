@@ -32,7 +32,7 @@
 
         <div class="panel-body">
 
-            {{ form_start(form, {'attr' : {'class' : '', 'novalidate': 'novalidate'}}) }}
+            {{ form_start(form, {'action': path('admin_profile_edit', {id: admin_profile.id}) ~ pagination_helper.buildQuery ,'attr' : {'class' : '', 'novalidate': 'novalidate'}}) }}
 
             {{ form_errors(form) }}
 

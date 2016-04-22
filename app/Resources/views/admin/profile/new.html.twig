@@ -11,7 +11,7 @@
 
             <div class="pull-right" style="padding-top: 20px;">
 
-                <a href="{{ path('admin_profile_index') }}" class="btn btn-danger">
+                <a href="{{ path('admin_profile_index') ~ pagination_helper.buildQuery }}" class="btn btn-danger">
                     <span class="glyphicon glyphicon glyphicon-remove-sign"></span> {{ 'form.link.cancel'|trans }}
                 </a>
 
@@ -23,7 +23,7 @@
 
         <div class="panel-body">
 
-            {{ form_start(form, {'attr' : {'class' : '', 'novalidate': 'novalidate'}}) }}
+            {{ form_start(form, {'action': path('admin_profile_new') ~ pagination_helper.buildQuery, 'attr' : {'class' : '', 'novalidate': 'novalidate'}}) }}
 
             {{ form_errors(form) }}
 

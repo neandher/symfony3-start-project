@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class PaginationHelper
 {
+
     const NUM_ITEMS = 15;
     const SORTING_DIRECTION = 'asc';
 
@@ -126,14 +127,25 @@ class PaginationHelper
     }
 
     /**
+     * @param string $without
      * @return string
      */
-    public function buildQuery()
+    public function buildQuery($without = '')
     {
+        $routeParams = $this->routeParams;
+
+        if (isset($routeParams[$without])) {
+            unset($routeParams[$without]);
+        }
+
         $query = '?';
 
-        foreach ($this->routeParams as $ind => $val) {
-            if ($ind <> 'sorting') {
+        foreach ($routeParams as $ind => $val) {
+            if (is_array($val)) {
+                foreach ($val as $item => $item_val) {
+                    $query .= $ind . '['.$item.']=' . $item_val . '&';
+                }
+            } else {
                 $query .= $ind . '=' . $val . '&';
             }
         }

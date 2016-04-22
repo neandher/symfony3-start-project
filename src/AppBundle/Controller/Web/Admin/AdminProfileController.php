@@ -45,6 +45,9 @@ class AdminProfileController extends Controller
      */
     public function newAction(Request $request)
     {
+
+        $paginationHelper = $this->get('app.helper.pagination')->handle($request, AdminProfile::class);
+
         $adminProfile = new AdminProfile();
 
         $form = $this->createForm(AdminProfileType::class, $adminProfile)
@@ -66,20 +69,27 @@ class AdminProfileController extends Controller
         if ($formHandler->create($form, $request)) {
 
             if ($form->get('buttons')->get(SubmitActions::SAVE_AND_NEW)->isClicked()) {
-                return $this->redirectToRoute('admin_profile_new');
+                return $this->redirectToRoute('admin_profile_new', $paginationHelper->getRouteParams());
             }
             if ($form->get('buttons')->get(SubmitActions::SAVE_AND_KEEP)->isClicked()) {
-                return $this->redirectToRoute('admin_profile_edit', ['id' => $adminProfile->getId()]);
+                return $this->redirectToRoute(
+                    'admin_profile_edit',
+                    array_merge(
+                        ['id' => $adminProfile->getId()],
+                        $paginationHelper->getRouteParams()
+                    )
+                );
             }
 
-            return $this->redirectToRoute('admin_profile_index');
+            return $this->redirectToRoute('admin_profile_index', $paginationHelper->getRouteParams());
         }
 
         return $this->render(
             'admin/profile/new.html.twig',
             [
-                'admin_profile' => $adminProfile,
-                'form'          => $form->createView(),
+                'admin_profile'     => $adminProfile,
+                'form'              => $form->createView(),
+                'pagination_helper' => $paginationHelper
             ]
         );
     }
@@ -90,6 +100,9 @@ class AdminProfileController extends Controller
      */
     public function editAction(Request $request, AdminProfile $adminProfile)
     {
+
+        $paginationHelper = $this->get('app.helper.pagination')->handle($request, AdminProfile::class);
+
         $editForm = $this->createForm(AdminProfileUpdateType::class, $adminProfile)
             ->add(
                 'buttons',
@@ -111,21 +124,28 @@ class AdminProfileController extends Controller
         if ($formHandler->edit($editForm, $request)) {
 
             if ($editForm->get('buttons')->get(SubmitActions::SAVE_AND_NEW)->isClicked()) {
-                return $this->redirectToRoute('admin_profile_new');
+                return $this->redirectToRoute('admin_profile_new', $paginationHelper->getRouteParams());
             }
             if ($editForm->get('buttons')->get(SubmitActions::SAVE_AND_KEEP)->isClicked()) {
-                return $this->redirectToRoute('admin_profile_edit', ['id' => $adminProfile->getId()]);
+                return $this->redirectToRoute(
+                    'admin_profile_edit',
+                    array_merge(
+                        ['id' => $adminProfile->getId()],
+                        $paginationHelper->getRouteParams()
+                    )
+                );
             }
 
-            return $this->redirectToRoute('admin_profile_index');
+            return $this->redirectToRoute('admin_profile_index', $paginationHelper->getRouteParams());
         }
 
         return $this->render(
             'admin/profile/edit.html.twig',
             [
-                'admin_profile' => $adminProfile,
-                'form'          => $editForm->createView(),
-                'delete_form'   => $deleteForm->createView(),
+                'admin_profile'     => $adminProfile,
+                'form'              => $editForm->createView(),
+                'delete_form'       => $deleteForm->createView(),
+                'pagination_helper' => $paginationHelper,
             ]
         );
     }
