@@ -104,6 +104,8 @@ class AdminProfileController extends Controller
                 ]
             );
 
+        $deleteForm = $this->createDeleteForm($adminProfile);
+
         $formHandler = $this->get('app.admin_profile_form_handler');
 
         if ($formHandler->edit($editForm, $request)) {
@@ -122,8 +124,35 @@ class AdminProfileController extends Controller
             'admin/profile/edit.html.twig',
             [
                 'admin_profile' => $adminProfile,
-                'form'          => $editForm->createView()
+                'form'          => $editForm->createView(),
+                'delete_form'   => $deleteForm->createView(),
             ]
         );
+    }
+
+    /**
+     * @Route("/{id}", name="admin_profile_delete")
+     * @Method("DELETE")
+     */
+    public function deleteAction(Request $request, AdminProfile $adminProfile)
+    {
+        $form = $this->createDeleteForm($adminProfile);
+
+        $formHandler = $this->get('app.admin_profile_form_handler');
+
+        if (!$formHandler->delete($form, $request)) {
+            return $this->redirectToRoute('admin_profile_edit', ['id' => $adminProfile->getId()]);
+        }
+
+        return $this->redirectToRoute('admin_profile_index');
+    }
+
+    private function createDeleteForm(AdminProfile $adminProfile)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('admin_profile_delete', ['id' => $adminProfile->getId()]))
+            ->setMethod('DELETE')
+            ->setData($adminProfile)
+            ->getForm();
     }
 }

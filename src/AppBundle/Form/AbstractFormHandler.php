@@ -15,7 +15,6 @@ abstract class AbstractFormHandler
      */
     protected function processForm(FormInterface $form, Request $request)
     {
-
         if (!$this->isApi($request)) {
 
             $form->handleRequest($request);
@@ -25,6 +24,7 @@ abstract class AbstractFormHandler
             }
 
             return true;
+            
         } else {
 
             // return $this->processFormApi($request, $form);
@@ -50,7 +50,7 @@ abstract class AbstractFormHandler
      * @param Request $request
      * @return bool
      */
-    private function isApi(Request $request)
+    protected function isApi(Request $request)
     {
         return strpos($request->getPathInfo(), '/api') === 0;
     }

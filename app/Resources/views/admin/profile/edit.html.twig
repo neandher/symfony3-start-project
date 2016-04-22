@@ -11,9 +11,18 @@
 
             <div class="pull-right" style="padding-top: 20px;">
 
-                <a href="{{ path('admin_profile_index') }}" class="btn btn-danger">
+                {{ form_start(delete_form) }}
+                {{ form_widget(delete_form) }}
+
+                <button type="submit" class="btn btn-danger">
+                    <span class="glyphicon glyphicon glyphicon-remove-sign"></span>
+                    {{ 'form.link.delete'|trans }}
+                </button>
+                <a href="{{ path('admin_profile_index') }}" class="btn btn-default">
                     <span class="glyphicon glyphicon glyphicon-remove-sign"></span> {{ 'form.link.cancel'|trans }}
                 </a>
+
+                {{ form_end(delete_form) }}
 
             </div>
 

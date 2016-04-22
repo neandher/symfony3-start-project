@@ -53,4 +53,18 @@ class AdminProfileFormHandler extends AbstractFormHandler
 
         return true;
     }
+    
+    public function delete(FormInterface $form = null, Request $request = null)
+    {
+        if(!$this->processForm($form, $request)){
+            return false;
+        }
+
+        /** @var AdminProfile $entity */
+        $entity = $form->getData();
+
+        $this->manager->delete($entity);
+
+        return true;
+    }
 }

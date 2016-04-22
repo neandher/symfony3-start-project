@@ -25,4 +25,17 @@ abstract class AbstractManager
             $this->em->flush();
         }
     }
+
+    /**
+     * @param $entity
+     * @param bool $flush
+     */
+    protected function removeAndFlush($entity, $flush = true)
+    {
+        $this->em->remove($entity);
+
+        if ($flush) {
+            $this->em->flush();
+        }
+    }
 }

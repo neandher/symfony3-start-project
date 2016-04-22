@@ -86,4 +86,11 @@ class AdminProfileManager extends AbstractProfileManager
 
         $this->flashBagHelper->newMessage(FlashBagEvents::MESSAGE_TYPE_SUCCESS, FlashBagEvents::MESSAGE_SUCCESS_UPDATED);
     }
+    public function delete(AdminProfile $adminProfile)
+    {
+        $this->removeAndFlush($adminProfile);
+
+        $this->flashBagHelper->newMessage(FlashBagEvents::MESSAGE_TYPE_SUCCESS, FlashBagEvents::MESSAGE_SUCCESS_DELETED);
+    }
+    
 }
