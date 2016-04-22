@@ -18,7 +18,7 @@
                     <span class="glyphicon glyphicon glyphicon-remove-sign"></span>
                     {{ 'form.link.delete'|trans }}
                 </button>
-                <a href="{{ path('admin_profile_index') }}" class="btn btn-default">
+                <a href="{{ path('admin_profile_index') ~ pagination_helper.buildQuery }}" class="btn btn-default">
                     <span class="glyphicon glyphicon glyphicon-remove-sign"></span> {{ 'form.link.cancel'|trans }}
                 </a>
 

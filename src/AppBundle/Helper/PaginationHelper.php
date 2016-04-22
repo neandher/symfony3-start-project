@@ -58,15 +58,18 @@ class PaginationHelper
      * @param $entityClassName
      * @return PaginationHelper
      */
-    public function handle(Request $request, $entityClassName)
+    public function handle(Request $request, $entityClassName = '')
     {
         $this->request = $request;
         $this->entityClassName = $entityClassName;
 
         $this->setRouteParams()
-            ->addDefaultRouteParams()
-            ->setFields()
-            ->setSorting();
+            ->addDefaultRouteParams();
+
+        if (!empty($entityClassName)) {
+            $this->setFields()
+                ->setSorting();
+        }
 
         return $this;
     }
@@ -127,6 +130,15 @@ class PaginationHelper
     }
 
     /**
+     * @param string $param
+     * @return string
+     */
+    public function getRouteParam($param = '')
+    {
+        return isset($this->routeParams[$param]) ? $this->routeParams[$param] : '';
+    }
+
+    /**
      * @param string $without
      * @return string
      */
@@ -143,7 +155,7 @@ class PaginationHelper
         foreach ($routeParams as $ind => $val) {
             if (is_array($val)) {
                 foreach ($val as $item => $item_val) {
-                    $query .= $ind . '['.$item.']=' . $item_val . '&';
+                    $query .= $ind . '[' . $item . ']=' . $item_val . '&';
                 }
             } else {
                 $query .= $ind . '=' . $val . '&';

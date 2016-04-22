@@ -21,10 +21,9 @@
 
         </div>
 
-        <div class="panel-body">
+        <form class="form-inline" role="search" method="get" action="{{ path('admin_profile_index') }}">
 
-            <form class="navbar-form navbar-left" role="search" style="padding-left: 0" method="get"
-                  action="{{ path('admin_profile_index') }}">
+            <div class="panel-body">
 
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="{{ 'form.placeholder.search'|trans }}"
@@ -32,74 +31,88 @@
                            value="{% if app.request.query.has('search') %}{{ app.request.query.get('search') }}{% endif %}">
                 </div>
 
-                <button type="submit" class="btn btn-default">{{ 'form.submit_actions.search'|trans }}</button>
+                <div class="form-group">
+                    <input type="number" class="form-control" placeholder="{{ 'form.placeholder.num_items'|trans }}"
+                           name="num_items"
+                           value="{{ app.request.query.get('num_items', pagination_helper.routeParam('num_items')) }}">
+                </div>
 
-            </form>
+                <div class="form-group">
+                    <button type="submit"
+                            class="btn btn-default form-control">{{ 'form.submit_actions.search'|trans }}</button>
+                </div>
 
-            <div class="clearfix"></div>
+                <div class="form-group">
+                    <a href="{{ path('admin_profile_index') }}"
+                       class="btn btn-default form-control">{{ 'form.submit_actions.reset'|trans }}</a>
+                </div>
 
-            <hr>
+                <div class="clearfix"></div>
 
-            {{ include('admin/partials/alerts.html.twig') }}
+                <hr>
 
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th>
-                            <a href="{{ path('admin_profile_index') ~ pagination_helper.buildQuery('sorting') ~ pagination_helper.sortingFieldQuery('firstName') ~ pagination_helper.sortingFieldQuery('lastName') }}">
-                                {{ 'admin.profile_admin.fields.full_name'|trans }}
-                            </a>
-                        </th>
-                        <th>
-                            <a href="{{ path('admin_profile_index') ~ pagination_helper.buildQuery('sorting') ~ pagination_helper.sortingFieldQuery('email') }}">
-                                {{ 'admin.profile_admin.fields.email'|trans }}
-                            </a>
-                        </th>
-                        <th>
-                            <a href="{{ path('admin_profile_index') ~ pagination_helper.buildQuery('sorting') ~ pagination_helper.sortingFieldQuery('user.lastLoginAt') }}">
-                                {{ 'admin.profile_admin.fields.last_login'|trans }}
-                            </a>
-                        </th>
-                        <th>
-                            <a href="{{ path('admin_profile_index') ~ pagination_helper.buildQuery('sorting') ~ pagination_helper.sortingFieldQuery('user.createdAt') }}">
-                                {{ 'admin.profile_admin.fields.created_at'|trans }}
-                            </a>
-                        </th>
-                        <th>{{ 'table.actions'|trans }}</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for profile in profiles %}
+                {{ include('admin/partials/alerts.html.twig') }}
+
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
                         <tr>
-                            <td>{{ profile.firstName }} {{ profile.lastName }}</td>
-                            <td>{{ profile.email }}</td>
-                            <td>{% if profile.user.lastLoginAt %}{{ profile.user.lastLoginAt|date('d/m/Y H:i') }}{% endif %}</td>
-                            <td>{{ profile.user.createdAt|date('d/m/Y H:i') }}</td>
-                            <td>
-                                <div class="item-actions">
-
-                                    <a href="{{ path('admin_profile_edit', { id: profile.id }) ~ pagination_helper.buildQuery }}" class="btn btn-sm btn-primary">
-                                        <i class="glyphicon glyphicon-edit"></i> {{ 'action.edit'|trans }}
-                                    </a>
-                                </div>
-                            </td>
+                            <th>
+                                <a href="{{ path('admin_profile_index') ~ pagination_helper.buildQuery('sorting') ~ pagination_helper.sortingFieldQuery('firstName') ~ pagination_helper.sortingFieldQuery('lastName') }}">
+                                    {{ 'admin.profile_admin.fields.full_name'|trans }}
+                                </a>
+                            </th>
+                            <th>
+                                <a href="{{ path('admin_profile_index') ~ pagination_helper.buildQuery('sorting') ~ pagination_helper.sortingFieldQuery('email') }}">
+                                    {{ 'admin.profile_admin.fields.email'|trans }}
+                                </a>
+                            </th>
+                            <th>
+                                <a href="{{ path('admin_profile_index') ~ pagination_helper.buildQuery('sorting') ~ pagination_helper.sortingFieldQuery('user.lastLoginAt') }}">
+                                    {{ 'admin.profile_admin.fields.last_login'|trans }}
+                                </a>
+                            </th>
+                            <th>
+                                <a href="{{ path('admin_profile_index') ~ pagination_helper.buildQuery('sorting') ~ pagination_helper.sortingFieldQuery('user.createdAt') }}">
+                                    {{ 'admin.profile_admin.fields.created_at'|trans }}
+                                </a>
+                            </th>
+                            <th>{{ 'table.actions'|trans }}</th>
                         </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="4" align="center">{{ 'admin.profile_admin.not_found'|trans }}</td>
-                        </tr>
-                    {% endfor %}
+                        </thead>
+                        <tbody>
+                        {% for profile in profiles %}
+                            <tr>
+                                <td>{{ profile.firstName }} {{ profile.lastName }}</td>
+                                <td>{{ profile.email }}</td>
+                                <td>{% if profile.user.lastLoginAt %}{{ profile.user.lastLoginAt|date('d/m/Y H:i') }}{% endif %}</td>
+                                <td>{{ profile.user.createdAt|date('d/m/Y H:i') }}</td>
+                                <td>
+                                    <div class="item-actions">
 
-                    </tbody>
-                </table>
+                                        <a href="{{ path('admin_profile_edit', { id: profile.id }) ~ pagination_helper.buildQuery }}"
+                                           class="btn btn-sm btn-primary">
+                                            <i class="glyphicon glyphicon-edit"></i> {{ 'action.edit'|trans }}
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="4" align="center">{{ 'admin.profile_admin.not_found'|trans }}</td>
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="navigation text-center">
+                    {{ pagerfanta(profiles, 'twitter_bootstrap3', { routeName: 'admin_profile_index', routeParams: app.request.query.all }) }}
+                </div>
+
             </div>
-
-            <div class="navigation text-center">
-                {{ pagerfanta(profiles, 'twitter_bootstrap3', { routeName: 'admin_profile_index', routeParams: app.request.query.all }) }}
-            </div>
-
-        </div>
+        </form>
 
     </div>
 

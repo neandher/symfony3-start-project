@@ -45,8 +45,7 @@ class AdminProfileController extends Controller
      */
     public function newAction(Request $request)
     {
-
-        $paginationHelper = $this->get('app.helper.pagination')->handle($request, AdminProfile::class);
+        $paginationHelper = $this->get('app.helper.pagination')->handle($request);
 
         $adminProfile = new AdminProfile();
 
@@ -100,8 +99,7 @@ class AdminProfileController extends Controller
      */
     public function editAction(Request $request, AdminProfile $adminProfile)
     {
-
-        $paginationHelper = $this->get('app.helper.pagination')->handle($request, AdminProfile::class);
+        $paginationHelper = $this->get('app.helper.pagination')->handle($request);
 
         $editForm = $this->createForm(AdminProfileUpdateType::class, $adminProfile)
             ->add(

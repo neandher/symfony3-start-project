@@ -75,11 +75,13 @@ form:
         save_and_keep: Salvar
         save_and_close: Salvar e fechar
         search: Buscar
+        reset: Limpar
     link:
         cancel: Cancelar
         delete: Excluir
     placeholder:
         search: Digite sua busca
+        num_items: Items por página
 
 table:
     actions: Ações
