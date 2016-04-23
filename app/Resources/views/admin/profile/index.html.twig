@@ -84,7 +84,9 @@
                         <tbody>
                         {% for profile in profiles %}
                             <tr>
-                                <td>{{ profile.firstName }} {{ profile.lastName }}</td>
+                                <td>
+                                    <a href="{{ path('admin_profile_edit', {id: profile.id}) ~ pagination_helper.buildQuery }}">{{ profile.fullName }}</a>
+                                </td>
                                 <td>{{ profile.email }}</td>
                                 <td>{% if profile.user.lastLoginAt %}{{ profile.user.lastLoginAt|date('d/m/Y H:i') }}{% endif %}</td>
                                 <td>{{ profile.user.createdAt|date('d/m/Y H:i') }}</td>
