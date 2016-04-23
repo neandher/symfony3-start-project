@@ -10,6 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserType extends AbstractType
 {
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -17,7 +18,13 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('isEnabled', CheckboxType::class);
+            ->add('isEnabled', CheckboxType::class, ['required' => false, 'label' => 'user.is_enabled']);
+
+        if (!$options['is_edit']) {
+
+            $builder
+                ->add('plain_password', PlainPasswordType::class);
+        }
     }
 
     /**
@@ -27,7 +34,8 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => User::class
+                'data_class' => User::class,
+                'is_edit'    => false
             ]
         );
     }

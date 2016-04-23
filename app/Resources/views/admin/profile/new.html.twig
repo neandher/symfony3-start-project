@@ -33,8 +33,9 @@
                 {{ form_row(form.firstName, {'attr': {'autofocus': true}}) }}
                 {{ form_row(form.lastName) }}
                 {{ form_row(form.email) }}
-                {{ form_row(form.user.plainPassword.first) }}
-                {{ form_row(form.user.plainPassword.second) }}
+                {{ form_row(form.user.plain_password.plainPassword.first) }}
+                {{ form_row(form.user.plain_password.plainPassword.second) }}
+                {{ form_row(form.user.isEnabled) }}
             </div>
 
             <div class="row">

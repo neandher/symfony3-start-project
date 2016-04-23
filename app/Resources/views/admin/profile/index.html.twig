@@ -6,15 +6,14 @@
 
         <div class="panel-heading">
 
-            <h2 class="pull-left"><i
-                        class="glyphicon glyphicon-list-alt"></i> {{ 'admin.profile_admin.title.list'|trans }}</h2>
+            <h2 class="pull-left">
+                <i class="glyphicon glyphicon-list-alt"></i> {{ 'admin.profile_admin.title.list'|trans }}
+            </h2>
 
             <div class="pull-right" style="padding-top: 20px;">
-
                 <a href="{{ path('admin_profile_new') ~ pagination_helper.buildQuery }}" class="btn btn-primary">
                     <span class="glyphicon glyphicon-plus"></span> {{ 'admin.profile_admin.action.new_profile'|trans }}
                 </a>
-
             </div>
 
             <div class="clearfix"></div>
@@ -34,7 +33,7 @@
                 <div class="form-group">
                     <input type="number" class="form-control" placeholder="{{ 'form.placeholder.num_items'|trans }}"
                            name="num_items"
-                           value="{{ app.request.query.get('num_items', pagination_helper.routeParam('num_items')) }}">
+                           value="{{ app.request.query.get('num_items', pagination_helper.routeParams('num_items')) }}">
                 </div>
 
                 <div class="form-group">
@@ -89,7 +88,6 @@
                                 <td>{{ profile.user.createdAt|date('d/m/Y H:i') }}</td>
                                 <td>
                                     <div class="item-actions">
-
                                         <a href="{{ path('admin_profile_edit', { id: profile.id }) ~ pagination_helper.buildQuery }}"
                                            class="btn btn-sm btn-primary">
                                             <i class="glyphicon glyphicon-edit"></i> {{ 'action.edit'|trans }}
@@ -102,7 +100,6 @@
                                 <td colspan="4" align="center">{{ 'admin.profile_admin.not_found'|trans }}</td>
                             </tr>
                         {% endfor %}
-
                         </tbody>
                     </table>
                 </div>

@@ -122,20 +122,12 @@ class PaginationHelper
     }
 
     /**
-     * @return array
+     * @param null $param
+     * @return array|mixed
      */
-    public function getRouteParams()
+    public function getRouteParams($param = null)
     {
-        return $this->routeParams;
-    }
-
-    /**
-     * @param string $param
-     * @return string
-     */
-    public function getRouteParam($param = '')
-    {
-        return isset($this->routeParams[$param]) ? $this->routeParams[$param] : '';
+        return isset($this->routeParams[$param]) ? $this->routeParams[$param] : $this->routeParams;
     }
 
     /**

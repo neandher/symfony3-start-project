@@ -90,6 +90,8 @@ action:
     show: Exibir
     edit: Editar
 
+user:
+    is_enabled: Usuário Ativo
 
 ######################## ADMIN ##############################
 admin:

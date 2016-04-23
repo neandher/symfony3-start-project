@@ -4,6 +4,7 @@ namespace AppBundle\Form\Admin\Type;
 
 use AppBundle\Entity\Admin\AdminProfile;
 use AppBundle\Form\Security\Type\PlainPasswordType;
+use AppBundle\Form\Security\Type\UserType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -22,13 +23,8 @@ class AdminProfileType extends AbstractType
         $builder
             ->add('firstName', TextType::class, ['label' => 'admin.profile_admin.fields.first_name'])
             ->add('lastName', TextType::class, ['label' => 'admin.profile_admin.fields.last_name'])
-            ->add('email', EmailType::class, ['label' => 'admin.profile_admin.fields.email']);
-
-        if (!$options['is_edit']) {
-
-            $builder
-                ->add('user', PlainPasswordType::class);
-        }
+            ->add('email', EmailType::class, ['label' => 'admin.profile_admin.fields.email'])
+            ->add('user', UserType::class, ['is_edit' => $options['is_edit']]);
     }
 
     /**
