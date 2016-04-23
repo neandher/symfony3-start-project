@@ -3,14 +3,12 @@
 namespace AppBundle\Form\Security\Type;
 
 use AppBundle\Entity\User;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UserType extends AbstractType
+class UserType extends PlainPasswordType
 {
-
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -22,8 +20,7 @@ class UserType extends AbstractType
 
         if (!$options['is_edit']) {
 
-            $builder
-                ->add('plain_password', PlainPasswordType::class);
+            parent::buildForm($builder,$options);
         }
     }
 
@@ -35,7 +32,7 @@ class UserType extends AbstractType
         $resolver->setDefaults(
             [
                 'data_class' => User::class,
-                'is_edit'    => false
+                'is_edit'    => false,
             ]
         );
     }

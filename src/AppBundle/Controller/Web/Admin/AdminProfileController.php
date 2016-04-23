@@ -23,6 +23,7 @@ class AdminProfileController extends Controller
 
     /**
      * @Route("/me/edit", name="admin_profile_me_edit")
+     * @Method({"GET", "POST"})
      */
     public function meEditAction(Request $request)
     {

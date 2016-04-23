@@ -54,7 +54,7 @@ class User extends AbstractTimestampable implements AdvancedUserInterface
 
     /**
      * @Assert\NotBlank(groups={"creating", "resetting", "changing"})
-     * @Assert\Length(min="2", max="255")
+     * @Assert\Length(min="2", max="255", groups={"creating", "resetting", "changing"})
      */
     protected $plainPassword;
 

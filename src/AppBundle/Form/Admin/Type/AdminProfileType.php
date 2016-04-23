@@ -3,7 +3,6 @@
 namespace AppBundle\Form\Admin\Type;
 
 use AppBundle\Entity\Admin\AdminProfile;
-use AppBundle\Form\Security\Type\PlainPasswordType;
 use AppBundle\Form\Security\Type\UserType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
