@@ -23,25 +23,17 @@ class ResettingResetSubscriber implements EventSubscriberInterface
     private $router;
 
     /**
-     * @var int
-     */
-    private $tokenTll;
-
-    /**
      * ResettingResetSubscriber constructor.
      *
      * @param FlashBagHelper $flashBagHelper
      * @param UrlGeneratorInterface $router
-     * @param $tokenTll
      */
     public function __construct(
         FlashBagHelper $flashBagHelper,
-        UrlGeneratorInterface $router,
-        $tokenTll
+        UrlGeneratorInterface $router
     ) {
         $this->flashBagHelper = $flashBagHelper;
         $this->router = $router;
-        $this->tokenTll = $tokenTll;
     }
 
     /**
@@ -59,12 +51,12 @@ class ResettingResetSubscriber implements EventSubscriberInterface
         );
     }
 
-
     public function onResettingResetInitialize(ProfileEvent $event)
     {
         $request = $event->getRequest();
         $token = $request->attributes->get('token');
         $profile = $event->getManager()->findByConfirmationToken($token);
+        $tokenTtl = $event->getParams()['security']['resetting']['token_ttl'];
 
         if (!$profile) {
 
@@ -75,7 +67,7 @@ class ResettingResetSubscriber implements EventSubscriberInterface
 
             $request->attributes->add(['error' => 'true']);
 
-        } elseif (!$profile->getUser()->isPasswordRequestNonExpired($this->tokenTll)) {
+        } elseif (!$profile->getUser()->isPasswordRequestNonExpired($tokenTtl)) {
 
             $this->flashBagHelper->newMessage(
                 FlashBagEvents::MESSAGE_TYPE_ERROR,

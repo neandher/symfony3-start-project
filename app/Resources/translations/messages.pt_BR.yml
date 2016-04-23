@@ -95,7 +95,6 @@ user:
 
 ######################## ADMIN ##############################
 admin:
-
     menu:
         logout: Sair
 
@@ -116,3 +115,8 @@ admin:
         action:
             new_profile: Novo Perfil
         not_found: Nenhum perfil encontrado
+
+######################## PORTAL ##############################
+portal:
+    menu:
+        logout: Sair

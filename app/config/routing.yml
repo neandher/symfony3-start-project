@@ -6,3 +6,8 @@ admin:
     resource: "@AppBundle/Controller/Web/Admin/"
     type:     annotation
     prefix: /admin
+
+portal:
+    resource: "@AppBundle/Controller/Web/Portal/"
+    type:     annotation
+    prefix: /portal

@@ -1,0 +1,8 @@
+services:
+    app.security.mailer:
+        class: AppBundle\Mailer\Security\Mailer
+        arguments:
+            - "@swiftmailer.mailer"
+            - "@router"
+            - "@twig"
+

@@ -6,11 +6,17 @@ imports:
     # Listener Services #
     - { resource: listener/services.yml }
 
+    # Helpers Services #
+    - { resource: helper/services.yml }
+
+    # Security Services #
+    - { resource: security/services.yml }
+
     # Admin Services #
     - { resource: admin/services.yml }
 
-    # Helpers Services #
-    - { resource: helper/services.yml }
+    # Portal Services #
+    - { resource: portal/services.yml }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -18,10 +24,24 @@ parameters:
     locale: pt_BR
 
     ## Admin ##
-    admin_security.resetting.token_ttl: 86400
-    admin_security.resetting_email.from: "noreply@dev.com"
-    admin_security.resetting_email.template: "admin/security/resetting/email.txt.twig"
-    admin_security.resetting_email.route: "admin_security_resetting_reset"
+    admin:
+        security:
+            resetting:
+                token_ttl: 86400
+                email:
+                    from: "noreply@dev.com"
+                    template: "admin/security/resetting/email.txt.twig"
+                    route: "admin_security_resetting_reset"
+
+    ## Portal ##
+    portal:
+        security:
+            resetting:
+                token_ttl: 86400
+                email:
+                    from: "noreply@dev.com"
+                    template: "portal/security/resetting/email.txt.twig"
+                    route: "portal_security_resetting_reset"
 
 framework:
     #esi:             ~

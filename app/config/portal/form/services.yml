@@ -1,0 +1,17 @@
+services:
+
+    app.portal_resetting_request_form_handler:
+        class: AppBundle\Form\Security\Handler\ResettingRequestFormHandler
+        arguments: [ "@app.portal_profile_manager", "@app.helper.token_generator", "@translator.default", "@=service('app.helper.parameters').getParams('portal')" ]
+
+    app.portal_resetting_reset_form_handler:
+        class: AppBundle\Form\Security\Handler\ResettingResetFormHandler
+        arguments: ['@app.portal_profile_manager', '@app.helper.flash_bag']
+
+    app.portal_change_password_form_handler:
+        class: AppBundle\Form\Security\Handler\ChangePasswordFormHandler
+        arguments: [ "@app.portal_profile_manager", "@app.helper.flash_bag" ]
+
+    #app.portal_profile_form_handler:
+    #    class: AppBundle\Form\Portal\Handler\PortalProfileFormHandler
+    #    arguments: [ "@app.portal_profile_manager" ]

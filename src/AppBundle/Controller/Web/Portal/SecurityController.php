@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller\Web\Admin;
+namespace AppBundle\Controller\Web\Portal;
 
 use AppBundle\Controller\Web\SecurityControllerInterface;
 use AppBundle\Event\Security\ProfileEvent;
@@ -18,7 +18,7 @@ class SecurityController extends Controller implements SecurityControllerInterfa
 {
 
     /**
-     * @Route("/login", name="admin_security_login")
+     * @Route("/login", name="portal_security_login")
      */
     public function loginAction()
     {
@@ -27,7 +27,7 @@ class SecurityController extends Controller implements SecurityControllerInterfa
         $form = $this->createForm(LoginType::class);
 
         return $this->render(
-            'admin/security/login.html.twig',
+            'portal/security/login.html.twig',
             [
                 'form' => $form->createView(),
                 'last_username' => $utils->getLastUsername(),
@@ -37,7 +37,7 @@ class SecurityController extends Controller implements SecurityControllerInterfa
     }
 
     /**
-     * @Route("/login_check", name="admin_security_login_check")
+     * @Route("/login_check", name="portal_security_login_check")
      */
     public function loginCheckAction()
     {
@@ -45,7 +45,7 @@ class SecurityController extends Controller implements SecurityControllerInterfa
     }
 
     /**
-     * @Route("/logout", name="admin_security_logout")
+     * @Route("/logout", name="portal_security_logout")
      */
     public function logoutAction()
     {
@@ -53,7 +53,7 @@ class SecurityController extends Controller implements SecurityControllerInterfa
     }
 
     /**
-     * @Route("/resetting/request", name="admin_security_resetting_request")
+     * @Route("/resetting/request", name="portal_security_resetting_request")
      * @Method({"GET", "POST"})
      *
      * @param Request $request
@@ -63,20 +63,20 @@ class SecurityController extends Controller implements SecurityControllerInterfa
     {
         $form = $this->createForm(ResettingRequestType::class);
 
-        $formHandler = $this->get('app.admin_resetting_request_form_handler');
+        $formHandler = $this->get('app.portal_resetting_request_form_handler');
 
         if ($formHandler->handle($form, $request)) {
-            return $this->redirectToRoute('admin_security_login');
+            return $this->redirectToRoute('portal_security_login');
         }
 
         return $this->render(
-            'admin/security/resetting/resettingRequest.html.twig',
+            'portal/security/resetting/resettingRequest.html.twig',
             ['form' => $form->createView()]
         );
     }
 
     /**
-     * @Route("/resetting/reset/{token}", name="admin_security_resetting_reset")
+     * @Route("/resetting/reset/{token}", name="portal_security_resetting_reset")
      * @Method({"GET", "POST"})
      *
      * @param Request $request
@@ -85,31 +85,31 @@ class SecurityController extends Controller implements SecurityControllerInterfa
      */
     public function resettingResetAction(Request $request, $token)
     {
-        $manager = $this->get('app.admin_profile_manager');
-        $params = $this->get('app.helper.parameters')->getParams('admin');
-        
+        $manager = $this->get('app.portal_profile_manager');
+        $params = $this->get('app.helper.parameters')->getParams('portal');
+
         $event = new ProfileEvent(null, $manager, $request);
         $event->setParams($params);
-        
+
         $dispatcher = $this->get('event_dispatcher')->dispatch(
             ProfileEvents::RESETTING_RESET_INITIALIZE,
             $event
         );
 
         if ($request->attributes->has('error')) {
-            return $this->redirectToRoute('admin_security_login');
+            return $this->redirectToRoute('portal_security_login');
         }
 
         $form = $this->createForm(ResettingResetType::class, $dispatcher->getProfile());
 
-        $formHandler = $this->get('app.admin_resetting_reset_form_handler');
+        $formHandler = $this->get('app.portal_resetting_reset_form_handler');
 
         if ($formHandler->handle($form, $request)) {
-            return $this->redirectToRoute('admin_security_login');
+            return $this->redirectToRoute('portal_security_login');
         }
 
         return $this->render(
-            'admin/security/resetting/resettingReset.html.twig',
+            'portal/security/resetting/resettingReset.html.twig',
             [
                 'form' => $form->createView(),
                 'token' => $token
@@ -118,7 +118,7 @@ class SecurityController extends Controller implements SecurityControllerInterfa
     }
 
     /**
-     * @Route("/change-password", name="admin_security_change_password")
+     * @Route("/change-password", name="portal_security_change_password")
      * @Method({"GET", "POST"})
      *
      * @param Request $request
@@ -126,18 +126,18 @@ class SecurityController extends Controller implements SecurityControllerInterfa
      */
     public function changePassword(Request $request)
     {
-        $adminProfile = $this->getUser()->getAdminProfile();
+        $portalProfile = $this->getUser()->getPortalProfile();
 
-        $form = $this->createForm(ChangePasswordType::class, $adminProfile);
+        $form = $this->createForm(ChangePasswordType::class, $portalProfile);
 
-        $formHandle = $this->get('app.admin_change_password_form_handler');
+        $formHandle = $this->get('app.portal_change_password_form_handler');
 
         if ($formHandle->handle($form, $request)) {
-            return $this->redirectToRoute('admin_security_change_password');
+            return $this->redirectToRoute('portal_security_change_password');
         }
 
         return $this->render(
-            'admin/security/changePassword/changePassword.html.twig',
+            'portal/security/changePassword/changePassword.html.twig',
             ['form' => $form->createView()]
         );
     }

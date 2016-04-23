@@ -3,7 +3,7 @@
 namespace AppBundle\Security;
 
 use AppBundle\DomainManager\ProfileManagerInterface;
-use AppBundle\Entity\Admin\AdminProfile;
+use AppBundle\Entity\Portal\PortalProfile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
@@ -16,13 +16,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 
-class AdminFormAuthenticator extends AbstractGuardAuthenticator
+class PortalFormAuthenticator extends AbstractGuardAuthenticator
 {
 
     /**
      * @var ProfileManagerInterface
      */
-    private $adminProfileManager;
+    private $portalProfileManager;
 
     /**
      * @var UserPasswordEncoder
@@ -35,17 +35,17 @@ class AdminFormAuthenticator extends AbstractGuardAuthenticator
     private $router;
 
     /**
-     * AdminFormAuthenticator constructor.
-     * @param ProfileManagerInterface $adminProfileManager
+     * PortalFormAuthenticator constructor.
+     * @param ProfileManagerInterface $portalProfileManager
      * @param UserPasswordEncoder $encoder
      * @param RouterInterface $router
      */
     public function __construct(
-        ProfileManagerInterface $adminProfileManager,
+        ProfileManagerInterface $portalProfileManager,
         UserPasswordEncoder $encoder,
         RouterInterface $router
     ) {
-        $this->adminProfileManager = $adminProfileManager;
+        $this->portalProfileManager = $portalProfileManager;
         $this->encoder = $encoder;
         $this->router = $router;
     }
@@ -57,7 +57,7 @@ class AdminFormAuthenticator extends AbstractGuardAuthenticator
      */
     public function start(Request $request, AuthenticationException $authException = null)
     {
-        $url = $this->router->generate('admin_security_login');
+        $url = $this->router->generate('portal_security_login');
 
         return new RedirectResponse($url);
     }
@@ -68,7 +68,7 @@ class AdminFormAuthenticator extends AbstractGuardAuthenticator
      */
     public function getCredentials(Request $request)
     {
-        if ($request->getPathInfo() != '/admin/login_check' || !$request->isMethod('POST')) {
+        if ($request->getPathInfo() != '/portal/login_check' || !$request->isMethod('POST')) {
             return;
         }
 
@@ -88,16 +88,16 @@ class AdminFormAuthenticator extends AbstractGuardAuthenticator
     {
         $email = $credentials['email'];
 
-        /** @var AdminProfile $adminProfile */
-        $adminProfile = $this->adminProfileManager->findByEmail($email);
+        /** @var PortalProfile $portalProfile */
+        $portalProfile = $this->portalProfileManager->findByEmail($email);
         
-        if (!$adminProfile) {
+        if (!$portalProfile) {
             throw new CustomUserMessageAuthenticationException(
                 'security.login.errors.email_not_found'
             );
         }
 
-        return $adminProfile->getUser();
+        return $portalProfile->getUser();
     }
 
     /**
@@ -127,7 +127,7 @@ class AdminFormAuthenticator extends AbstractGuardAuthenticator
     {
         $request->getSession()->set(Security::AUTHENTICATION_ERROR, $exception);
         
-        $url = $this->router->generate('admin_security_login');
+        $url = $this->router->generate('portal_security_login');
 
         return new RedirectResponse($url);
     }
@@ -143,7 +143,7 @@ class AdminFormAuthenticator extends AbstractGuardAuthenticator
         $targetPath = $request->getSession()->get('_security.' . $providerKey . '.target_path');
 
         if (!$targetPath) {
-            $targetPath = $this->router->generate('admin_index');
+            $targetPath = $this->router->generate('portal_index');
         }
 
         return new RedirectResponse($targetPath);

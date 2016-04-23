@@ -30,7 +30,7 @@ class ResettingRequestFormHandler extends AbstractFormHandler
     /**
      * @var string
      */
-    private $tokenTll;
+    private $params;
 
     /**
      * ResettingRequestFormHandler constructor.
@@ -38,18 +38,18 @@ class ResettingRequestFormHandler extends AbstractFormHandler
      * @param ProfileManagerInterface $profileManager
      * @param TokenGeneratorHelper $tokenGeneratorHelper
      * @param Translator $translator
-     * @param $tokenTll
+     * @param $params
      */
     public function __construct(
         ProfileManagerInterface $profileManager,
         TokenGeneratorHelper $tokenGeneratorHelper,
         Translator $translator,
-        $tokenTll
+        $params
     ) {
         $this->profileManager = $profileManager;
         $this->tokenGeneratorHelper = $tokenGeneratorHelper;
-        $this->tokenTll = $tokenTll;
         $this->translator = $translator;
+        $this->params = $params;
     }
 
     /**
@@ -79,8 +79,10 @@ class ResettingRequestFormHandler extends AbstractFormHandler
             }
             
             $user = $profile->getUser();
-            
-            if ($user->isPasswordRequestNonExpired($this->tokenTll)) {
+
+            $tokenTtl = $this->params['security']['resetting']['token_ttl'];
+
+            if ($user->isPasswordRequestNonExpired($tokenTtl)) {
                 
                 $form->addError(
                     new FormError(

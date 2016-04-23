@@ -1,0 +1,7 @@
+services:
+
+    app.portal_profile_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments:
+            - AppBundle\Entity\Portal\PortalProfile

@@ -2,7 +2,7 @@
 
 namespace AppBundle\Form\Security\Type;
 
-use AppBundle\Entity\Admin\AdminProfile;
+use AppBundle\Entity\AbstractProfile;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -23,7 +23,7 @@ class ResettingResetType extends AbstractType
     {
         $resolver->setDefaults(
             array(
-                'data_class' => AdminProfile::class,
+                'data_class' => AbstractProfile::class,
                 'validation_groups' => ['Default', 'resetting']
             )
         );

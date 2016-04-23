@@ -2,11 +2,11 @@ services:
 
     app.admin_resetting_request_form_handler:
         class: AppBundle\Form\Security\Handler\ResettingRequestFormHandler
-        arguments: [ "@app.admin_profile_manager", "@app.helper.token_generator", "@translator.default", "%admin_security.resetting.token_ttl%" ]
+        arguments: [ "@app.admin_profile_manager", "@app.helper.token_generator", "@translator.default", "@=service('app.helper.parameters').getParams('admin')" ]
 
     app.admin_resetting_reset_form_handler:
         class: AppBundle\Form\Security\Handler\ResettingResetFormHandler
-        autowire: true
+        arguments: ['@app.admin_profile_manager', '@app.helper.flash_bag']
 
     app.admin_change_password_form_handler:
         class: AppBundle\Form\Security\Handler\ChangePasswordFormHandler

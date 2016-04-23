@@ -1,11 +1,11 @@
 <?php
 
-namespace AppBundle\DomainManager\Admin;
+namespace AppBundle\DomainManager\Portal;
 
 use AppBundle\DomainManager\AbstractManager;
 use AppBundle\DomainManager\ProfileManagerInterface;
 use AppBundle\Entity\AbstractProfile;
-use AppBundle\Entity\Admin\AdminProfile;
+use AppBundle\Entity\Portal\PortalProfile;
 use AppBundle\Entity\User;
 use AppBundle\Event\FlashBag\FlashBagEvents;
 use AppBundle\Event\Security\ProfileEvent;
@@ -14,11 +14,11 @@ use AppBundle\Helper\CanonicalizerHelper;
 use AppBundle\Helper\FlashBagHelper;
 use AppBundle\Helper\PaginationHelper;
 use AppBundle\Helper\ParametersHelper;
-use AppBundle\Repository\Admin\AdminProfileRepository;
+use AppBundle\Repository\Portal\PortalProfileRepository;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class AdminProfileManager extends AbstractManager implements ProfileManagerInterface
+class PortalProfileManager extends AbstractManager implements ProfileManagerInterface
 {
 
     /**
@@ -27,24 +27,24 @@ class AdminProfileManager extends AbstractManager implements ProfileManagerInter
     protected $em;
 
     /**
-     * @var AdminProfileRepository
+     * @var PortalProfileRepository
      */
-    protected $repository;
+    private $repository;
 
     /**
      * @var CanonicalizerHelper
      */
-    protected $canonicalizerHelper;
+    private $canonicalizerHelper;
 
     /**
      * @var FlashBagHelper
      */
-    protected $flashBagHelper;
-    
+    private $flashBagHelper;
+
     /**
      * @var EventDispatcherInterface
      */
-    protected $eventDispatcher;
+    private $eventDispatcher;
 
     /**
      * @var ParametersHelper
@@ -52,10 +52,10 @@ class AdminProfileManager extends AbstractManager implements ProfileManagerInter
     private $parametersHelper;
 
     /**
-     * AdminProfileManager constructor.
+     * PortalProfileManager constructor.
      *
      * @param EntityManager $em
-     * @param AdminProfileRepository $repository
+     * @param PortalProfileRepository $repository
      * @param CanonicalizerHelper $canonicalizerHelper
      * @param FlashBagHelper $flashBagHelper
      * @param EventDispatcherInterface $eventDispatcher
@@ -63,13 +63,12 @@ class AdminProfileManager extends AbstractManager implements ProfileManagerInter
      */
     public function __construct(
         EntityManager $em,
-        AdminProfileRepository $repository,
+        PortalProfileRepository $repository,
         CanonicalizerHelper $canonicalizerHelper,
         FlashBagHelper $flashBagHelper,
         EventDispatcherInterface $eventDispatcher,
         ParametersHelper $parametersHelper
-        )
-    {
+    ) {
         $this->em = $em;
         $this->repository = $repository;
         $this->canonicalizerHelper = $canonicalizerHelper;
@@ -102,8 +101,8 @@ class AdminProfileManager extends AbstractManager implements ProfileManagerInter
      */
     public function resettingRequest(AbstractProfile $profile)
     {
-        $params = $this->parametersHelper->getParams('admin');
-
+        $params = $this->parametersHelper->getParams('portal');
+        
         $event = new ProfileEvent($profile);
         $event->setParams($params['security']['resetting']['email']);
 
@@ -143,34 +142,34 @@ class AdminProfileManager extends AbstractManager implements ProfileManagerInter
     {
         $this->persistAndFlush($profile);
     }
-    
+
     /**
      * @param PaginationHelper $paginationHelper
-     * @return AdminProfile[]
+     * @return PortalProfile[]
      */
-    public function findLatest(PaginationHelper $paginationHelper)
+    /*public function findLatest(PaginationHelper $paginationHelper)
     {
         return $this->repository->findLatest($paginationHelper);
     }
 
-    public function create(AdminProfile $adminProfile)
+    public function create(PortalProfile $portalProfile)
     {
-        $this->persistAndFlush($adminProfile);
+        $this->persistAndFlush($portalProfile);
         
         $this->flashBagHelper->newMessage(FlashBagEvents::MESSAGE_TYPE_SUCCESS, FlashBagEvents::MESSAGE_SUCCESS_INSERTED);
     }
 
-    public function edit(AdminProfile $adminProfile)
+    public function edit(PortalProfile $portalProfile)
     {
-        $this->persistAndFlush($adminProfile);
+        $this->persistAndFlush($portalProfile);
 
         $this->flashBagHelper->newMessage(FlashBagEvents::MESSAGE_TYPE_SUCCESS, FlashBagEvents::MESSAGE_SUCCESS_UPDATED);
     }
-    public function delete(AdminProfile $adminProfile)
+    public function delete(PortalProfile $portalProfile)
     {
-        $this->removeAndFlush($adminProfile);
+        $this->removeAndFlush($portalProfile);
 
         $this->flashBagHelper->newMessage(FlashBagEvents::MESSAGE_TYPE_SUCCESS, FlashBagEvents::MESSAGE_SUCCESS_DELETED);
-    }
-    
+    }*/
+
 }

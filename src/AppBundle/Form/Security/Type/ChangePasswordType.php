@@ -2,7 +2,7 @@
 
 namespace AppBundle\Form\Security\Type;
 
-use AppBundle\Entity\Admin\AdminProfile;
+use AppBundle\Entity\AbstractProfile;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -34,7 +34,7 @@ class ChangePasswordType extends AbstractType
     {
         $resolver->setDefaults(
             array(
-                'data_class' => AdminProfile::class,
+                'data_class' => AbstractProfile::class,
                 'validation_groups' => ['Default', 'changing']
             )
         );
