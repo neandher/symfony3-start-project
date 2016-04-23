@@ -20,7 +20,7 @@ class AdminProfileFormHandler extends AbstractFormHandler
     {
         $this->manager = $manager;
     }
-
+    
     public function create(FormInterface $form, Request $request)
     {
         if(!$this->processForm($form, $request)){

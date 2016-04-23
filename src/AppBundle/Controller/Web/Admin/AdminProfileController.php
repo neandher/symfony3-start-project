@@ -3,6 +3,7 @@
 namespace AppBundle\Controller\Web\Admin;
 
 use AppBundle\Entity\Admin\AdminProfile;
+use AppBundle\Form\Admin\Type\AdminMeProfileUpdateType;
 use AppBundle\Form\Admin\Type\AdminProfileType;
 use AppBundle\Form\Admin\Type\AdminProfileUpdateType;
 use AppBundle\Form\SubmitActions;
@@ -19,6 +20,41 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class AdminProfileController extends Controller
 {
+
+    /**
+     * @Route("/me/edit", name="admin_profile_me_edit")
+     */
+    public function meEditAction(Request $request)
+    {
+        $adminProfile = $this->getUser()->getAdminProfile();
+
+        $form = $this->createForm(AdminMeProfileUpdateType::class, $adminProfile)
+            ->add(
+                'buttons',
+                SubmitActionsType::class,
+                [
+                    'mapped' => false,
+                    'actions' =>
+                    [
+                        SubmitActions::SAVE_AND_KEEP
+                    ]
+                ]
+            );
+
+        $formHandler = $this->get('app.admin_profile_form_handler');
+
+        if ($formHandler->edit($form, $request)) {
+            return $this->redirectToRoute('admin_profile_me_edit');
+        }
+
+        return $this->render(
+            'admin/profile/meEdit.html.twig',
+            [
+                'form'          => $form->createView(),
+                'admin_profile' => $adminProfile
+            ]
+        );
+    }
 
     /**
      * @Route("/", name="admin_profile_index")

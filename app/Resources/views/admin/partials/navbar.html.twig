@@ -30,8 +30,9 @@
                             {{ app.user.adminProfile.fullName }} <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ path('admin_security_change_password') }}">Alterar Senha</a></li>
-                            <li><a href="{{ path('admin_security_logout') }}">Sair</a></li>
+                            <li><a href="{{ path('admin_profile_me_edit') }}">{{ 'admin.profile_admin.title.me_edit'|trans }}</a></li>
+                            <li><a href="{{ path('admin_security_change_password') }}">{{ 'security.change_password.title'|trans }}</a></li>
+                            <li><a href="{{ path('admin_security_logout') }}">{{ 'admin.menu.logout'|trans }}</a></li>
                         </ul>
                     </li>
 

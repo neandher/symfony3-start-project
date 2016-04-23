@@ -1,0 +1,50 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+
+    <div class="panel panel-default">
+
+        <div class="panel-heading">
+
+            <h2 class="pull-left"><i
+                        class="glyphicon glyphicon-list-alt"></i> {{ 'admin.profile_admin.title.me_edit'|trans }}</h2>
+
+            <div class="pull-right" style="padding-top: 20px;">
+
+                <a href="{{ path('admin_security_change_password') }}" class="btn btn-default">
+                    <span class="glyphicon glyphicon-refresh"></span> {{ 'security.change_password.title'|trans }}
+                </a>
+
+            </div>
+
+            <div class="clearfix"></div>
+
+        </div>
+
+        <div class="panel-body">
+
+            {{ form_start(form, {'attr' : {'class' : '', 'novalidate': 'novalidate'}}) }}
+
+            {{ form_errors(form) }}
+
+            {{ include('admin/partials/alerts.html.twig') }}
+
+            <div class="row">
+                {{ form_row(form.firstName, {'attr': {'autofocus': true}}) }}
+                {{ form_row(form.lastName) }}
+                {{ form_row(form.email) }}
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    {{ form_widget(form.buttons.save_and_keep, {'attr' : {'class' : 'btn-primary'}}) }}
+                </div>
+            </div>
+
+            {{ form_end(form) }}
+
+        </div>
+
+    </div>
+
+{% endblock %}

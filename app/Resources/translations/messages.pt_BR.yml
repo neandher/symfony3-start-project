@@ -95,11 +95,16 @@ user:
 
 ######################## ADMIN ##############################
 admin:
+
+    menu:
+        logout: Sair
+
     profile_admin:
         title:
             list: Lista de Perfis
             new: Novo Perfil
             edit: Editar Perfil
+            me_edit: Meu Perfil
         fields:
             full_name: Nome Completo
             first_name: Primeiro Nome
