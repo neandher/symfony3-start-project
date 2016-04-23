@@ -31,9 +31,11 @@
                 </div>
 
                 <div class="form-group">
-                    <input type="number" class="form-control" placeholder="{{ 'form.placeholder.num_items'|trans }}"
+                    <input type="number" class="form-control col-md-4"
+                           placeholder="{{ 'form.placeholder.num_items'|trans }}"
                            name="num_items"
-                           value="{{ app.request.query.get('num_items', pagination_helper.routeParams('num_items')) }}">
+                           value="{{ app.request.query.get('num_items', pagination_helper.routeParams('num_items')) }}"
+                           min="5" max="500">
                 </div>
 
                 <div class="form-group">
