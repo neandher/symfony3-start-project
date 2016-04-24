@@ -89,17 +89,21 @@ class SecurityController extends Controller implements SecurityControllerInterfa
         $params = $this->get('app.helper.parameters')->getParams('admin');
 
         $event = new ProfileEvent(null, $manager, $request);
-        $event->setParams($params);
+        $event->setParams($params['security']['resetting']);
 
         $dispatcher = $this->get('event_dispatcher')->dispatch(
             ProfileEvents::RESETTING_RESET_INITIALIZE,
             $event
         );
+        
         if ($request->attributes->has('error')) {
             return $this->redirectToRoute('admin_security_login');
         }
+        
         $form = $this->createForm(ResettingResetType::class, $dispatcher->getProfile());
+        
         $formHandler = $this->get('app.admin_resetting_reset_form_handler');
+        
         if ($formHandler->handle($form, $request)) {
             return $this->redirectToRoute('admin_security_login');
         }
