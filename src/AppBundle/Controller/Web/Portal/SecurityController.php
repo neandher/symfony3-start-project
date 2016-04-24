@@ -89,7 +89,7 @@ class SecurityController extends Controller implements SecurityControllerInterfa
         $params = $this->get('app.helper.parameters')->getParams('portal');
 
         $event = new ProfileEvent(null, $manager, $request);
-        $event->setParams($params);
+        $event->setParams($params['security']['resetting']);
 
         $dispatcher = $this->get('event_dispatcher')->dispatch(
             ProfileEvents::RESETTING_RESET_INITIALIZE,

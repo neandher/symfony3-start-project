@@ -56,7 +56,7 @@ class ResettingResetSubscriber implements EventSubscriberInterface
         $request = $event->getRequest();
         $token = $request->attributes->get('token');
         $profile = $event->getManager()->findByConfirmationToken($token);
-        $tokenTtl = $event->getParams()['security']['resetting']['token_ttl'];
+        $params = $event->getParams();
 
         if (!$profile) {
 
@@ -67,7 +67,7 @@ class ResettingResetSubscriber implements EventSubscriberInterface
 
             $request->attributes->add(['error' => 'true']);
 
-        } elseif (!$profile->getUser()->isPasswordRequestNonExpired($tokenTtl)) {
+        } elseif (!$profile->getUser()->isPasswordRequestNonExpired($params['token_ttl'])) {
 
             $this->flashBagHelper->newMessage(
                 FlashBagEvents::MESSAGE_TYPE_ERROR,
