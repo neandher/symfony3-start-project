@@ -2,21 +2,20 @@
 
 namespace AppBundle\Event\Security;
 
-use AppBundle\DomainManager\AbstractProfileManager;
+use AppBundle\DomainManager\ProfileManagerInterface;
 use AppBundle\Entity\AbstractProfile;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpFoundation\Request;
 
 class ProfileEvent extends Event
 {
-
     /**
      * @var AbstractProfile
      */
     private $profile;
 
     /**
-     * @var AbstractProfileManager
+     * @var ProfileManagerInterface
      */
     private $manager;
 
@@ -25,15 +24,20 @@ class ProfileEvent extends Event
      */
     private $request;
 
+    private $params = array();
+
     /**
      * ProfileEvent constructor.
      *
      * @param AbstractProfile $profile
-     * @param AbstractProfileManager $manager
+     * @param ProfileManagerInterface $manager
      * @param Request $request
      */
-    public function __construct(AbstractProfile $profile = null, AbstractProfileManager $manager = null, Request $request = null)
-    {
+    public function __construct(
+        AbstractProfile $profile = null,
+        ProfileManagerInterface $manager = null,
+        Request $request = null
+    ) {
         $this->profile = $profile;
         $this->manager = $manager;
         $this->request = $request;
@@ -64,10 +68,26 @@ class ProfileEvent extends Event
     }
 
     /**
-     * @return AbstractProfileManager
+     * @return ProfileManagerInterface
      */
     public function getManager()
     {
         return $this->manager;
+    }
+
+    /**
+     * @return array
+     */
+    public function getParams()
+    {
+        return $this->params;
+    }
+
+    /**
+     * @param array $params
+     */
+    public function setParams($params)
+    {
+        $this->params = $params;
     }
 }

@@ -8,3 +8,4 @@ services:
             - '@app.helper.canonicalizer'
             - '@app.helper.flash_bag'
             - '@event_dispatcher'
+            - '@app.helper.parameters'

@@ -29,9 +29,9 @@ class SecurityController extends Controller implements SecurityControllerInterfa
         return $this->render(
             'admin/security/login.html.twig',
             [
-                'form' => $form->createView(),
+                'form'          => $form->createView(),
                 'last_username' => $utils->getLastUsername(),
-                'error' => $utils->getLastAuthenticationError(),
+                'error'         => $utils->getLastAuthenticationError(),
             ]
         );
     }
@@ -86,20 +86,20 @@ class SecurityController extends Controller implements SecurityControllerInterfa
     public function resettingResetAction(Request $request, $token)
     {
         $manager = $this->get('app.admin_profile_manager');
+        $params = $this->get('app.helper.parameters')->getParams('admin');
+
+        $event = new ProfileEvent(null, $manager, $request);
+        $event->setParams($params);
 
         $dispatcher = $this->get('event_dispatcher')->dispatch(
             ProfileEvents::RESETTING_RESET_INITIALIZE,
-            new ProfileEvent(null, $manager, $request)
+            $event
         );
-
         if ($request->attributes->has('error')) {
             return $this->redirectToRoute('admin_security_login');
         }
-
         $form = $this->createForm(ResettingResetType::class, $dispatcher->getProfile());
-
         $formHandler = $this->get('app.admin_resetting_reset_form_handler');
-
         if ($formHandler->handle($form, $request)) {
             return $this->redirectToRoute('admin_security_login');
         }
@@ -107,7 +107,7 @@ class SecurityController extends Controller implements SecurityControllerInterfa
         return $this->render(
             'admin/security/resetting/resettingReset.html.twig',
             [
-                'form' => $form->createView(),
+                'form'  => $form->createView(),
                 'token' => $token
             ]
         );

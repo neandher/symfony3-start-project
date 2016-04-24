@@ -2,7 +2,7 @@
 
 namespace AppBundle\Security;
 
-use AppBundle\DomainManager\Admin\AdminProfileManager;
+use AppBundle\DomainManager\ProfileManagerInterface;
 use AppBundle\Entity\Admin\AdminProfile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +20,7 @@ class AdminFormAuthenticator extends AbstractGuardAuthenticator
 {
 
     /**
-     * @var AdminProfileManager
+     * @var ProfileManagerInterface
      */
     private $adminProfileManager;
 
@@ -36,12 +36,12 @@ class AdminFormAuthenticator extends AbstractGuardAuthenticator
 
     /**
      * AdminFormAuthenticator constructor.
-     * @param AdminProfileManager $adminProfileManager
+     * @param ProfileManagerInterface $adminProfileManager
      * @param UserPasswordEncoder $encoder
      * @param RouterInterface $router
      */
     public function __construct(
-        AdminProfileManager $adminProfileManager,
+        ProfileManagerInterface $adminProfileManager,
         UserPasswordEncoder $encoder,
         RouterInterface $router
     ) {
@@ -90,7 +90,7 @@ class AdminFormAuthenticator extends AbstractGuardAuthenticator
 
         /** @var AdminProfile $adminProfile */
         $adminProfile = $this->adminProfileManager->findByEmail($email);
-        
+
         if (!$adminProfile) {
             throw new CustomUserMessageAuthenticationException(
                 'security.login.errors.email_not_found'
@@ -126,7 +126,7 @@ class AdminFormAuthenticator extends AbstractGuardAuthenticator
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
         $request->getSession()->set(Security::AUTHENTICATION_ERROR, $exception);
-        
+
         $url = $this->router->generate('admin_security_login');
 
         return new RedirectResponse($url);

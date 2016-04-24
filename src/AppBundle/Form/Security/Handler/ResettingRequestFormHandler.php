@@ -30,26 +30,26 @@ class ResettingRequestFormHandler extends AbstractFormHandler
     /**
      * @var string
      */
-    private $tokenTll;
+    private $params;
 
     /**
      * ResettingRequestFormHandler constructor.
-     * 
+     *
      * @param ProfileManagerInterface $profileManager
      * @param TokenGeneratorHelper $tokenGeneratorHelper
      * @param Translator $translator
-     * @param $tokenTll
+     * @param $params
      */
     public function __construct(
         ProfileManagerInterface $profileManager,
         TokenGeneratorHelper $tokenGeneratorHelper,
         Translator $translator,
-        $tokenTll
+        $params
     ) {
         $this->profileManager = $profileManager;
         $this->tokenGeneratorHelper = $tokenGeneratorHelper;
-        $this->tokenTll = $tokenTll;
         $this->translator = $translator;
+        $this->params = $params;
     }
 
     /**
@@ -59,7 +59,7 @@ class ResettingRequestFormHandler extends AbstractFormHandler
      */
     public function handle(FormInterface $form, Request $request)
     {
-        if(!$this->processForm($form, $request)){
+        if (!$this->processForm($form, $request)) {
             return false;
         }
 
@@ -70,18 +70,20 @@ class ResettingRequestFormHandler extends AbstractFormHandler
             $profile = $this->profileManager->findByEmail($data['email']);
 
             if (!$profile) {
-                
+
                 $form->addError(
                     new FormError($this->translator->trans('security.resetting.request.errors.email_not_found'))
                 );
 
                 return $this->formHasError($request, $form);
             }
-            
+
             $user = $profile->getUser();
-            
-            if ($user->isPasswordRequestNonExpired($this->tokenTll)) {
-                
+
+            $tokenTtl = $this->params['security']['resetting']['token_ttl'];
+
+            if ($user->isPasswordRequestNonExpired($tokenTtl)) {
+
                 $form->addError(
                     new FormError(
                         $this->translator->trans('security.resetting.request.errors.password_already_requested')
@@ -96,7 +98,7 @@ class ResettingRequestFormHandler extends AbstractFormHandler
             }
 
             $user->setPasswordRequestedAt(new \DateTime());
-            
+
             $this->profileManager->resettingRequest($profile);
         }
 

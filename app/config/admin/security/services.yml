@@ -4,19 +4,11 @@ services:
 
     app.admin_authenticator:
         class: AppBundle\Security\AdminFormAuthenticator
-        autowire: true
+        arguments: ['@app.admin_profile_manager', '@security.password_encoder', '@router']
 
     app.admin_last_login_subscriber:
         class: AppBundle\EventListener\Security\LastLoginSubscriber
         arguments: [ "@app.admin_profile_manager" ]
         tags:
             - { name: kernel.event_subscriber }
-
-    app.admin_security.mailer:
-        class: AppBundle\Mailer\Security\Mailer
-        arguments:
-            - "@swiftmailer.mailer"
-            - "@router"
-            - "@twig"
-            - {resetting_email.template: '%admin_security.resetting_email.template%', resetting_email.from: '%admin_security.resetting_email.from%', resetting_email.route: '%admin_security.resetting_email.route%'}
 

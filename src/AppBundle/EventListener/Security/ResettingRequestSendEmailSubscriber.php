@@ -46,8 +46,9 @@ class ResettingRequestSendEmailSubscriber implements EventSubscriberInterface
     public function onResettingRequestSuccess(ProfileEvent $event)
     {
         $profile = $event->getProfile();
+        $params = $event->getParams();
 
-        $this->mailer->sendResettingEmailMessage($profile);
+        $this->mailer->sendResettingEmailMessage($profile, $params);
 
         $this->flashBagHelper->newMessage(
             FlashBagEvents::MESSAGE_TYPE_SUCCESS,

@@ -16,4 +16,8 @@ services:
     app.helper.pagination:
         class: AppBundle\Helper\PaginationHelper
         autowire: true
-        #arguments: ['@request', '@doctrine.orm.entity_manager']
+
+    app.helper.parameters:
+        class: AppBundle\Helper\ParametersHelper
+        arguments:
+            - {admin: '%admin%'}
