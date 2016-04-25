@@ -2,15 +2,9 @@
 
 namespace AppBundle\DomainManager\Admin;
 
-use AppBundle\DomainManager\AbstractManager;
 use AppBundle\DomainManager\AbstractProfileManager;
-use AppBundle\DomainManager\ProfileManagerInterface;
-use AppBundle\Entity\AbstractProfile;
 use AppBundle\Entity\Admin\AdminProfile;
-use AppBundle\Entity\User;
 use AppBundle\Event\FlashBag\FlashBagEvents;
-use AppBundle\Event\Security\ProfileEvent;
-use AppBundle\Event\Security\ProfileEvents;
 use AppBundle\Helper\CanonicalizerHelper;
 use AppBundle\Helper\FlashBagHelper;
 use AppBundle\Helper\PaginationHelper;
@@ -69,7 +63,8 @@ class AdminProfileManager extends AbstractProfileManager
         FlashBagHelper $flashBagHelper,
         EventDispatcherInterface $eventDispatcher,
         ParametersHelper $parametersHelper
-    ) {
+    )
+    {
         $this->em = $em;
         $this->repository = $repository;
         $this->canonicalizerHelper = $canonicalizerHelper;
@@ -85,7 +80,7 @@ class AdminProfileManager extends AbstractProfileManager
     {
         return $this->parametersHelper->getParams('admin');
     }
-    
+
     /**
      * @param PaginationHelper $paginationHelper
      * @return AdminProfile[]
