@@ -1,0 +1,11 @@
+services:
+
+    app.portal_profile_manager:
+        class: AppBundle\DomainManager\Portal\PortalProfileManager
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@app.portal_profile_repository'
+            - '@app.helper.canonicalizer'
+            - '@app.helper.flash_bag'
+            - '@event_dispatcher'
+            - '@app.helper.parameters'

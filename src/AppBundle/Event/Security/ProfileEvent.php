@@ -9,6 +9,11 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ProfileEvent extends Event
 {
+
+    const RESETTING_EMAIL_ROUTE = 'security.resetting_email.route';
+    const RESETTING_EMAIL_FROM = 'security.resetting_email.from';
+    const RESETTING_EMAIL_TEMPLATE = 'security.resetting_email.template';
+
     /**
      * @var AbstractProfile
      */

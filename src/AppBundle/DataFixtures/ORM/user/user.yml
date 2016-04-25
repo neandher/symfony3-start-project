@@ -7,9 +7,23 @@ AppBundle\Entity\User:
         roles: [ROLE_ADMIN_USER]
         adminProfile: '@adminProfile1'
 
-    user{2..10}:
+    user{2..12}:
         isEnabled: 1
         plainPassword: <password(5,10)>
         password: -
         roles: [ROLE_ADMIN_USER]
         adminProfile: '@adminProfile<current()>'
+
+    user13:
+        isEnabled: 1
+        plainPassword: portal@123
+        password: -
+        roles: [ROLE_PORTAL_USER]
+        portalProfile: '@portalProfile1'
+
+    user{14..24}:
+        isEnabled: 1
+        plainPassword: <password(5,10)>
+        password: -
+        roles: [ROLE_PORTAL_USER]
+        portalProfile: '@portalProfile<current()>'

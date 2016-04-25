@@ -1,0 +1,13 @@
+imports:
+
+    # Security #
+    - { resource: security/services.yml }
+
+    # Repository #
+    - { resource: repository/services.yml }
+
+    # Manager #
+    - { resource: manager/services.yml }
+
+    # Form #
+    - { resource: form/services.yml }

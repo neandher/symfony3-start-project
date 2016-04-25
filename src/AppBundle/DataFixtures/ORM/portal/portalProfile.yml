@@ -1,12 +1,12 @@
-AppBundle\Entity\Admin\AdminProfile:
+AppBundle\Entity\Portal\PortalProfile:
 
-    adminProfile1:
+    portalProfile1:
         firstName: Neandher
         lastName: Carlos
-        email: neandher89@gmail.com
+        email: neandher@hotmail.com
         emailCanonical: -
 
-    adminProfile{2..12}:
+    portalProfile{14..24}:
         firstName: <firstName()>
         lastName: <lastName()>
         email: <email()>

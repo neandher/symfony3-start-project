@@ -20,4 +20,4 @@ services:
     app.helper.parameters:
         class: AppBundle\Helper\ParametersHelper
         arguments:
-            - {admin: '%admin%'}
+            - {admin: '%admin%', portal: '%portal%'}

@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use AppBundle\Entity\Admin\AdminProfile;
+use AppBundle\Entity\Portal\PortalProfile;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -126,6 +127,12 @@ class User extends AbstractTimestampable implements AdvancedUserInterface
      * @ORM\JoinColumn(onDelete="CASCADE")
      */
     protected $adminProfile;
+
+    /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Portal\PortalProfile", inversedBy="user")
+     * @ORM\JoinColumn(onDelete="CASCADE")
+     */
+    protected $portalProfile;
 
     /**
      * User constructor.
@@ -576,6 +583,22 @@ class User extends AbstractTimestampable implements AdvancedUserInterface
     public function setAdminProfile(AdminProfile $adminProfile)
     {
         $this->adminProfile = $adminProfile;
+    }
+
+    /**
+     * @return PortalProfile
+     */
+    public function getPortalProfile()
+    {
+        return $this->portalProfile;
+    }
+
+    /**
+     * @param PortalProfile $portalProfile
+     */
+    public function setPortalProfile(PortalProfile $portalProfile)
+    {
+        $this->portalProfile = $portalProfile;
     }
 
 

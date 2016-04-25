@@ -1,0 +1,39 @@
+{% extends 'portal/base.html.twig' %}
+
+{% block body %}
+
+    <h3>{{ 'security.resetting.reset.title'|trans }}</h3>
+
+    {{ form_start(form, { 'action': path('portal_security_resetting_reset', {'token' : token}), 'attr': {'novalidate': 'novalidate'} }) }}
+
+    <div class="row">
+        <div class="col-lg-12">
+
+            {{ include('portal/partials/alerts.html.twig') }}
+
+            {{ form_errors(form) }}
+
+            <div class="row">
+                {{ form_row(form.user.plainPassword.first) }}
+            </div>
+            <div class="row">
+                {{ form_row(form.user.plainPassword.second) }}
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <button class="btn btn-primary">{{ 'security.resetting.reset.btns.send'|trans }}</button>
+
+                    <a class="pull-right"
+                       href="{{ path('portal_security_login') }}">{{ 'security.resetting.request.links.login'|trans }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{ form_widget(form._token) }}
+
+    {{ form_end(form, {'render_rest': false}) }}
+
+{% endblock %}
