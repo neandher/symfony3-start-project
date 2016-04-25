@@ -2,14 +2,9 @@
 
 namespace AppBundle\DomainManager\Portal;
 
-use AppBundle\DomainManager\AbstractManager;
-use AppBundle\DomainManager\ProfileManagerInterface;
-use AppBundle\Entity\AbstractProfile;
+
+use AppBundle\DomainManager\AbstractProfileManager;
 use AppBundle\Entity\Portal\PortalProfile;
-use AppBundle\Entity\User;
-use AppBundle\Event\FlashBag\FlashBagEvents;
-use AppBundle\Event\Security\ProfileEvent;
-use AppBundle\Event\Security\ProfileEvents;
 use AppBundle\Helper\CanonicalizerHelper;
 use AppBundle\Helper\FlashBagHelper;
 use AppBundle\Helper\PaginationHelper;
@@ -18,7 +13,7 @@ use AppBundle\Repository\Portal\PortalProfileRepository;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class PortalProfileManager extends AbstractManager implements ProfileManagerInterface
+class PortalProfileManager extends AbstractProfileManager
 {
 
     /**
@@ -29,27 +24,27 @@ class PortalProfileManager extends AbstractManager implements ProfileManagerInte
     /**
      * @var PortalProfileRepository
      */
-    private $repository;
+    protected $repository;
 
     /**
      * @var CanonicalizerHelper
      */
-    private $canonicalizerHelper;
+    protected $canonicalizerHelper;
 
     /**
      * @var FlashBagHelper
      */
-    private $flashBagHelper;
+    protected $flashBagHelper;
 
     /**
      * @var EventDispatcherInterface
      */
-    private $eventDispatcher;
+    protected $eventDispatcher;
 
     /**
      * @var ParametersHelper
      */
-    private $parametersHelper;
+    protected $parametersHelper;
 
     /**
      * PortalProfileManager constructor.
@@ -78,69 +73,11 @@ class PortalProfileManager extends AbstractManager implements ProfileManagerInte
     }
 
     /**
-     * @param User $user
-     * @return void
+     * @return array
      */
-    public function editLastLogin(User $user)
+    protected function getProfileParams()
     {
-        $this->persistAndFlush($user);
-    }
-
-    /**
-     * @param string $email
-     * @return AbstractProfile
-     */
-    public function findByEmail($email)
-    {
-        return $this->repository->findByEmail($this->canonicalizerHelper->canonicalize($email));
-    }
-
-    /**
-     * @param AbstractProfile $profile
-     * @return void
-     */
-    public function resettingRequest(AbstractProfile $profile)
-    {
-        $params = $this->parametersHelper->getParams('portal');
-        
-        $event = new ProfileEvent($profile);
-        $event->setParams($params['security']['resetting']['email']);
-
-        $this->eventDispatcher->dispatch(
-            ProfileEvents::RESETTING_REQUEST_SUCCESS,
-            $event
-        );
-
-        $this->persistAndFlush($profile->getUser());
-    }
-
-    /**
-     * @param string $token
-     * @return AbstractProfile
-     */
-    public function findByConfirmationToken($token)
-    {
-        return $this->repository->findByConfirmationToken($token);
-    }
-
-    /**
-     * @param AbstractProfile $profile
-     * @return void
-     */
-    public function resettingReset(AbstractProfile $profile)
-    {
-        $this->eventDispatcher->dispatch(ProfileEvents::RESETTING_RESET_SUCCESS, new ProfileEvent($profile));
-
-        $this->persistAndFlush($profile->getUser());
-    }
-
-    /**
-     * @param AbstractProfile $profile
-     * @return void
-     */
-    public function changePassword(AbstractProfile $profile)
-    {
-        $this->persistAndFlush($profile);
+        return $this->parametersHelper->getParams('portal');
     }
 
     /**
