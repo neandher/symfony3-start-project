@@ -8,13 +8,13 @@ use AppBundle\Event\Security\ProfileEvent;
 use AppBundle\Event\Security\ProfileEvents;
 use AppBundle\Helper\CanonicalizerHelper;
 use AppBundle\Helper\FlashBagHelper;
+use AppBundle\Helper\ParametersHelper;
 use AppBundle\Repository\ProfileRepositoryInterface;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 abstract class AbstractProfileManager extends AbstractManager implements ProfileManagerInterface
 {
-
     /**
      * @var EntityManager
      */
@@ -41,6 +41,16 @@ abstract class AbstractProfileManager extends AbstractManager implements Profile
     protected $eventDispatcher;
 
     /**
+     * @var ParametersHelper
+     */
+    protected $parametersHelper;
+
+    /**
+     * @return array
+     */
+    abstract protected function getProfileParams();
+
+    /**
      * @param User $user
      * @return void
      */
@@ -64,9 +74,14 @@ abstract class AbstractProfileManager extends AbstractManager implements Profile
      */
     public function resettingRequest(AbstractProfile $profile)
     {
+        $params = $this->getProfileParams();
+
+        $event = new ProfileEvent($profile);
+        $event->setParams($params['security']['resetting']['email']);
+
         $this->eventDispatcher->dispatch(
             ProfileEvents::RESETTING_REQUEST_SUCCESS,
-            new ProfileEvent($profile)
+            $event
         );
 
         $this->persistAndFlush($profile->getUser());
